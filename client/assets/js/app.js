@@ -6,6 +6,7 @@
     'ngAnimate',
 		'facebook',
 		'luegg.directives',
+		'ngWebSocket',
 		
     //foundation
     'foundation',
@@ -54,34 +55,24 @@
 
 	Gang
 		
-		.service('Gang',function(Facebook){
+		.service('Gang',function(Facebook,$websocket){
 			
 			var self = this;
 			
-			var ws = new WebSocket('ws://zeus.fikrimuhal.com:9000/ws');
+			var ws = $websocket('ws://zeus.fikrimuhal.com:9000/ws');
 			var messages = [];
 			
-			ws.onmessage = function(e) {
-				
-				messages.push({
-					text:JSON.parse(e.data).msg
-				});
-			};
+			ws.onMessage(function(e) {
+				messages.push(JSON.parse(e.data));
+			});
 			
 			this.messages = messages;
 			
 			this.sendMessage = function(message,channel){
-
         ws.send(JSON.stringify({
-					type:'message',
-					self:false,
-					msg:message,
-					uid:'db8893bb-06fe-4761-b875-b06ee7d33e1a'
+					msg: message, 
+					channel: channel
 				}));
-				
-				messages.push({
-					text:message
-				});
 			};
 			
 			this.facebook = {
@@ -140,7 +131,7 @@
 			$scope.messages = Gang.messages;
 			
 			$scope.send = function(){
-				Gang.sendMessage($scope.message);
+				Gang.sendMessage($scope.message,'#channel');
 				$scope.message = '';
 			};
 			

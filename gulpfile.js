@@ -40,7 +40,8 @@ var foundationJS = [
   'bower_components/foundation-apps/js/angular/**/*.js',
   '!bower_components/foundation-apps/js/angular/app.js',
 	'bower_components/angular-facebook/lib/angular-facebook.js',
-	'bower_components/angular-scroll-glue/src/scrollglue.js'
+	'bower_components/angular-scroll-glue/src/scrollglue.js',
+	'bower_components/angular-websocket/angular-websocket.js'
 ];
 
 // These files are for your app's JavaScript

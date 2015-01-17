@@ -25,6 +25,7 @@
   "dependencies": {
     "foundation-apps": "~1.0.2",
     "angular-facebook": "~0.2.3",
-    "angular-scroll-glue": "~2.0.3"
+    "angular-scroll-glue": "~2.0.3",
+    "angular-websocket": "~1.0.6"
   }
 }

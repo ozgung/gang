@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" ng-app="application">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gang</title>
+    <link href="/assets/css/app.css" rel="stylesheet" type="text/css">
+    <script src="/assets/js/foundation.js"></script>
+    <script src="/assets/js/routes.js"></script>
+    <script src="/assets/js/app.js"></script>
+  </head>
+  <body>
+	
+		<div class='grid-frame'>
+		
+			<zf-panel id="gang-left-panel" position="left" class="medium-grid-block medium-3 gang-panel">
+				
+				<p>This is a basic panel.</p>
+			</zf-panel>
+			<div class='grid-block vertical'>
+				<div id="header" class="shrink collapse grid-content">
+          <ul class="menu-bar primary">
+            <li class="hide-for-medium"><a zf-open="gang-left-panel" href="#">Channels</a></li>
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 3</a></li>
+						<li class="hide-for-medium"><a zf-open="gang-right-panel" href="#">Users?</a></li>
+          </ul>
+        </div>
+				<div class='grid-content'>
+					
+				</div>
+				<div class="message-input grid-content collapse shrink">
+          <span class="inline-label">
+            <input type="text" placeholder="Message">
+            <a href="#" class="button">Send</a>
+          </span>
+        </div>
+			</div>
+			<zf-panel id="gang-right-panel" position="right" class="medium-grid-block medium-2 gang-panel">
+				<p>This is a basic panel.</p>
+			</zf-panel>
+			
+		</div>
+  </body>
+</html>

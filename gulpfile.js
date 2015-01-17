@@ -72,7 +72,8 @@ gulp.task('copy', function() {
 
   // Foundation's Angular partials
   return gulp.src(['./bower_components/foundation-apps/js/angular/components/**/*.html'])
-    .pipe(gulp.dest('./build/components/'));
+    .pipe(gulp.dest('./build/components/'))
+		.pipe(connect.reload());
 });
 
 // Compiles Sass
@@ -89,7 +90,8 @@ gulp.task('sass', function() {
     .pipe(autoprefixer({
       browsers: ['last 2 versions', 'ie 10']
     }))
-    .pipe(gulp.dest('./build/assets/css/'));
+    .pipe(gulp.dest('./build/assets/css/'))
+		.pipe(connect.reload());
 });
 
 // Compiles and copies the Foundation for Apps JavaScript, as well as your app's custom JS
@@ -116,7 +118,7 @@ gulp.task('uglify', function() {
     }))
     .pipe(concat('app.js'))
     .pipe(gulp.dest('./build/assets/js/'))
-  ;
+		.pipe(connect.reload());
 });
 
 // Copies your app's page templates and generates URLs for them
@@ -127,13 +129,14 @@ gulp.task('copy-templates', ['copy'], function() {
       root: 'client'
     }))
     .pipe(gulp.dest('./build/templates'))
-  ;
+		.pipe(connect.reload());
 });
 
 // Starts a test server, which you can view at http://localhost:8080
 gulp.task('server:start', function() {
   connect.server({
     root: './build',
+		livereload:true,
     middleware: function() {
       return [
         modRewrite(['^[^\\.]*$ /index.html [L]'])

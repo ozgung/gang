@@ -29,52 +29,91 @@
 		FacebookProvider.init('343745845810440');
   }
 
-  function run() {
-    FastClick.attach(document.body);
+  function run($rootScope,$location,$state,Gang) {
+    
+		FastClick.attach(document.body);
+		
+		$rootScope.$on('$stateChangeStart',function(e,toState,toParams,fromState,fromParams) {
+				
+      var isLogin = toState.name === "welcome";
+			
+      if(isLogin){
+        return;
+      }
+			
+			var auth = localStorage.getItem('authenticated');
+			
+      if(!auth) {
+				
+        e.preventDefault();
+        $state.go('welcome');
+      }
+    });
   }
 
 	Gang
 		
 		.service('Gang',function(Facebook){
 			
-			this.me = function() {
-				Facebook.api('/me', function(response) {
-					Gang.user = response;
-				});
-			};
+			var self = this;
 			
-			this.login = function(){
-				Facebook.login(function(response){
+			this.facebook = {
+				
+				login:function(){
+				
+					return new Promise(function(resolve,reject){
 					
-					//redirect to home
+						Facebook.login(function(response){
+							localStorage.setItem('authenticated',true);
+							self.authenticated = true;
+							resolve(response);
+						});
+					});
+				},
+				
+				logout:function() {
+				
+					return new Promise(function(resolve,reject){
+						
+						Facebook.logout(function(response){
+							localStorage.setItem('authenticated',false);
+							self.authenticated = false;
+							resolve(response);
+						});
+					});
+				},
+				
+				me: function() {
+				
+					return new Promise(function(resolve,reject){
+						
+						Facebook.api('/me', function(response) {
+							Gang.user = response;
+							resolve(response);
+						});
+						
+					});
 				}
-			});
-			
-			this.logout = function() {
-				
-				Facebook.logout();
-				
-				//redirect to welcome
 			};
-			
 		})
 		
-		.controller('HomeCtrl',function($scope,Gang){
-			
-			$scope.logout = function() {
-				Gang.logout();
-			};
-			
-		})
-		
-		.controller('WelcomeCtrl',function($scope,Gang){
+		.controller('WelcomeCtrl',function($scope,$state,Gang){
 		
 			$scope.login = function() {
-				Gang.login();
+				Gang.facebook.login().then(function(){
+					$state.go('home');
+				});
 			};
 
 		})
-	
-	
-	
+		
+		.controller('HomeCtrl',function($scope,$state,Gang){
+			
+			$scope.logout = function() {
+				Gang.facebook.logout().then(function(){
+					$state.go('welcome');
+				});
+			};
+			
+		})
 })();

@@ -28,6 +28,7 @@ var sassPaths = [
   'bower_components/foundation-apps/scss'
 ];
 // These files include Foundation for Apps and its dependencies
+
 var foundationJS = [
   'bower_components/fastclick/lib/fastclick.js',
   'bower_components/viewport-units-buggyfill/viewport-units-buggyfill.js',
@@ -37,9 +38,11 @@ var foundationJS = [
   'bower_components/ui-router/release/angular-ui-router.js',
   'bower_components/foundation-apps/js/vendor/**/*.js',
   'bower_components/foundation-apps/js/angular/**/*.js',
+  '!bower_components/foundation-apps/js/angular/app.js',
 	'bower_components/angular-facebook/lib/angular-facebook.js',
-  '!bower_components/foundation-apps/js/angular/app.js'
+	'bower_components/bluebird/js/browser/bluebird.js'
 ];
+
 // These files are for your app's JavaScript
 var appJS = [
   'client/assets/js/app.js'

@@ -1,7 +1,14 @@
 ---
-name: home
-url: /
+name: welcome
+url: /welcome
 ---
 
-<h1>Welcome to Foundation for Apps!</h1>
-<p class="lead">This is version <strong>1.0.2 Matterhorn</strong>.</p>
+<div class='grid-frame' ng-controller='WelcomeCtrl'>
+	<div class="align-center grid-block">
+		<div class='grid-content medium-4'>
+			
+			<a class="expand button" ng-click='login()'>Sign in with Facebook</a>
+
+		</div>
+	</div>
+</div>

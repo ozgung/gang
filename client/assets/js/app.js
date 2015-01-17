@@ -17,7 +17,7 @@
   config.$inject = ['$urlRouterProvider', '$locationProvider','FacebookProvider'];
 
   function config($urlProvider, $locationProvider,FacebookProvider) {
-    $urlProvider.otherwise('/');
+    $urlProvider.otherwise('/welcome');
 
     $locationProvider.html5Mode({
       enabled:false,
@@ -26,7 +26,7 @@
 
     $locationProvider.hashPrefix('!');
 		
-		FacebookProvider.init('343745845810440');
+		FacebookProvider.init('343800439138314');
   }
 
   function run($rootScope,$location,$state,Gang) {
@@ -57,6 +57,32 @@
 			
 			var self = this;
 			
+			var ws = new WebSocket('ws://zeus.fikrimuhal.com:9000/ws');
+			var messages = [];
+			
+			ws.onmessage = function(e) {
+				
+				messages.push({
+					text:JSON.parse(e.data).msg
+				});
+			};
+			
+			this.messages = messages;
+			
+			this.sendMessage = function(message,channel){
+
+        ws.send(JSON.stringify({
+					type:'message',
+					self:false,
+					msg:message,
+					uid:'db8893bb-06fe-4761-b875-b06ee7d33e1a'
+				}));
+				
+				messages.push({
+					text:message
+				});
+			};
+			
 			this.facebook = {
 				
 				login:function(){
@@ -76,7 +102,7 @@
 					return new Promise(function(resolve,reject){
 						
 						Facebook.logout(function(response){
-							localStorage.setItem('authenticated',false);
+							localStorage.removeItem('authenticated');
 							self.authenticated = false;
 							resolve(response);
 						});
@@ -108,6 +134,14 @@
 		})
 		
 		.controller('HomeCtrl',function($scope,$state,Gang){
+			
+			$scope.message = '';
+			$scope.messages = Gang.messages;
+			
+			$scope.send = function(){
+				Gang.sendMessage($scope.message);
+				$scope.message = '';
+			};
 			
 			$scope.logout = function() {
 				Gang.facebook.logout().then(function(){

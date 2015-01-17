@@ -15,17 +15,29 @@ url: /
           <li class="hide-for-medium"><a zf-open="gang-left-panel" href="#">Channels</a></li>
           <li><a ui-sref="welcome">Welcome</a></li>
           <li><a href="#">Link 2</a></li>
-          <li><a ng-click='logout()'>Logout</a></li>
+          <li><a href="#" ng-click='logout()'>Logout</a></li>
 				<li class="hide-for-medium"><a zf-open="gang-right-panel" href="#">Users?</a></li>
         </ul>
       </div>
 		<div class='grid-content'>
-			
+			<ul ng-repeat="message in messages" style='list-style:none;'>
+				<li>
+					<div class="grid-block shrink">
+						<div class="grid-content shrink">
+							<img src="assets/img/user.png" style='width:64px;height:64px;'/>
+						</div>
+						<div class="grid-content">
+							
+							{{message.text}}
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
 		<div class="message-input grid-content collapse shrink">
         <span class="inline-label">
-          <input type="text" placeholder="Message">
-          <a href="#" class="button">Send</a>
+          <input type="text" ng-model='message' placeholder="Message">
+          <a href="#" class="button" ng-click='send()'>Send</a>
         </span>
       </div>
 	</div>

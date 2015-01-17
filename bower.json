@@ -24,7 +24,6 @@
   ],
   "dependencies": {
     "foundation-apps": "~1.0.2",
-    "angular-facebook": "~0.2.3",
-    "bluebird": "~2.7.1"
+    "angular-facebook": "~0.2.3"
   }
 }

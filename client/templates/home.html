@@ -19,9 +19,10 @@ url: /
 				<li class="hide-for-medium"><a zf-open="gang-right-panel" href="#">Users?</a></li>
         </ul>
       </div>
-		<div class='grid-content'>
-			<ul ng-repeat="message in messages" style='list-style:none;'>
-				<li>
+		<div class='grid-content' scroll-glue>
+			
+			<ul style='list-style:none;'>
+				<li ng-repeat="message in messages">
 					<div class="grid-block shrink">
 						<div class="grid-content shrink">
 							<img src="assets/img/user.png" style='width:64px;height:64px;'/>

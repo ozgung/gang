@@ -5,6 +5,7 @@
     'ui.router',
     'ngAnimate',
 		'facebook',
+		'luegg.directives',
 		
     //foundation
     'foundation',

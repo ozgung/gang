@@ -1,16 +1,12 @@
----
-name: home
-url: /
----
-
-<div class='grid-frame' ng-controller="HomeCtrl">
+<div class='grid-frame'>
 		
 	<zf-panel id="gang-left-panel" position="left" class="medium-grid-block medium-3 gang-panel">
 		<form>
-			<label>Separate Label</label>
-			<select name="" id="">
-				<option value="">Breakfast</option>
+			<label>Groups</label>
+			<select>
+				<option ng-repeat='group in groups' value="{{group.id}}">{{group.name}}</option>
 			</select>
+			<a href='#' class='button' ng-click='logout()'>Sign out </a>
 		</form>
 	</zf-panel>
 	

@@ -3,35 +3,25 @@
 
   angular.module('application')
   
-		.controller('HomeCtrl',function($scope,$state,Gang){
+		.controller('HomeCtrl',function($scope,$state,chat,fb,blabla){
 			
 			$scope.message = '';
-			$scope.messages = Gang.messages;
+			$scope.messages = chat.messages;
+			
+			$scope.user = blabla.user;
+			
+			$scope.groups = blabla.groups;
 			
 			$scope.send = function(){
-				Gang.sendMessage($scope.message,'#channel');
+				chat.sendMessage($scope.message,'#channel');
 				$scope.message = '';
 			};
 			
 			$scope.logout = function() {
-				Gang.facebook.logout().then(function(){
+				fb.logout().then(function(){
 					$state.go('welcome');
 				});
 			};
-			
-			Gang.facebook.me().then(function(user){
-				
-				$scope.user = user;
-				
-				console.log(user);
-				
-				return Gang.facebook.groups(user.id).then(function(groups){
-					
-					$scope.groups = groups;
-					console.log(groups);
-					
-				});
-			});
 		});
 		
 })();

@@ -1,14 +1,8 @@
----
-name: welcome
-url: /welcome
----
-
-<div class='grid-frame' ng-controller='WelcomeCtrl'>
+<div class='grid-frame'>
 	<div class="align-center grid-block">
 		<div class='grid-content medium-4'>
 			
-			<a class="expand button" ng-click='login()'><i class="fi-social-facebook"></i> Sign in with Facebook</a>
-
+			<a ng-class='{ expand:true, button:true, disabled: fbApiReady == false }' ng-click='login()'><i class="fi-social-facebook"></i> Sign in with Facebook</a>
 		</div>
 	</div>
 </div>

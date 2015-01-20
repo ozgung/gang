@@ -14,29 +14,49 @@
   .config(config)
   .run(run);
 
-  function config($urlRouterProvider, $locationProvider,FacebookProvider,$stateProvider){
+  function config($urlRouterProvider,$locationProvider,$stateProvider,FacebookProvider){
 	
     $urlRouterProvider.otherwise('/welcome');
 		
 		$stateProvider
-			
-			.state('application', {
-				abstract:true,
-				template: '<ui-view/>',
-			})
-			
+		
 			.state('welcome', {
 				url: '/welcome',
 				templateUrl: 'templates/welcome.html',
 				controller:'WelcomeCtrl',
-				parent:'application'
+				onEnter:function(fb,$state){
+					
+					return fb.checkStatus().then(function(){
+					
+						$state.go('home');
+					});
+				}
 			})
 			
 			.state('home', {
 				url: '/',
 				templateUrl: 'templates/home.html',
 				controller:'HomeCtrl',
-				parent:'application'
+				onEnter:function(fb,$state){
+					
+					return fb.checkStatus().catch(function(){
+					
+						$state.go('welcome');
+					});
+				},
+				resolve:{
+					blabla:function(fb){
+						
+						return fb.user().then(function(user){
+							return fb.groups(user).then(function(groups){
+								return {
+									user:user,
+									groups:groups
+								};
+							});
+						});
+					}
+				}
 			})
 		
     $locationProvider.html5Mode({
@@ -49,26 +69,9 @@
 		FacebookProvider.init('343800439138314');
   }
 
-  function run($rootScope,$location,$state,Gang) {
+  function run() {
     
 		FastClick.attach(document.body);
-		
-		$rootScope.$on('$stateChangeStart',function(e,toState,toParams,fromState,fromParams) {
-				
-      var isLogin = toState.name === "welcome";
-			
-      if(isLogin){
-        return;
-      }
-			
-			var auth = localStorage.getItem('authenticated');
-			
-      if(!auth) {
-				
-        e.preventDefault();
-        $state.go('welcome');
-      }
-    });
   }
 
 })();

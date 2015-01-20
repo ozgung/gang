@@ -47,9 +47,8 @@ var foundationJS = [
 // These files are for your app's JavaScript
 var appJS = [
   'client/assets/js/app.js',
-	'client/assets/js/services/gang.js',
-	'client/assets/js/controllers/welcome.js',
-	'client/assets/js/controllers/home.js'
+	'client/assets/js/services/**/*.js',
+	'client/assets/js/controllers/**/*.js',
 ];
 
 // 3. TASKS

@@ -3,9 +3,7 @@
 	<zf-panel id="gang-left-panel" position="left" class="medium-grid-block medium-3 gang-panel">
 		<form>
 			<label>Groups</label>
-			<select>
-				<option ng-repeat='group in groups' value="{{group.id}}">{{group.name}}</option>
-			</select>
+			<select ng-model="channel" ng-change="changeChannel(channel)" ng-options='group as group.name for group in groups'></select>
 			<a href='#' class='button' ng-click='logout()'>Sign out </a>
 		</form>
 	</zf-panel>
@@ -21,21 +19,7 @@
     </div>
 		
 		<div class='grid-content' scroll-glue>
-			<div class='block-list'>
-				<ul>
-					<li ng-repeat="message in messages">
-						<div class="grid-block shrink">
-							<div class="grid-content shrink">
-								<img src="assets/img/user.png" style='width:64px;height:64px;'/>
-							</div>
-							<div class="grid-content">
-								<h6>{{message.uid}}</h6>
-								{{message.msg}}
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
+			<ui-view/>
 		</div>
 		
 		<div class="message-input grid-content collapse shrink">

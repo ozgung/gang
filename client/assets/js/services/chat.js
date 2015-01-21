@@ -7,6 +7,7 @@
 		.service('chat',function($websocket){
 			
 			var self = this;
+			var activeChannel;
 			
 			var ws = $websocket('ws://zeus.fikrimuhal.com:9000/ws');
 			var messages = [];
@@ -17,11 +18,23 @@
 			
 			this.messages = messages;
 			
-			this.sendMessage = function(message,channel){
+			this.sendMessage = function(message){
+				
+				var channelName = '#channel';
+				
+				if(activeChannel){
+					channelName = '#' + activeChannel.id;
+				}
+				
+				
         ws.send(JSON.stringify({
 					msg: message, 
-					channel: channel
+					channel: channelName
 				}));
+			};
+			
+			this.setActiveChannel = function(channel){
+        activeChannel = channel;
 			};
 			
 		});

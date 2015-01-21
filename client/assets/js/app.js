@@ -37,27 +37,36 @@
 				url: '/',
 				templateUrl: 'templates/home.html',
 				controller:'HomeCtrl',
-				onEnter:function(fb,$state){
-					
-					return fb.checkStatus().catch(function(){
-					
-						$state.go('welcome');
-					});
-				},
 				resolve:{
-					blabla:function(fb){
+				
+					data:function(fb){
 						
-						return fb.user().then(function(user){
-							return fb.groups(user).then(function(groups){
-								return {
-									user:user,
-									groups:groups
-								};
-							});
+						return fb.checkStatus().then(function(){
+						
+							return fb.user().then(function(user){
+							
+								return fb.groups(user).then(function(groups){
+									
+									return {
+										user:user,
+										groups:groups
+									};
+								});
+							})
+						}).catch(function(){
+						
+							$state.go('welcome');
 						});
 					}
 				}
 			})
+			
+			.state('chat',{
+				url: ':channel',
+				templateUrl: 'templates/chat.html',
+				controller:'ChatCtrl',
+				parent:'home'
+			});
 		
     $locationProvider.html5Mode({
       enabled:false,
@@ -66,7 +75,10 @@
 
     $locationProvider.hashPrefix('!');
 		
-		FacebookProvider.init('343800439138314');
+		FacebookProvider.init({
+			appId:'343800439138314',
+			status:true
+		});
   }
 
   function run() {

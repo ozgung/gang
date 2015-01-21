@@ -38,13 +38,15 @@
 				return new Promise(function(resolve,reject){
 
 					Facebook.getLoginStatus(function(response) {
-				
+						
 						if(response.status === 'connected') {
+							saveAuthResponse(response.authResponse);	
 							resolve();
 						} else {
+							removeAuthResponse();	
 							reject();
 						}
-					});
+					},true);
 				});
 			};
 			

@@ -3,3 +3,6 @@
 
 ## gang Development Wiki
 https://github.com/ozgung/gang/wiki
+
+## Trello
+https://trello.com/b/CI3coN9I/gang

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="database-changelog.xml"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="fmguler" id="init">
+    </changeSet>
+    <changeSet author="fmguler" id="0">
+        <tagDatabase tag="tag-init"/>
+    </changeSet>
+
+    <!-- CHAT SCHEMA >> -->
+    <changeSet author="fmguler" id="1">
+        <createTable schemaName="public" tableName="app_user">
+            <column autoIncrement="true" name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="app_user_pkey"/>
+            </column>
+            <column name="email" type="VARCHAR(1000)"/>
+            <column name="first_name" type="VARCHAR(1000)"/>
+            <column name="last_name" type="VARCHAR(1000)"/>
+            <column name="password" type="VARCHAR(1000)"/>
+            <column name="username" type="VARCHAR(1000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="fmguler" id="2">
+        <createTable schemaName="public" tableName="channel">
+            <column autoIncrement="true" name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="channel_pkey"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)"/>
+            <column name="name" type="VARCHAR(1000)"/>
+            <column name="team_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="fmguler" id="3">
+        <createTable schemaName="public" tableName="message">
+            <column autoIncrement="true" name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="message_pkey"/>
+            </column>
+            <column name="channel_id" type="int"/>
+            <column name="date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="message" type="VARCHAR(1000)"/>
+            <column name="sender_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="fmguler" id="4">
+        <addForeignKeyConstraint
+            constraintName="message_channel_id_fkey"
+            baseTableSchemaName="public" baseTableName="message" baseColumnNames="channel_id"
+            referencedTableSchemaName="public" referencedTableName="channel" referencedColumnNames="id"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+    <changeSet author="fmguler" id="5">
+        <addForeignKeyConstraint
+            constraintName="message_sender_id_fkey"
+            baseTableSchemaName="public" baseTableName="message" baseColumnNames="sender_id"
+            referencedTableSchemaName="public" referencedTableName="app_user" referencedColumnNames="id"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+    <changeSet author="fmguler" id="6">
+        <createTable schemaName="public" tableName="team">
+            <column autoIncrement="true" name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="team_pkey"/>
+            </column>
+            <column name="address" type="VARCHAR(1000)"/>
+            <column name="city" type="VARCHAR(1000)"/>
+            <column name="company" type="VARCHAR(1000)"/>
+            <column name="country" type="VARCHAR(1000)"/>
+            <column name="description" type="VARCHAR(1000)"/>
+            <column name="domains" type="VARCHAR(1000)"/>
+            <column name="name" type="VARCHAR(1000)"/>
+            <column name="phone" type="VARCHAR(1000)"/>
+            <column name="state" type="VARCHAR(1000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="fmguler" id="7">
+        <addForeignKeyConstraint
+            constraintName="channel_team_id_fkey"
+            baseTableSchemaName="public" baseTableName="channel" baseColumnNames="team_id"
+            referencedTableSchemaName="public" referencedTableName="team" referencedColumnNames="id"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+    <changeSet author="fmguler" id="8">
+        <createTable schemaName="public" tableName="team_user">
+            <column autoIncrement="true" name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="team_user_pkey"/>
+            </column>
+            <column name="team_id" type="int"/>
+            <column name="user_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="fmguler" id="9">
+        <addForeignKeyConstraint
+            constraintName="team_user_team_id_fkey"
+            baseTableSchemaName="public" baseTableName="team_user" baseColumnNames="team_id"
+            referencedTableSchemaName="public" referencedTableName="team" referencedColumnNames="id"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+    <changeSet author="fmguler" id="10">
+        <addForeignKeyConstraint
+            constraintName="team_user_user_id_fkey"
+            baseTableSchemaName="public" baseTableName="team_user" baseColumnNames="user_id"
+            referencedTableSchemaName="public" referencedTableName="app_user" referencedColumnNames="id"
+            deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+
+    
+    
+    <!-- MANUALLY ADDED CONSTRAINTS -->
+    <changeSet author="fmguler" id="11">
+        <addUniqueConstraint columnNames="username" constraintName="app_user_username_unique" deferrable="false" initiallyDeferred="false" schemaName="public" tableName="app_user"/>
+    </changeSet>
+    
+    <!-- SAMPLE DATA -->
+    <changeSet author="fmguler" id="12">
+        <insert tableName="app_user" schemaName="public">
+            <column name="username" value="admin"/>
+            <column name="password" value ="d8578edf8458ce06fbc5bb76a58c5ca4"/>
+            <column name="first_name" value="Gang"/>
+            <column name="last_name" value="Admin"/>
+            <column name="email" value="admin@ganghq.com"/>
+        </insert>
+        <rollback></rollback>
+    </changeSet>
+    
+    <changeSet author="fmguler" id="13">
+        <insert tableName="team" schemaName="public">
+            <column name="name" value="Test Team"/>            
+            <column name="description" value="The Test Team"/>            
+        </insert>
+        <rollback></rollback>
+    </changeSet>
+    
+    <changeSet author="fmguler" id="14">
+        <insert tableName="team_user" schemaName="public">
+            <column name="team_id" value="1"/>            
+            <column name="user_id" value="1"/>            
+        </insert>
+        <rollback></rollback>
+    </changeSet>
+    
+    <changeSet author="fmguler" id="15">
+        <insert tableName="channel" schemaName="public">
+            <column name="team_id" value="1"/>            
+            <column name="name" value="zurna"/>            
+            <column name="description" value="zurnanın zırt dediği yer"/>            
+        </insert>
+        <rollback></rollback>
+    </changeSet>
+    
+    <changeSet author="fmguler" id="16">
+        <insert tableName="message" schemaName="public">
+            <column name="channel_id" value="1"/>            
+            <column name="sender_id" value="1"/>            
+            <column name="date" value="now()"/>            
+            <column name="message" value="merhaba dünya"/>            
+        </insert>
+        <rollback></rollback>
+    </changeSet>
+    
+</databaseChangeLog>

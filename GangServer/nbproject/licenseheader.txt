@@ -1,0 +1,10 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} ${project.name}
+${licensePrefix} Copyright ${date?date?string("yyyy")} The Gang Chat Company.
+${licensePrefix}
+${licensePrefix} All rights reserved.
+<#if licenseLast??>
+${licenseLast}
+</#if>

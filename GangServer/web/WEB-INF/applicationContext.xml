@@ -9,40 +9,40 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-    <!-- Note (fmg): I'm skipping PropertyOverrideConfigurer and PropertyPlaceholderConfigurer for rapid prototyping. -->
     <!-- Properties file for configuration -->
-    <!--bean id="propertyOverrideConfigurer" class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+    <bean id="propertyOverrideConfigurer" class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
         <property name="location">
             <value>file:${gangserver.home}/conf/GangServer.properties</value>
         </property>
         <property name="ignoreInvalidKeys" value="true" />
     </bean>
+
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
             <value>file:${gangserver.home}/conf/GangServer.properties</value>
         </property>
-    </bean-->
+    </bean>
     
     <!-- Datasource configuration, for database access -->
     <!--Note (fmg): ${} configuration is omitted, see above, replace the ip with 127.0.0.1 -->
     <bean id="dataSource"
           class="org.apache.commons.dbcp2.BasicDataSource"
-          p:driverClassName="org.postgresql.Driver"          
-          p:url="jdbc:postgresql://192.168.1.11:5432/gangdb"          
-          p:username="postgres"
-          p:password="qwerty123" />
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}" />
           
-    <!-- Liquibase configuration, for automatic schema updating -->
-    <bean id="liquibase" class="com.gangchat.helper.SpringLiquibaseWrapper">
-        <property name="dataSource" ref="dataSource" />
-        <property name="changeLog" value="/WEB-INF/database-changelog.xml" />
-        <property name="liquibaseEnabled" value="true" />
-        <!--property name="contexts" value="test, production" /-->
-    </bean>
+        <!-- Liquibase configuration, for automatic schema updating -->
+        <bean id="liquibase" class="com.gangchat.helper.SpringLiquibaseWrapper">
+            <property name="dataSource" ref="dataSource" />
+            <property name="changeLog" value="/WEB-INF/database-changelog.xml" />
+            <property name="liquibaseEnabled" value="${jdbc.liquibaseEnabled}" />
+            <!--property name="contexts" value="test, production" /-->
+        </bean>
     
-    <!-- chat service, user, channel and message operations -->
-    <bean id="chatService" class="com.gangchat.service.chat.ChatService" init-method="init">      
-       <property name="dataSource" ref="dataSource" />
-    </bean>
+        <!-- chat service, user, channel and message operations -->
+        <bean id="chatService" class="com.gangchat.service.chat.ChatService" init-method="init">      
+            <property name="dataSource" ref="dataSource" />
+        </bean>
 
 </beans>

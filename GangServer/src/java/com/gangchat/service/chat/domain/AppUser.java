@@ -171,4 +171,16 @@ public class AppUser {
         return result;
     }
 
+    /**
+     * Check if this user belongs to this team
+     */
+    public boolean checkTeam(Integer teamId) {
+
+        for (TeamUser teamUser : teams) {
+            if (teamUser.getTeam().getId().equals(teamId)) return true;
+        }
+
+        return false;
+    }
+
 }

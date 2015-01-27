@@ -42,9 +42,9 @@ public class ApiController {
 
     //ajax - signup
     @RequestMapping()
-    public Map signup(HttpServletRequest request) {        
+    public Map signup(HttpServletRequest request) {
         Map result = new HashMap();
-        
+
         //get all the fields
         String firstName = ServletRequestUtils.getStringParameter(request, "firstName", "");
         String lastName = ServletRequestUtils.getStringParameter(request, "lastName", "");
@@ -61,22 +61,22 @@ public class ApiController {
         if (password.trim().isEmpty()) errors.add("Please enter a password.");
 
         //return all of the error(s)
-        if (!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             result.put("status", JSON_STATUS_FAIL);
             result.put("message", "Signup failed");
             result.put("errors", errors);
             return result;
         }
-            
+
         AppUser user = new AppUser();
         user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.resetPassword(password);
         user.setEmail(email);
-        
+
         chatService.saveUser(user);
-        
+
         //return the success status
         result.put("status", JSON_STATUS_SUCCESS);
         result.put("message", "OK");
@@ -123,13 +123,47 @@ public class ApiController {
         //to get the whole object graph
         return chatService.getUser(user.getId());
     }
-    
-    
+
+    //ajax - subscribe to team
+    @RequestMapping
+    public Map subscribe(@RequestParam Integer teamId, AppUser user) {
+        Map result = new HashMap();
+
+        //collect all the errors
+        List<String> errors = new LinkedList();
+
+        //TODO check if this user can subscribe to this team according to some stuff (facebook groups, invitations, etc)
+        if (false) errors.add("You cannot subscribe to this team");
+
+        //return all of the error(s)
+        if (!errors.isEmpty()) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "Create channel failed");
+            result.put("errors", errors);
+            return result;
+        }
+
+        Team team = new Team();
+        team.setId(teamId);
+
+        //create user team
+        TeamUser teamUser = new TeamUser();
+        teamUser.setTeam(team);
+        teamUser.setUser(user);
+        chatService.saveTeamUser(teamUser);
+
+        //return the success status
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK");
+        return result;
+    }
+
+
     //ajax - create team
     @RequestMapping()
-    public Map createTeam(AppUser user, HttpServletRequest request) {        
+    public Map createTeam(AppUser user, HttpServletRequest request) {
         Map result = new HashMap();
-        
+
         //get all the fields
         String name = ServletRequestUtils.getStringParameter(request, "name", "");
         String description = ServletRequestUtils.getStringParameter(request, "description", "");
@@ -141,32 +175,75 @@ public class ApiController {
         if (name.trim().isEmpty()) errors.add("Please enter a team name.");
 
         //return all of the error(s)
-        if (!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             result.put("status", JSON_STATUS_FAIL);
             result.put("message", "Create team failed");
             result.put("errors", errors);
             return result;
         }
-            
+
         //create the team
         Team team = new Team();
         team.setName(name);
         team.setDescription(description);
         chatService.saveTeam(team);
-        
+
         //add the user as the team user
         TeamUser teamUser = new TeamUser();
         teamUser.setTeam(team);
         teamUser.setUser(user);
         chatService.saveTeamUser(teamUser);
-        
+
         //add a channel
         Channel channel = new Channel();
         channel.setName("General");
         channel.setDescription("Default channel");
         channel.setTeam(team);
         chatService.saveChannel(channel);
-        
+
+        //return the success status
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK");
+        return result;
+    }
+
+    //ajax - create channel
+    @RequestMapping()
+    public Map createChannel(@RequestParam Integer teamId, AppUser user, HttpServletRequest request) {
+        Map result = new HashMap();
+
+        //get all the fields
+        String name = ServletRequestUtils.getStringParameter(request, "name", "");
+        String description = ServletRequestUtils.getStringParameter(request, "description", "");
+
+        //collect all the errors
+        List<String> errors = new LinkedList();
+
+        //the most important checks first
+        if (name.trim().isEmpty()) errors.add("Please enter a channel name.");
+
+        //check if this user is in this team
+        AppUser appUser = chatService.getUser(user.getId());
+        if (!appUser.checkTeam(teamId)) errors.add("You cannot add channel to this team");
+
+        //return all of the error(s)
+        if (!errors.isEmpty()) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "Create channel failed");
+            result.put("errors", errors);
+            return result;
+        }
+
+        Team team = new Team();
+        team.setId(teamId);
+
+        //create a channel
+        Channel channel = new Channel();
+        channel.setName(name);
+        channel.setDescription(description);
+        channel.setTeam(team);
+        chatService.saveChannel(channel);
+
         //return the success status
         result.put("status", JSON_STATUS_SUCCESS);
         result.put("message", "OK");

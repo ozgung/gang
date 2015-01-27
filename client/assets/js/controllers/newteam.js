@@ -10,9 +10,7 @@
 			
 			$scope.create = function(){
 				
-				backend.request('createTeam',$scope.form).then(function(team){
-					user.teams.push($scope.form);
-				});
+				backend.request('createTeam',$scope.form);
 			};
 			
 		});

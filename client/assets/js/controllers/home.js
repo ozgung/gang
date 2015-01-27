@@ -3,14 +3,13 @@
 
   angular.module('application')
   
-		.controller('HomeCtrl',function($scope,$state,chat,fb,user){
+		.controller('HomeCtrl',function($scope,$state,chat,user,token){
 			
 			$scope.teams = user.teams;
 			
 			$scope.logout = function() {
-				fb.logout().then(function(){
-					$state.go('welcome');
-				});
+				token.unset();
+				$state.go('welcome.index');
 			};
 			
 			$scope.changeTeam = function(team){

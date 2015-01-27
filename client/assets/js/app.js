@@ -4,7 +4,7 @@
   var Gang = angular.module('application', [
     'ui.router',
     'ngAnimate',
-		//'facebook',
+		'facebook',
 		'luegg.directives',
 		'ngWebSocket',
 		

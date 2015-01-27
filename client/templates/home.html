@@ -1,11 +1,18 @@
 <div class='grid-frame'>
 		
-	<zf-panel id="gang-left-panel" position="left" class="medium-grid-block medium-3 gang-panel">
-		<form>
-			<label>Groups</label>
-			<select ng-model="channel" ng-change="changeChannel(channel)" ng-options='group as group.name for group in groups'></select>
+	<zf-panel id="gang-left-panel" position="left" class="medium-grid-block medium-3 gang-panel vertical">
+		<div class='grid-content'>
+			
+			<label>
+				Teams
+			
+				<select ng-model="team" ng-change="changeTeam(team)" ng-options='team.team as team.team.name for team in teams'></select>
+			</label>
+			<a ui-sref='newteam' class='button'>Create Team</a>
+		</div>
+		<div class='grid-content shrink'>
 			<a href='#' class='button' ng-click='logout()'>Sign out </a>
-		</form>
+		</div>
 	</zf-panel>
 	
 	<div class='grid-block vertical'>
@@ -18,18 +25,10 @@
       </ul>
     </div>
 		
-		<div class='grid-content' scroll-glue>
-			<ui-view/>
-		</div>
 		
-		<div class="message-input grid-content collapse shrink">
-      <span class="inline-label">
-        <input type="text" ng-model='message' placeholder="Message">
-        <a href="#" class="button" ng-click='send()'>Send</a>
-      </span>
-    </div>
+		<ui-view class='grid-block vertical'/>
+		
 	</div>
-	
 	<zf-panel id="gang-right-panel" position="right" class="medium-grid-block medium-2 gang-panel">
 		<p>This is a basic panel.</p>
 	</zf-panel>	

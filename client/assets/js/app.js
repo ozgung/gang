@@ -16,53 +16,76 @@
 
   function config($urlRouterProvider,$locationProvider,$stateProvider,FacebookProvider){
 	
-    $urlRouterProvider.otherwise('/welcome');
+    $urlRouterProvider.otherwise('/');
 		
 		$stateProvider
-		
+			
 			.state('welcome', {
-				url: '/welcome',
+				url: '/',
 				templateUrl: 'templates/welcome.html',
 				controller:'WelcomeCtrl',
-				onEnter:function(fb,$state){
+				abstract:true,
+				
+				onEnter:function(token,$state){
+						
+					if(token.isValid()){
+						$state.go('home');
+					}
+				}
+			})
+			
+			.state('welcome.index', {
+				url: '',
+				templateUrl: 'templates/welcome.index.html',
+				controller:'WelcomeIndexCtrl',
+				parent:'welcome'
+				/*onEnter:function(fb,$state){
 					
 					return fb.checkStatus().then(function(){
 					
 						$state.go('home');
 					});
-				}
+				}*/
+			})
+			
+			.state('signin', {
+				url: 'signin',
+				templateUrl: 'templates/signin.html',
+				controller:'SigninCtrl',
+				parent:'welcome'
+			})
+			
+			.state('signup', {
+				url: 'signup',
+				templateUrl: 'templates/signup.html',
+				controller:'SignupCtrl',
+				parent:'welcome'
 			})
 			
 			.state('home', {
-				url: '/',
+				url: '/home',
 				templateUrl: 'templates/home.html',
 				controller:'HomeCtrl',
 				resolve:{
-				
-					data:function(fb){
-						
-						return fb.checkStatus().then(function(){
-						
-							return fb.user().then(function(user){
-							
-								return fb.groups(user).then(function(groups){
-									
-									return {
-										user:user,
-										groups:groups
-									};
-								});
-							})
-						}).catch(function(){
-						
-							$state.go('welcome');
+					
+					user:function(backend){
+					
+						return backend.request('me').then(function(res){
+							return res.appUser;
 						});
 					}
 				}
 			})
 			
+			.state('newteam',{
+				url: '/newteam',
+				templateUrl: 'templates/newteam.html',
+				controller:'NewTeamCtrl',
+				parent:'home'
+			})
+			
 			.state('chat',{
-				url: ':channel',
+				url: '/:channel',
 				templateUrl: 'templates/chat.html',
 				controller:'ChatCtrl',
 				parent:'home'

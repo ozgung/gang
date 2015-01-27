@@ -4,7 +4,7 @@
   var Gang = angular.module('application', [
     'ui.router',
     'ngAnimate',
-		'facebook',
+		//'facebook',
 		'luegg.directives',
 		'ngWebSocket',
 		
@@ -14,7 +14,7 @@
   .config(config)
   .run(run);
 
-  function config($urlRouterProvider,$locationProvider,$stateProvider,FacebookProvider){
+  function config($urlRouterProvider,$locationProvider,$stateProvider/*,FacebookProvider*/){
 	
     $urlRouterProvider.otherwise('/');
 		
@@ -98,10 +98,10 @@
 
     $locationProvider.hashPrefix('!');
 		
-		FacebookProvider.init({
+		/*FacebookProvider.init({
 			appId:'343800439138314',
 			status:true
-		});
+		});*/
   }
 
   function run() {

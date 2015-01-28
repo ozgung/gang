@@ -1,15 +1,23 @@
-<div class='block-list'>
-	<ul>
-		<li ng-repeat="message in messages">
-			<div class="grid-block shrink">
-				<div class="grid-content shrink">
-					<img src="assets/img/user.png" style='width:64px;height:64px;'/>
+<div class='grid-content expand' scroll-glue>
+	<div class='block-list'>
+		<ul>
+			<li ng-repeat="message in messages">
+				<div class="grid-block shrink">
+					<div class="grid-content shrink">
+						<img src="assets/img/user.png" style='width:64px;height:64px;'/>
+					</div>
+					<div class="grid-content">
+						<h6>{{message.uid}}</h6>
+						{{message.msg}}
+					</div>
 				</div>
-				<div class="grid-content">
-					<h6>{{message.uid}}</h6>
-					{{message.msg}}
-				</div>
-			</div>
-		</li>
-	</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="message-input grid-content collapse shrink">
+  <span class="inline-label">
+    <input type="text" ng-model='message' placeholder="Message">
+    <a href="#" class="button" ng-click='send()'>Send</a>
+  </span>
 </div>

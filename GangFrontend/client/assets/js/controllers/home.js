@@ -3,30 +3,20 @@
 
   angular.module('application')
   
-		.controller('HomeCtrl',function($scope,$state,chat,fb,data){
+		.controller('HomeCtrl',function($scope,$state,chat,user,token){
 			
-			$scope.message = '';
-			$scope.messages = chat.messages;
-			
-			$scope.user = data.user;
-			
-			$scope.groups = data.groups;
-			
-			$scope.send = function(){
-				chat.sendMessage($scope.message);
-				$scope.message = '';
-			};
+			$scope.teams = user.teams;
 			
 			$scope.logout = function() {
-				fb.logout().then(function(){
-					$state.go('welcome');
-				});
+				token.unset();
+				$state.go('welcome.index');
 			};
 			
-			$scope.changeChannel = function(channel){
-				chat.setActiveChannel(channel);
+			$scope.changeTeam = function(team){
+			
+				chat.setActiveChannel(team);
 				$state.go('chat',{
-					channel:channel.id
+					channel:team.id
 				});
 			};
 		});

@@ -1,23 +1,28 @@
-<div class='grid-content expand' scroll-glue>
-	<div class='block-list'>
-		<ul>
-			<li ng-repeat="message in messages">
-				<div class="grid-block shrink">
-					<div class="grid-content shrink">
-						<img src="assets/img/user.png" style='width:64px;height:64px;'/>
-					</div>
-					<div class="grid-content">
-						<h6>{{message.uid}}</h6>
-						{{message.msg}}
-					</div>
-				</div>
-			</li>
-		</ul>
+<div class='gang-chat-area grid-block vertical'>
+	<div class='grid-content collapse shrink'>
+		<div class="title expand ng-scope"> #serbestbolge </div>
 	</div>
-</div>
-<div class="message-input grid-content collapse shrink">
-  <span class="inline-label">
-    <input type="text" ng-model='message' placeholder="Message">
-    <a href="#" class="button" ng-click='send()'>Send</a>
-  </span>
+	<div class='grid-content gang-chat-list expand' scroll-glue>
+		<div class='block-list'>
+			<ul>
+				<li ng-repeat="message in messages">
+					<div class="grid-block shrink">
+						<div class="grid-content shrink">
+							<img src="assets/img/user.png"/>
+						</div>
+						<div class="grid-content message-text">
+							<h6>{{message.uid}}<span>@handle</span></h6>
+							{{message.msg}}
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="message-input grid-content collapse shrink">
+		<span class="inline-label">
+			<input type="text" ng-model='message' placeholder="Message">
+			<a href="#" class="button" ng-click='send()'>Send</a>
+		</span>
+	</div>
 </div>

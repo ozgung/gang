@@ -14,81 +14,87 @@
   .config(config)
   .run(run);
 
-  function config($urlRouterProvider,$locationProvider,$stateProvider/*,FacebookProvider*/){
+  function config($urlRouterProvider,$locationProvider,$stateProvider,FacebookProvider){
 	
     $urlRouterProvider.otherwise('/');
 		
 		$stateProvider
 			
-			.state('welcome', {
+			.state('app', {
 				url: '/',
-				templateUrl: 'templates/welcome.html',
-				controller:'WelcomeCtrl',
 				abstract:true,
-				
-				onEnter:function(token,$state){
-						
-					if(token.isValid()){
-						$state.go('home');
-					}
-				}
-			})
-			
-			.state('welcome.index', {
-				url: '',
-				templateUrl: 'templates/welcome.index.html',
-				controller:'WelcomeIndexCtrl',
-				parent:'welcome'
-				/*onEnter:function(fb,$state){
-					
-					return fb.checkStatus().then(function(){
-					
-						$state.go('home');
-					});
-				}*/
-			})
-			
-			.state('signin', {
-				url: 'signin',
-				templateUrl: 'templates/signin.html',
-				controller:'SigninCtrl',
-				parent:'welcome'
-			})
-			
-			.state('signup', {
-				url: 'signup',
-				templateUrl: 'templates/signup.html',
-				controller:'SignupCtrl',
-				parent:'welcome'
-			})
-			
-			.state('home', {
-				url: '/home',
-				templateUrl: 'templates/home.html',
-				controller:'HomeCtrl',
+				templateUrl: '<ui-view/>',
 				resolve:{
-					
-					user:function(backend){
-					
-						return backend.request('me').then(function(res){
-							return res.appUser;
+				
+					connected:function(fb){
+						
+						return fb.checkStatus().then(function(){
+							return true;
+						},function(){
+							return false;
 						});
 					}
 				}
 			})
 			
-			.state('newteam',{
-				url: '/newteam',
-				templateUrl: 'templates/newteam.html',
-				controller:'NewTeamCtrl',
-				parent:'home'
+			.state('guest', {
+				url: '',
+				parent:'app',
+				templateUrl: 'templates/guest.html',
+				controller:'GuestCtrl',
+				onEnter:function(connected,$state){
+						
+					if(connected){
+						$state.go('account');
+					}
+				}
+			})
+			
+			.state('account', {
+				url: '',
+				parent:'app',
+				templateUrl: 'templates/account.html',
+				controller:'AccountCtrl',
+				onEnter:function(connected,$state){
+						
+					if(!connected){
+						$state.go('guest');
+					}
+				},
+				resolve:{
+					
+					user:function(fb,$q){
+						return fb.user().then(function(user){
+							return fb.groups(user).then(function(groups){
+							
+								user.groups = groups;
+								return user;
+								
+								/*var promises = [];
+							
+								groups.forEach(function(group){
+									
+									var promise = fb.group(group.id);
+									
+									promises.push(promise);
+								});
+								
+								return $q.all(promises).then(function(groups){
+									
+									user.groups = groups;
+									return user;
+								});*/
+							});
+						});
+					}
+				}
 			})
 			
 			.state('chat',{
 				url: '/:channel',
 				templateUrl: 'templates/chat.html',
 				controller:'ChatCtrl',
-				parent:'home'
+				parent:'account'
 			});
 		
     $locationProvider.html5Mode({
@@ -98,10 +104,10 @@
 
     $locationProvider.hashPrefix('!');
 		
-		/*FacebookProvider.init({
+		FacebookProvider.init({
 			appId:'343800439138314',
 			status:true
-		});*/
+		});
   }
 
   function run() {

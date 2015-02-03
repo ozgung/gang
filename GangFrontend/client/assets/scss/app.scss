@@ -1,11 +1,198 @@
 @import "settings";
 @import "foundation";
 
-.gang-panel{
-	
-	background-color:#5b6378 !important;
+html, body { 
+  background: url(../img/bg.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'Lato', sans-serif !important;
 }
-
-.message-input{
-	margin-bottom:0 !important;
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.gang-home {
+	max-width: 980px;
+	margin: auto;
+	-webkit-box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:    0px 0px 50px 0px rgba(0, 0, 0, 0.3);
+	box-shadow:         0px 0px 50px 0px rgba(0, 0, 0, 0.3);
+}
+.gang-panel {
+	background-color: #5a6378 !important;
+}
+.gang-chat-area {
+	background-color: #fff;
+	border-left: 1px solid #565f74;
+	border-right: 1px solid #565f74;
+}
+.button {
+	background-color: #393f4f;
+	border-radius: 30px;
+}
+.button:hover {
+	background-color: #0d152b;
+}
+.logo {
+	display: block;
+	margin: auto;
+	margin-top: 20px;
+}
+.gang-group-list {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	border-top: 1px solid #565f74;
+	padding-top: 5px;
+	margin-top: 20px;
+	text-shadow: 1px 1px 1px #363c4b;
+	font-weight: 700;
+}
+.gang-group-list > li {
+	margin-left: -16px;
+	margin-right: -16px;
+	display: block;
+	clear: both;
+	border-bottom: 1px solid #565f74;
+	padding: 10px;
+	cursor: pointer;
+}
+.gang-group-list > li:hover {
+	background-color: #626b7f;
+}
+.gang-group-list li.active {
+	font-weight: 700;
+	background-color: #393f4f;
+}
+.gang-group-list span {
+	float: left;
+	display: block;
+	width: 150px;
+	line-height: 48px;
+	padding-left: 8px;
+	color: #a6aebf;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.gang-channel-list {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+.gang-channel-list li {
+	border-radius: 5px 0 0 5px;
+	color: #a6aebf;
+	padding: 0px;
+	font-size: 14px;
+	font-weight: 700;
+	margin-right: -10px;
+	margin-left: 40px;
+	padding: 3px;
+	padding-left: 16px;
+	cursor: pointer;
+}
+.gang-channel-list li:hover {
+	color: #fff;
+}
+.gang-channel-list li.active {
+	background-color: #a6aebf;
+	color: #393f4f;
+	text-shadow: none;
+}
+.gang-user-panel {
+	margin-top: 20px;
+}
+.gang-group-profile {
+	width: 48px;
+	height: 48px;
+	border-radius: 100px;
+   background-position: center center; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  float: left;
+}
+.gang-user-list{
+	list-style: none;
+	text-shadow: 1px 1px 1px #363c4b;
+	margin-left: -16px;
+}
+.gang-user-list div {
+	width: 200px;
+	line-height: 17px;
+	font-size: 14px;
+}
+.gang-user-list span {
+	font-size: 13px;
+	color: #a6aebf;
+	font-weight: 500;
+}
+.gang-user-list li {
+	color: #a6aebf;
+	font-weight: 900;
+	cursor: pointer;
+	border-bottom: 1px solid #565f74;
+	padding: 10px;
+	margin: 0;
+}
+.gang-user-list li.active {
+	background-color: #393f4f;
+	border-radius: 0 5px 5px 0;
+}
+.gang-user-list img{
+	width: 32px;
+	height: 32px;
+	border-radius: 5px;
+	margin-right: 10px;
+	float: left;
+}
+.gang-chat-area .title {
+	text-align: center;
+	font-size: 24px;
+	font-weight: 400;
+	border-bottom: 1px solid #A6AEBF;
+	background-color: #eff0f2;
+	color: #393F4F;
+	padding: 10px;
+}
+.gang-chat-list {
+	overflow-x: hidden;
+}
+.gang-chat-list li img {
+	width: 48px;
+	height: 48px;
+	border-radius: 48px;
+	margin-left: 15px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.gang-chat-list li h6 {
+	font-weight: 700;
+	font-size: 14px;
+	color: #333;
+	margin-top: 10px;
+	margin-bottom: 0px;
+	padding: 0px;
+}
+.gang-chat-list li h6 span {
+	color: #ccc;
+	font-size: 13px;
+	font-weight: 500;
+}
+.block-list li {
+	border-bottom: 1px solid #eee;
+}
+.message-input span {
+	margin: 0;
+	height: 50px;
+}
+.message-text {
+	padding: 0;
+	padding-right: 30px;
+	padding-bottom: 5px;
+	line-height: 1.5;
 }

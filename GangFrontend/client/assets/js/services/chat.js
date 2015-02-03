@@ -4,12 +4,12 @@
 
   angular.module('application')
 		
-		.service('chat',function($websocket){
+		.service('chat',function($websocket,token){
 			
 			var self = this;
 			var activeChannel;
 			
-			var ws = $websocket('ws://zeus.fikrimuhal.com:9000/ws');
+			var ws = $websocket('ws://zeus.fikrimuhal.com:9000/ws?token='+token.get());
 			var messages = [];
 			
 			ws.onMessage(function(e) {

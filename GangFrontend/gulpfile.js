@@ -17,6 +17,7 @@ var gulp           = require('gulp'),
     connect        = require('gulp-connect'),
     path           = require('path'),
     modRewrite     = require('connect-modrewrite'),
+		ngConfig     = require('gulp-ng-config'),
     dynamicRouting = require('./bower_components/foundation-apps/bin/gulp-dynamic-routing');
 
 // 2. SETTINGS VARIABLES
@@ -47,6 +48,7 @@ var foundationJS = [
 
 // These files are for your app's JavaScript
 var appJS = [
+	'client/assets/js/config.js',
   'client/assets/js/app.js',
 	'client/assets/js/services/**/*.js',
 	'client/assets/js/controllers/**/*.js',
@@ -140,6 +142,12 @@ gulp.task('copy-templates', ['copy'], function() {
 		.pipe(connect.reload());
 });
 
+gulp.task('config', function() {
+  return gulp.src('./config/config.json')
+    .pipe(ngConfig('config'))
+		.pipe(gulp.dest('./client/assets/js/'));
+});
+
 // Starts a test server, which you can view at http://localhost:8080
 gulp.task('server:start', function() {
   connect.server({
@@ -155,7 +163,7 @@ gulp.task('server:start', function() {
 
 // Builds your entire app once, without starting a server
 gulp.task('build', function() {
-  runSequence('clean', ['copy', 'sass', 'uglify'], 'copy-templates', function() {
+  runSequence('clean', 'config',['copy', 'sass', 'uglify'], 'copy-templates', function() {
     console.log("Successfully built.");
   })
 });
@@ -173,4 +181,7 @@ gulp.task('default', ['build', 'server:start'], function() {
 
   // Watch app templates
   gulp.watch(['./client/templates/**/*.html'], ['copy-templates']);
+	
+	// Watch Config
+  gulp.watch(['./config/config.json'], ['uglify']);
 });

@@ -23,7 +23,7 @@
 			.state('app', {
 				url: '/',
 				abstract:true,
-				templateUrl: '<ui-view/>',
+				template: '<ui-view/>',
 				resolve:{
 				
 					connected:function(fb){

@@ -9,7 +9,7 @@
 			var self = this;
 			var activeChannel;
 			
-			var ws = $websocket('ws://zeus.fikrimuhal.com:9000/ws?token='+token.get());
+			var ws = $websocket('ws://ws.ganghq.com/ws?token='+token.get());
 			var messages = [];
 			
 			ws.onMessage(function(e) {

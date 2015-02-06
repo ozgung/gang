@@ -3,13 +3,15 @@
 
   angular.module('application')
   
-		.controller('AccountCtrl',function($scope,$state,chat,user,token){
+		.controller('AccountCtrl',function($scope,$state,chat,user,fb){
 			
 			$scope.teams = user.groups;
 			
 			$scope.logout = function() {
-				token.unset();
-				$state.go('guest');
+				fb.logout().then(function(){
+					$state.go('guest');
+				});
+				
 			};
 		});
 		

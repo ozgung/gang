@@ -94,8 +94,21 @@
 			
 				return new Promise(function(resolve,reject){
 					
-					Facebook.api('/' + user.id + '/groups', function(groups) {
+					Facebook.api('/' + user.id + '/groups?fields=id,name,cover', function(groups) {
 						resolve(groups.data);
+					},{
+						access_token: localStorage.getItem('access-token')
+					});
+					
+				});
+			};
+			
+			this.group = function(id) {
+			
+				return new Promise(function(resolve,reject){
+					
+					Facebook.api('/' + id + '/?', function(response) {
+						resolve(response);
 					},{
 						access_token: localStorage.getItem('access-token')
 					});

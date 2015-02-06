@@ -4,7 +4,7 @@
 
   angular.module('application')
   
-		.controller('WelcomeCtrl',function($scope,$rootScope,$state,fb){
+		.controller('GuestCtrl',function($scope,$rootScope,$state,fb){
 			
 			$scope.fbReady = fb.ready;
 			
@@ -12,7 +12,7 @@
 			
 				fb.login().then(function(response){
 					
-					$state.go('home');
+					$state.go('account');
 				});
 			};
 		

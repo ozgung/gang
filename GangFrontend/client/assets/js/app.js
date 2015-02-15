@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-
+  console.log("Helllo Gang 001");
   var Gang = angular.module('application', [
     'ui.router',
     'ngAnimate',

@@ -22,7 +22,7 @@ html, body {
 	box-shadow:         0px 0px 50px 0px rgba(0, 0, 0, 0.3);
 }
 .gang-panel {
-	background-color: #5a6378 !important;
+	background-color: #283137 !important;
 }
 .gang-chat-area {
 	background-color: #fff;
@@ -48,8 +48,9 @@ html, body {
 	border-top: 1px solid #565f74;
 	padding-top: 5px;
 	margin-top: 20px;
-	text-shadow: 1px 1px 1px #363c4b;
-	font-weight: 700;
+	/*text-shadow: 1px 1px 1px #363c4b;*/
+	font-weight: normal;
+	font-size: 14px;
 }
 .gang-group-list > li {
 	margin-left: -16px;
@@ -73,7 +74,7 @@ html, body {
 	width: 150px;
 	line-height: 48px;
 	padding-left: 8px;
-	color: #a6aebf;
+	color: white;
 	overflow: hidden;
 	white-space: nowrap;
 }

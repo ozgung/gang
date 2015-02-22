@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    console.log("Gang version 008");
+    console.log("Gang version 009");
     var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',
@@ -33,7 +33,7 @@
                             //todo handle backend timeout
                             //~ilgaz
                             console.log("trace", "app.js/0001");
-                            backend.authFB().then(function () {
+                            return backend.authFB().then(function () {
                                 console.log("trace", "app.js/0002");
                                 return true
                             })

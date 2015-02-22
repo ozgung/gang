@@ -12,6 +12,7 @@ import com.gangchat.service.chat.domain.AppUser;
 import com.gangchat.service.chat.domain.Channel;
 import com.gangchat.service.chat.domain.Team;
 import com.gangchat.service.chat.domain.TeamUser;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -141,6 +142,8 @@ public class ApiController {
                 if (middleName != null && !middleName.trim().equals("")) user.setFirstName(user.getFirstName() + " " + middleName);
                 user.setLastName(facebook.userOperations().getUserProfile().getLastName());
                 user.setEmail(facebook.userOperations().getUserProfile().getEmail());
+                byte[] profileImgBytes = facebook.userOperations().getUserProfileImage();
+                if (profileImgBytes != null) user.setProfileImage(Base64.getEncoder().encodeToString(profileImgBytes));
 
                 chatService.saveUser(user);
             }
@@ -179,11 +182,11 @@ public class ApiController {
                     teamUser.setUser(user);
                     chatService.saveTeamUser(teamUser);
                 }
-                
-                
+
+
                 //TODO: detect and unsubscribe from the groups user has left 
             }
-            
+
             //JWT SIGN
             JWTSigner signer = new JWTSigner("my secret");
             HashMap<String, Object> claims = new HashMap<String, Object>();
@@ -216,6 +219,37 @@ public class ApiController {
         return chatService.getUser(user.getId());
     }
 
+    //ajax - team with users
+    @RequestMapping
+    public Map team(AppUser user, @RequestParam Integer id) {
+        Map result = new HashMap();
+
+        //collect all the errors
+        List<String> errors = new LinkedList();
+
+        //to get the channel with subscribed users;
+        Team team = chatService.getTeam(id);
+        if (team == null) errors.add("Team does not exist");
+
+        //check if this user is in this team
+        AppUser appUser = chatService.getUser(user.getId());
+        if (appUser == null) errors.add("Internal error, can't find user.");
+        if (team != null && appUser != null && !appUser.checkTeam(team.getId())) errors.add("You cannot get this team");
+
+        //return all of the error(s)
+        if (!errors.isEmpty()) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "Get team failed");
+            result.put("errors", errors);
+            return result;
+        }
+
+        //return the success status
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK");
+        result.put("team", team);
+        return result;
+    }
 
     //ajax - create channel
     @RequestMapping()

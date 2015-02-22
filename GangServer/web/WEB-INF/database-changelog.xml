@@ -99,7 +99,11 @@
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" />
     </changeSet>
 
-    
+    <changeSet author="fmguler" id="10_b">
+        <addColumn schemaName="public" tableName="app_user"> 
+            <column name="profile_image" type="VARCHAR(10000)"/>
+        </addColumn>
+    </changeSet>
     
     <!-- MANUALLY ADDED CONSTRAINTS -->
     <changeSet author="fmguler" id="11">

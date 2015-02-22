@@ -26,6 +26,7 @@ public class AppUser {
     private String firstName;
     private String lastName;
     private String email;
+    private String profileImage;
 
     private List<TeamUser> teams = new VenList(TeamUser.class, "user"); //teams of this user
 
@@ -181,6 +182,20 @@ public class AppUser {
         }
 
         return false;
+    }
+
+    /**
+     * @return the profileImage
+     */
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    /**
+     * @param profileImage the profileImage to set
+     */
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
 }

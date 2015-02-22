@@ -33,10 +33,8 @@
 
             function init() {
                 $scope.messages = chat.messages;
+                $scope.thisChannelMessages = chat.getThisChannelMessages();
                 clearFocus();
-            }
-            function getThisChannelMessages(){
-                return chat.messages[$scope.activeChannel];
             }
             init();
 

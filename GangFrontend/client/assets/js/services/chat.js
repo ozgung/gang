@@ -24,6 +24,13 @@
 
             this.messages = messages;
 
+            this.getThisChannelMessages = function(){
+                if (!messages[activeChannel]) {
+                    messages[activeChannel] = []
+                }
+                return messages[activeChannel]
+            };
+
             this.setChannels = function (channels) {
                 channels.forEach(function (entry) {
                     console.log("channel id: ", entry.id);

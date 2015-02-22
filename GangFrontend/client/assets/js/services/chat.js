@@ -27,7 +27,7 @@
             this.setChannels = function (channels) {
                 channels.forEach(function (entry) {
                     console.log("channel id: ", entry.id);
-                    messages[entry.id] = [];
+                    messages['#'+entry.id] = [];
                 });
             };
 

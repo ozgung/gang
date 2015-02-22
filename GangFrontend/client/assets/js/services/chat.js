@@ -13,10 +13,11 @@
             var messages = {};
 
             ws.onMessage(function (e) {
-                if(!messages[activeChannel]){
-                    messages[activeChannel] = []
-                }
                 var data = JSON.parse(e.data);
+
+                if (!messages[data.channel]) {
+                    messages[data.channel] = []
+                }
 
                 messages[data.channel].push(data);
             });

@@ -7,7 +7,7 @@
         .service('backend', function (token, $http) {
 
             this.request = function (action, query) {
-                console.log("trace", "backend.request 001");
+                console.log("trace", "backend.request 001","action",action,"query",query);
 
                 var t = token.get();
 
@@ -24,7 +24,7 @@
                     url: 'http://app.ganghq.com/api/' + action,
                     params: query
                 }).then(function (response) {
-                    console.log("trace", "backend.request 002","got response :)");
+                    console.log("trace", "backend.request 002", "got response :)",response);
                     return response.data;
                 });
             };
@@ -47,12 +47,15 @@
                 };
 
                 fbAuthData.test = "0001"; //todo please delete this line now!
-                return (request("loginFB", fbAuthData)).then(function (response) {
+                var backendResponse = this.request("loginFB", fbAuthData).then(function (response) {
+                    console.log("trace", "backend.authFB 002");
                     //now we are fully authenticated
                     //should be "0" response.status;
                     localStorage.setItem('token', response.token);
                     return response;
-                })
+                });
+
+                return backendResponse;
             }
         })
 })();

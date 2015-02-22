@@ -23,7 +23,7 @@
                 var channelName = '#channel';
 
                 if (activeChannel) {
-                    channelName = '#' + activeChannel.id;
+                    channelName = '#' + activeChannel;
                 }
 
 

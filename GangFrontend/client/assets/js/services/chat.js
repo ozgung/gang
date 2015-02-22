@@ -18,8 +18,8 @@
                 if (!messages[data.channel]) {
                     messages[data.channel] = []
                 }
-
                 messages[data.channel].push(data);
+                console.log("message received,  messages", messages, "data", data)
             });
 
             this.messages = messages;

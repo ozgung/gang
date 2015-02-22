@@ -5,7 +5,7 @@
 
         .controller('AccountCtrl', function ($scope, $state, chat, user, fb) {
 
-            $scope.teams = chat.subscribedChannels;
+            $scope.teams = user.groups;
 
             chat.setChannels(user.groups);
 

@@ -5,7 +5,7 @@
 	<div class='grid-content gang-chat-list expand' scroll-glue>
 		<div class='block-list'>
 			<ul>
-				<li ng-repeat="message in messages | filter: { message.channel : activeChannel }">
+				<li ng-repeat="message in getThisChannelMessages()">
 					<div class="grid-block shrink">
 						<div class="grid-content shrink">
 							<img width="48" height="48" src="http://graph.facebook.com/{{message.uid}}/picture"/>

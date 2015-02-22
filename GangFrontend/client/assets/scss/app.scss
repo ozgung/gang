@@ -49,7 +49,6 @@ html, body {
 	padding-top: 5px;
 	margin-top: 20px;
 	/*text-shadow: 1px 1px 1px #363c4b;*/
-	color: white;
 	font-size: 14px;
 	font-weight: 700;
 }
@@ -74,8 +73,9 @@ html, body {
 	display: block;
 	width: 150px;
 	line-height: 48px;
-	padding-left: 8px;
-	color: #a6aebf;
+	padding-left: 12px;
+	color: white;
+	font-size: 12px;
 	overflow: hidden;
 	white-space: nowrap;
 }

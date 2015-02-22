@@ -138,7 +138,7 @@ public class ApiController {
                 user.setUsername(facebookId);
                 user.setFirstName(facebook.userOperations().getUserProfile().getFirstName());
                 String middleName = facebook.userOperations().getUserProfile().getMiddleName();
-                if (!middleName.trim().equals("")) user.setFirstName(user.getFirstName() + " " + middleName);
+                if (middleName != null && !middleName.trim().equals("")) user.setFirstName(user.getFirstName() + " " + middleName);
                 user.setLastName(facebook.userOperations().getUserProfile().getLastName());
                 user.setEmail(facebook.userOperations().getUserProfile().getEmail());
 

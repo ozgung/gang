@@ -16,15 +16,10 @@ import java.util.List;
  */
 public class Team {
     private Integer id;
+    private String uniqueId; //some global unique id (e.g. FB id)
     private String name; //the team name
     private String description; //the team name
     private String domains; //white space separated domain names of this team
-    private String company;
-    private String address;
-    private String city;
-    private String state;
-    private String country;
-    private String phone;
     private List<TeamUser> users = new VenList(TeamUser.class, "team"); //users of this team
     private List<Channel> channels = new VenList(Channel.class, "team"); //channels of this team
 
@@ -43,6 +38,20 @@ public class Team {
     }
 
     /**
+     * @return the uniqueId
+     */
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    /**
+     * @param uniqueId the uniqueId to set
+     */
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    /**
      * @return the domains
      */
     public String getDomains() {
@@ -54,90 +63,6 @@ public class Team {
      */
     public void setDomains(String domains) {
         this.domains = domains;
-    }
-
-    /**
-     * @return the company
-     */
-    public String getCompany() {
-        return company;
-    }
-
-    /**
-     * @param company the company to set
-     */
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    /**
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * @param address the address to set
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    /**
-     * @return the city
-     */
-    public String getCity() {
-        return city;
-    }
-
-    /**
-     * @param city the city to set
-     */
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    /**
-     * @return the state
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * @param state the state to set
-     */
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * @return the country
-     */
-    public String getCountry() {
-        return country;
-    }
-
-    /**
-     * @param country the country to set
-     */
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    /**
-     * @return the phone
-     */
-    public String getPhone() {
-        return phone;
-    }
-
-    /**
-     * @param phone the phone to set
-     */
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     /**

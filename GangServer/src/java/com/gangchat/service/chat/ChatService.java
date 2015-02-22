@@ -77,6 +77,35 @@ public class ChatService {
     //--------------------------------------------------------------------------
     //TEAM
     //--------------------------------------------------------------------------
+    
+    /**
+     * Get team by id
+     */
+    public Team getTeam(int teamId) {
+        Set joins = new HashSet();
+        Criteria criteria = new Criteria();
+        return (Team)ven.get(teamId, Team.class, joins);
+    }
+    
+    /**
+     * Get team by unique string id
+     */
+    public Team getTeam(String uniqueId) {
+        Set joins = new HashSet();
+        Criteria criteria = new Criteria();
+        criteria.eq("Team.uniqueId", uniqueId);
+        List<Team> list = ven.list(Team.class, joins, criteria);
+        if (list.isEmpty()) return null;
+        return list.get(0);
+    }
+    
+    public boolean checkTeamContainsUser(String uniqueId, int userId){
+        Set joins = new HashSet();
+        joins.add("Team.users.user");
+        Criteria criteria = new Criteria();
+        criteria.eq("Team.uniqueId", uniqueId).eq("Team.users.user.id", userId).and();
+        return (!ven.list(Team.class, joins, criteria).isEmpty());
+    }
 
     public List<Team> getTeams(int userId){
         Set joins = new HashSet();

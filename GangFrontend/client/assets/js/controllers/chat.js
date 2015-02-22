@@ -1,43 +1,46 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular.module('application')
-  
-		.controller('ChatCtrl',function($scope,chat){
-			
-			 /**
-		     * Message input field id
-		     * @const {string}
-		     */
-		    var MESSAGE_INPUT_ID = "message_input";
+    angular.module('application')
 
-		    function send() {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams) {
+            var channelId = $stateParams.channel;
+            chat.setActiveChannel(channelId);
 
-		        //do send
-		        chat.sendMessage($scope.message);
+            console.log("channelId", channelId);
+            /**
+             * Message input field id
+             * @const {string}
+             */
+            var MESSAGE_INPUT_ID = "message_input";
 
-		        clearFocus();
-		    }
+            function send() {
 
-		    function clearFocus() {
-		        //set focus to input field
-		        document.getElementById(MESSAGE_INPUT_ID).focus();
+                //do send
+                chat.sendMessage($scope.message);
 
-		        //clear message input
-		        $scope.message = "";
-		    }
+                clearFocus();
+            }
 
-		 	function init(){
-		 		$scope.messages = chat.messages;
-		 		clearFocus();
-		 	}
+            function clearFocus() {
+                //set focus to input field
+                document.getElementById(MESSAGE_INPUT_ID).focus();
 
-		 	init();
+                //clear message input
+                $scope.message = "";
+            }
 
-		 	//Exports
-			$scope.send = send;
-			
-			
-		});
-		
+            function init() {
+                $scope.messages = chat.messages;
+                clearFocus();
+            }
+
+            init();
+
+            //Exports
+            $scope.send = send;
+
+
+        });
+
 })();

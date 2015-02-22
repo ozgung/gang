@@ -7,6 +7,7 @@
         .service('backend', function (token, $http) {
 
             this.request = function (action, query) {
+                console.log("trace", "backend.request 001");
 
                 var t = token.get();
 
@@ -23,6 +24,7 @@
                     url: 'http://app.ganghq.com/api/' + action,
                     params: query
                 }).then(function (response) {
+                    console.log("trace", "backend.request 002","got response :)");
                     return response.data;
                 });
             };

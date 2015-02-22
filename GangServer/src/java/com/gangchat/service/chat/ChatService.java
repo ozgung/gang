@@ -83,6 +83,7 @@ public class ChatService {
      */
     public Team getTeam(int teamId) {
         Set joins = new HashSet();
+        joins.add("Team.users.user");
         Criteria criteria = new Criteria();
         return (Team)ven.get(teamId, Team.class, joins);
     }
@@ -148,7 +149,7 @@ public class ChatService {
      */
     public Channel getChannel(int channelId) {
         Set joins = new HashSet();
-        joins.add("Channel.team.users");
+        joins.add("Channel.team.users.user");
         Criteria criteria = new Criteria();
         return (Channel)ven.get(channelId, Channel.class, joins);
     }

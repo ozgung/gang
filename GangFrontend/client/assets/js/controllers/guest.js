@@ -22,7 +22,7 @@
                         signedRequest: localStorage.getItem('signedRequest')
                     };
 
-                    authWithFB(fbAuthData);
+                    return authWithFB(fbAuthData);
 
                 }).then(function (response) {
                     //now we are fully authenticated

@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  console.log("Helllo Gang 001");
+  console.log("Gang version 003");
   var Gang = angular.module('application', [
     'ui.router',
     'ngAnimate',

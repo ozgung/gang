@@ -6,6 +6,7 @@
         .controller('ChatCtrl', function ($scope, chat, $stateParams) {
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
+            $scope.activeChannel = '#'+ channelId;
 
             console.log("channelId", channelId);
             /**

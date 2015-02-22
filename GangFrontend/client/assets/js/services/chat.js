@@ -7,10 +7,11 @@
         .service('chat', function ($websocket, token) {
 
             var self = this;
-            var activeChannel;
+            var activeChannel = {id: ""};
 
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
             var messages = {};
+            var subscribedChannels = {};
 
             ws.onMessage(function (e) {
                 var data = JSON.parse(e.data);
@@ -19,22 +20,35 @@
                     messages[data.channel] = []
                 }
                 messages[data.channel].push(data);
-                console.log("message received,  messages", messages, "data", data)
+                console.log("message received,  messages", messages, "data", data);
+
+                //increment notification count by 1
+                subscribedChannels[data.channel].numberOfUnReadMessages = 1 + (subscribedChannels[data.channel].numberOfUnReadMessages | 0);
             });
 
             this.messages = messages;
 
-            this.getThisChannelMessages = function(){
-                if (!messages[activeChannel]) {
-                    messages[activeChannel] = []
+            this.getThisChannelMessages = function () {
+                if (!messages[activeChannel.id]) {
+                    console.log("trace", "getThisChannelMessages adding array");
+                    messages[activeChannel.id] = []
                 }
-                return messages[activeChannel]
+
+                //set notification to 0
+                subscribedChannels[activeChannel.id].numberOfUnReadMessages = 0;
+
+                console.log("trace", "getThisChannelMessages", messages[activeChannel.id]);
+                return messages[activeChannel.id]
             };
 
             this.setChannels = function (channels) {
                 channels.forEach(function (entry) {
+
+                    entry.numberOfUnReadMessages = (entry.numberOfUnReadMessages | 0);
+
                     console.log("channel id: ", entry.id);
-                    messages['#'+entry.id] = [];
+                    messages['#' + entry.id] = [];
+                    subscribedChannels['#' + entry.id] = entry;
                 });
             };
 
@@ -42,8 +56,8 @@
 
                 var channelName = '#channel';
 
-                if (activeChannel) {
-                    channelName = activeChannel;
+                if (activeChannel.id) {
+                    channelName = activeChannel.id;
                 }
 
 
@@ -53,9 +67,15 @@
                 }));
             };
 
+            this.getActiveChannel = function () {
+                return subscribedChannels[activeChannel.id]
+            };
+
+            this.subscribedChannels = subscribedChannels;
+
             this.setActiveChannel = function (channel) {
                 console.log("setting actime channelId", channel);
-                activeChannel = '#' + channel;
+                activeChannel.id = '#' + channel.id;
             };
 
         });

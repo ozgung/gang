@@ -7,6 +7,7 @@
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
             $scope.activeChannel = '#'+ channelId;
+            $scope.channelName = '#'+ channelId;
 
             console.log("channelId", channelId);
             /**

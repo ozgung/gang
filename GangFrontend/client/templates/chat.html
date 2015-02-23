@@ -23,13 +23,17 @@
         <small class="inline-label">
             <span ng-repeat="(uid, user) in usersTypingNow">
                 <span ng-if="$first">typing: </span>
-                {{ uid }}
+
+                <div class="grid-content shrink">
+                    <img width="48" height="48" src="http://graph.facebook.com/{{ uid }}/picture" title="{{uid}}">
+                </div>
                 <span ng-if="$middle">,</span>
             </span>
         </small>
 
         <form>
-            <input type="text" id="message_input" ng-model='message' class="message-input" placeholder="Type Your Message">
+            <input type="text" id="message_input" ng-model='message' class="message-input"
+                   placeholder="Type Your Message">
             <button type="submit" class="button message-button" ng-click='send()'>Send</button>
         </form>
 

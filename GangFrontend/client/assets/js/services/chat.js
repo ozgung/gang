@@ -4,7 +4,7 @@
 
     angular.module('application')
 
-        .service('chat', function ($websocket, token) {
+        .service('chat', function ($websocket, token,$rootScope) {
 
             var self = this;
             var activeChannel;
@@ -13,18 +13,49 @@
             var messages = {};
 
             ws.onMessage(function (e) {
-                var data = JSON.parse(e.data);
+                function handleTextMessage(d) {
+                    if (d.type == "message") {
 
-                if (!messages[data.channel]) {
-                    messages[data.channel] = []
+                        if (!messages[d.channel]) {
+                            messages[d.channel] = []
+                        }
+                        messages[d.channel].push(d);
+                        return true
+                    }
                 }
-                messages[data.channel].push(data);
-                console.log("message received,  messages", messages, "data", data)
+
+                function handleTypingStatusMessage(d) {
+                    if (d.type == "cmd_usr_typing") {
+                        //someone changed his typing status for this channel
+                        if(d.channel == activeChannel){
+                            if(d.isTyping){
+                                //user started typing so mark it, note that for duplicated status updates from the server (for some reason (it shouldn't be(but shit happens!))) this will work.
+                                //refactor: it may be better to return user obj(with username, etc) instead of just uid ~ilgaz
+                                $rootScope.usersTypingNow[d.uid] = d.uid;
+                            }else{
+                                //user stopped typing, delete the marker
+                                delete $rootScope.usersTypingNow[d.uid]
+                            }
+                        }
+                        return true
+                    }
+                }
+
+                function handleOtherMessage(d) {
+                    console.error("unexpected message type received! data:", d);
+                    return true
+                }
+
+
+                var data = JSON.parse(e.data);
+                console.log("message received", "data", data);
+
+                handleTextMessage(data) || handleTypingStatusMessage(data) || handleOtherMessage(data);
             });
 
             this.messages = messages;
 
-            this.getThisChannelMessages = function(){
+            this.getThisChannelMessages = function () {
                 if (!messages[activeChannel]) {
                     messages[activeChannel] = []
                 }
@@ -32,30 +63,59 @@
             };
 
             this.setChannels = function (channels) {
-                channels.forEach(function (entry) {
-                    console.log("channel id: ", entry.id);
-                    messages['#'+entry.id] = [];
+                channels.forEach(function (it) {
+                    console.log("channel id: ", it.id);
+                    messages['#' + it.id] = [];
                 });
             };
 
-            this.sendMessage = function (message) {
-
-                var channelName = '#channel';
-
-                if (activeChannel) {
-                    channelName = activeChannel;
+            var userIsTypingOnChannel = null;
+            this.sendUserTypingStatus = function sendUserTypingStatus(isTyping) {
+                function updateStatus() {
+                    ws.send(JSON.stringify({
+                        type: 'cmd_usr_typing',
+                        isTyping: isTyping,
+                        channel: activeChannel
+                    }));
                 }
 
+                // refactor: Simplify these branches ~ilgaz
+                if (isTyping) {
 
+                    if (!userIsTypingOnChannel) {
+                        userIsTypingOnChannel = activeChannel;
+                        updateStatus()
+                    } else if (userIsTypingOnChannel != activeChannel) {
+                        updateStatus()
+                    } else {
+                        //do not thing, shebang knows the user is typing already.
+                    }
+                } else {
+                    if (userIsTypingOnChannel) {
+                        userIsTypingOnChannel = false;
+                        updateStatus()
+                    } else {
+                        //do nothing, shebang knows it
+                    }
+                }
+
+            };
+
+            this.sendMessage = function (message) {
                 ws.send(JSON.stringify({
                     msg: message,
-                    channel: channelName
+                    type: 'message',
+                    channel: activeChannel
                 }));
             };
 
             this.setActiveChannel = function (channel) {
                 console.log("setting actime channelId", channel);
                 activeChannel = '#' + channel;
+
+                //reset typing users active channel changed!
+                //todo this is a partial solution only fixme ~ilgaz
+                $rootScope.usersTypingNow = {}
             };
 
         });

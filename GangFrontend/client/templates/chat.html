@@ -22,12 +22,10 @@
 	<div class="message-input grid-content collapse shrink">
 		<span class="inline-label">
 
-
-	<form>
-    	<input type="text" id="message_input" ng-model='message' placeholder="Message">
-    	<button type="submit" style="width: 518px;" class="button" ng-click='send()'>Send</button>
-    </form>	
-
 		</span>
+			<form>
+		    	<input type="text" id="message_input" ng-model='message' class="message-input" placeholder="Type Your Message">
+		    	<button type="submit" class="button message-button" ng-click='send()'>Send</button>
+		    </form>	
 	</div>
 </div>

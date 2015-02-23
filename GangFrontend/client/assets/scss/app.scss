@@ -30,8 +30,9 @@ html, body {
 	border-right: 1px solid #565f74;
 }
 .button {
-	background-color: #393f4f;
-	border-radius: 30px;
+	background-color: #ECCC0C;
+	border-radius: 4px;
+	color:  black;
 }
 .button:hover {
 	background-color: #0d152b;
@@ -62,7 +63,7 @@ html, body {
 	cursor: pointer;
 }
 .gang-group-list > li:hover {
-	background-color: rgba(90, 112, 120, 1);
+	background-color: #2D4954;
 }
 .gang-group-list li.active {
 	font-weight: 700;
@@ -185,13 +186,36 @@ html, body {
 	font-size: 13px;
 	font-weight: 500;
 }
+.gang-logo {
+	position: fixed;
+	z-index: 11;
+	width: 260px;
+	right: -9px;
+	top: 0px;
+}
 .block-list li {
 	border-bottom: 1px solid #eee;
 }
 .message-input span {
 	margin: 0;
 	height: 50px;
+
 }
+
+.message-input input {
+	margin: 0;
+	float: left;
+	width: 88%;
+	height: 50px;
+}
+
+.message-button{
+	margin: 0;
+	float: right;
+	width: 12%;
+	height: 50px;
+}
+
 .message-text {
 	padding: 0;
 	padding-right: 30px;

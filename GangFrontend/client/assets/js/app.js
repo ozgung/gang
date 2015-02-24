@@ -7,6 +7,8 @@
 		'facebook',
 		'luegg.directives',
 		'ngWebSocket',
+		'angulartics',
+		'angulartics.google.analytics',
 		
     //foundation
     'foundation'

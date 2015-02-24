@@ -76,6 +76,7 @@ public class AAInterceptor extends HandlerInterceptorAdapter {
     private boolean isPublicPage(String path) {
         //login pages
         if (path.equals("/api/login")) return true;
+        if (path.equals("/api/loginFB")) return true;
         if (path.equals("/api/signup")) return true;
 
         return false;

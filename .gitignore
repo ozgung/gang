@@ -17,3 +17,4 @@ hs_err_pid*
 /GangServer/nbproject/private/
 /GangServer/lib/nblibraries-private.properties
 /GangServer/lib/external/
+.idea

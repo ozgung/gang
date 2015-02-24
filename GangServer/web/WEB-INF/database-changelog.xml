@@ -62,15 +62,10 @@
             <column autoIncrement="true" name="id" type="serial">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="team_pkey"/>
             </column>
-            <column name="address" type="VARCHAR(1000)"/>
-            <column name="city" type="VARCHAR(1000)"/>
-            <column name="company" type="VARCHAR(1000)"/>
-            <column name="country" type="VARCHAR(1000)"/>
             <column name="description" type="VARCHAR(1000)"/>
             <column name="domains" type="VARCHAR(1000)"/>
             <column name="name" type="VARCHAR(1000)"/>
-            <column name="phone" type="VARCHAR(1000)"/>
-            <column name="state" type="VARCHAR(1000)"/>
+            <column name="unique_id" type="VARCHAR(1000)"/>
         </createTable>
     </changeSet>
     <changeSet author="fmguler" id="7">
@@ -104,11 +99,19 @@
             deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" />
     </changeSet>
 
-    
+    <changeSet author="fmguler" id="10_b">
+        <addColumn schemaName="public" tableName="app_user"> 
+            <column name="profile_image" type="VARCHAR(10000)"/>
+        </addColumn>
+    </changeSet>
     
     <!-- MANUALLY ADDED CONSTRAINTS -->
     <changeSet author="fmguler" id="11">
         <addUniqueConstraint columnNames="username" constraintName="app_user_username_unique" deferrable="false" initiallyDeferred="false" schemaName="public" tableName="app_user"/>
+    </changeSet>
+    
+    <changeSet author="fmguler" id="11_b">
+        <addUniqueConstraint columnNames="unique_id" constraintName="team_unique_id_unique" deferrable="false" initiallyDeferred="false" schemaName="public" tableName="team"/>
     </changeSet>
     
     <!-- SAMPLE DATA -->

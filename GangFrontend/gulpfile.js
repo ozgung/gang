@@ -37,6 +37,7 @@ var foundationJS = [
   'bower_components/angular/angular.js',
   'bower_components/angular-animate/angular-animate.js',
   'bower_components/angulartics/dist/angulartics.min.js',
+  'bower_components/angulartics/dist/angulartics-ga.min.js',
   'bower_components/ui-router/release/angular-ui-router.js',
 	'bower_components/hammerjs/hammer.js',
   'bower_components/foundation-apps/js/vendor/**/*.js',
@@ -50,9 +51,9 @@ var foundationJS = [
 // These files are for your app's JavaScript
 var appJS = [
 	'client/assets/js/config.js',
-  'client/assets/js/app.js',
+    'client/assets/js/app.js',
 	'client/assets/js/services/**/*.js',
-	'client/assets/js/controllers/**/*.js',
+	'client/assets/js/controllers/**/*.js'
 ];
 
 // 3. TASKS
@@ -158,7 +159,7 @@ gulp.task('server:start', function() {
       return [
         modRewrite(['^[^\\.]*$ /index.html [L]'])
       ];
-    },
+    }
   });
 });
 

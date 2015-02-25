@@ -9,7 +9,7 @@
         <div class='grid-content expand'>
 					
 						<ul class='gang-group-list'>
-							<li class="group" ng-repeat='team in teams'><a ui-sref='chat({channel:team.id})'><div class="gang-group-profile" style="background-image: url({{team.cover.source || '/assets/img/g-bg.png' }});"></div><span>{{team.name}}</span></a></li>
+							<li class="group" ng-repeat='team in teams'><a ui-sref='chat({channel:team.id})'><div class="gang-group-profile" style="background-image: url({{ team.cover.source || '/assets/img/gang-logo.png' }});"></div><span>{{team.name}}</span></a></li>
 						</ul>
         </div>
         <div class='grid-content shrink'>

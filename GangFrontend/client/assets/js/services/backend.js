@@ -79,8 +79,12 @@
                     //return empty profile until api responds.
                     userProfileCache[userId] = {_fetched: false, _loading: false};
 
+
                     //update cache..
-                    if (optionalGroupId && userProfileCache[userId]._loading) {
+                    if (optionalGroupId) {
+
+                     if(!userProfileCache[userId]._loading){
+
                         var oldProfile = userProfileCache[userId] || {};
                         oldProfile._loading = true;
 
@@ -90,6 +94,10 @@
                             oldProfile._loading = false;
                             angular.extend(oldProfile, fetchedUserProfile);
                         })
+                     }else{
+                         // do nothing, already loading from previous req.
+
+                     }
                     } else {
                         // groupId olmadığı için api'den profili çekemiyoruz
                     }

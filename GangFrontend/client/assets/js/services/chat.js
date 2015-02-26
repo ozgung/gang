@@ -4,16 +4,17 @@
 
     angular.module('application')
 
-        .service('chat', function ($websocket, token,$rootScope) {
+        .service('chat', function ($websocket, token, $rootScope, backend,$q) {
 
             var self = this;
-            var activeChannel;
+            var activeChannelId;
+            var activeChannelDeferred= $q.reject();
 
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
             var messages = {};
 
             ws.onMessage(function (e) {
-						
+
                 function handleTextMessage(d) {
                     if (d.type == "message") {
 
@@ -28,12 +29,12 @@
                 function handleTypingStatusMessage(d) {
                     if (d.type == "cmd_usr_typing") {
                         //someone changed his typing status for this channel
-                        if(d.channel == activeChannel){
-                            if(d.isTyping){
+                        if (d.channel == activeChannelId) {
+                            if (d.isTyping) {
                                 //user started typing so mark it, note that for duplicated status updates from the server (for some reason (it shouldn't be(but shit happens!))) this will work.
                                 //refactor: it may be better to return user obj(with username, etc) instead of just uid ~ilgaz
                                 $rootScope.usersTypingNow[d.uid] = d.uid;
-                            }else{
+                            } else {
                                 //user stopped typing, delete the marker
                                 delete $rootScope.usersTypingNow[d.uid]
                             }
@@ -57,16 +58,21 @@
             this.messages = messages;
 
             this.getThisChannelMessages = function () {
-                if (!messages[activeChannel]) {
-                    messages[activeChannel] = []
+                if (!messages[activeChannelId]) {
+                    messages[activeChannelId] = []
                 }
-                return messages[activeChannel]
+                return messages[activeChannelId]
+            };
+
+            var _activeTeam = [];
+            this.getActiveChannel = function () {
+                return activeChannel
             };
 
             this.setChannels = function (channels) {
                 channels.forEach(function (it) {
                     console.log("channel id: ", it.id);
-                    messages['#' + it.id] = [];
+                    messages[it.id] = [];
                 });
             };
 
@@ -76,7 +82,7 @@
                     ws.send(JSON.stringify({
                         type: 'cmd_usr_typing',
                         isTyping: isTyping,
-                        channel: activeChannel
+                        channel: activeChannelId
                     }));
                 }
 
@@ -84,9 +90,9 @@
                 if (isTyping) {
 
                     if (!userIsTypingOnChannel) {
-                        userIsTypingOnChannel = activeChannel;
+                        userIsTypingOnChannel = activeChannelId;
                         updateStatus()
-                    } else if (userIsTypingOnChannel != activeChannel) {
+                    } else if (userIsTypingOnChannel != activeChannelId) {
                         updateStatus()
                     } else {
                         //do not thing, shebang knows the user is typing already.
@@ -106,13 +112,28 @@
                 ws.send(JSON.stringify({
                     msg: message,
                     type: 'message',
-                    channel: activeChannel
+                    channel: activeChannelId
                 }));
             };
 
             this.setActiveChannel = function (channel) {
-                console.log("setting actime channelId", channel);
-                activeChannel = '#' + channel;
+                console.log("setting active channelId", channel);
+                activeChannelId = channel;
+
+                activeChannelDeferred = $q.defer();
+
+                backend.me().then(function (me) {
+
+                    me.teams.forEach(function (_team) {
+
+                        if (_team.team.id == activeChannelId) {
+                            activeChannelDeferred.resolve(_team.team);
+                        }
+
+                    });
+
+                });
+
 
                 //reset typing users active channel changed!
                 //todo this is a partial solution only fixme ~ilgaz

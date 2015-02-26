@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    console.log("Gang version 037");
+    console.log("Gang version 038");
     var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',
@@ -12,17 +12,17 @@
         //foundation
         'foundation'
     ])
-		
-    .config(config)
-    .run(run);
+
+        .config(config)
+        .run(run);
 
     function config($urlRouterProvider, $locationProvider, $stateProvider, FacebookProvider) {
-				
-				FacebookProvider.init({
+
+        FacebookProvider.init({
             appId: '343800439138314',
             status: true
         });
-				
+
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
@@ -34,9 +34,9 @@
                 resolve: {
 
                     connected: function (fb, backend) {
-												
+
                         return fb.checkStatus().then(function () {
-												
+
                             //todo donot send auth request to the backend each time, check with local storage
                             //todo handle backend timeout
                             //~ilgaz
@@ -46,7 +46,7 @@
                                 return true
                             })
                         }, function () {
-													
+
                             return false
                         });
                     }
@@ -109,33 +109,40 @@
             .state('chat', {
                 url: ':channel',
                 parent: 'account',
-								resolve:{
-									
-									group:function($stateParams,fb){
-										//return fb.group($stateParams.channel);
-                                        //todo simdilik bozulmasin diye istanbul startups kanalinin facebook idsini yazdim
-                                        //channel artik bizim database deki id facebook idsi degil
-										return fb.group("1404267526538940");
-									},
-									members:function($stateParams,fb){
-										return fb.members("1404267526538940");
-									}
-								},
-								views:{
-									'main':{
-										templateUrl: 'templates/chat.html',
-										controller: 'ChatCtrl'
-									},
-									'right-panel':{
-										templateUrl:'templates/members.html',
-										controller:function($scope,members){
-											
-											console.log(members);
-											
-											$scope.members = members;
-										}
-									}
-								}
+                resolve: {
+                    // todo bu bolume gerek yok artik? ~ilgaz
+                    //group: function ($stateParams, fb) {
+                    //    //return fb.group($stateParams.channel);
+                    //    //todo simdilik bozulmasin diye istanbul startups kanalinin facebook idsini yazdim
+                    //    //channel artik bizim database deki id facebook idsi degil
+                    //    return fb.group("1404267526538940");
+                    //},
+                    //members: function ($stateParams, fb) {
+                    //    return fb.members("1404267526538940");
+                    //}
+                },
+                views: {
+                    'main': {
+                        templateUrl: 'templates/chat.html',
+                        controller: 'ChatCtrl'
+                    },
+                    'right-panel': {
+                        templateUrl: 'templates/members.html',
+                        controller: function ($scope, chat) {
+
+                            console.log(members);
+
+                            chat.getActiveChannel().then(function (c) {
+                                var teamUsers = [];
+                                c.users.forEach(function (_u) {
+                                    teamUsers.push(_u.user)
+                                });
+                                $scope.members = teamUsers;
+                            });
+
+                        }
+                    }
+                }
             });
 
         $locationProvider.html5Mode({

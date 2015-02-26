@@ -6,7 +6,6 @@
         .controller('ChatCtrl', function ($scope, chat, $stateParams, backend) {
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
-            $scope.activeChannel = '#' + channelId;
 
             console.log("channelId", channelId);
             /**
@@ -42,6 +41,10 @@
             function init() {
                 $scope.messages = chat.messages;
                 $scope.thisChannelMessages = chat.getThisChannelMessages();
+                chat.getActiveChannel.then(function (c) {
+                    $scope.activeChannel = c;
+                });
+
                 clearFocus();
                 initTypingStatus();
             }

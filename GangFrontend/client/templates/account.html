@@ -11,7 +11,7 @@
 
             <ul class='gang-group-list'>
                 <li class="group" ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" debug="{{ activeChannel.id }}">
-                    <div ng-show="numberOfunreadMessages(team.id)" style="position: relative;left: -5px;top: -80px;color: magenta;">{{ numberOfunreadMessages(team.id) }}</div>
+                    <div ng-show="numberOfunreadMessages(team.id)" style="position: relative;left: -5px;  float: left;color: magenta;">{{ numberOfunreadMessages(team.id) }}</div>
                     <a ui-sref='chat({channel:team.id})'>
                         <span>{{ team.name }}</span>
                     </a>

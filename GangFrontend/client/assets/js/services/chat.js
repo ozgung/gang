@@ -25,6 +25,8 @@
 
                         //increase unread message count for this channel
                         _newMessageCounter_inc(d.channel);
+                        //workaround reset current channel we received our message in the current channel
+                        _newMessageCounter_reset(activeChannelId);
 
                         return true
                     }
@@ -148,7 +150,7 @@
 
             function _newMessageCounter_inc(channelid) {
                 var x = _newMessageCounter[channelid] || 0;
-                 console.debug("__UNREAD ","_newMessageCounter"," cid",channelid,_newMessageCounter );
+                 //console.debug("__UNREAD ","_newMessageCounter"," cid",channelid,_newMessageCounter );
                 _newMessageCounter[channelid] = x + 1
             }
 
@@ -159,7 +161,7 @@
             }
 
             this.numberOfunreadMessages = function (channelid) {
-                console.debug("__UNREAD ","numberOfunreadMessages"," cid",channelid,_newMessageCounter );
+                //console.debug("__UNREAD ","numberOfunreadMessages"," cid",channelid,_newMessageCounter );
 
                 var x = _newMessageCounter[channelid] || 0;
 

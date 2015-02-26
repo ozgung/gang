@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-        .controller('ChatCtrl', function ($scope, chat, $stateParams) {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams,backend) {
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
             $scope.activeChannel = '#' + channelId;

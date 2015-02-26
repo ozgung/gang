@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    console.log("Gang version 039");
+    console.log("Gang version 040");
     var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',
@@ -130,7 +130,6 @@
                         templateUrl: 'templates/members.html',
                         controller: function ($scope, chat) {
 
-                            console.log(members);
 
                             chat.getActiveChannel().then(function (c) {
                                 var teamUsers = [];

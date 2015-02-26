@@ -8,7 +8,7 @@
 
             var self = this;
             var activeChannelId;
-            var activeChannelDeferred= $q.reject();
+            var activeChannelDeferred= $q.defer();
 
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
             var messages = {};

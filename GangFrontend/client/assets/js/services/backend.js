@@ -4,7 +4,7 @@
 
     angular.module('application')
 
-        .service('backend', function (token, $http) {
+        .service('backend', function (token, $http, $q) {
 
             this.request = doRequest
 
@@ -64,6 +64,22 @@
                 return backendResponse;
             };
 
+
+            var meCache = null;
+            this.me = function me() {
+                function getMeFromBackend() {
+                    console.log("getMeFromBackend 001");
+                    return doRequest("me")
+                }
+
+                if (!meCache) {
+                    meCache = getMeFromBackend()
+                }
+
+                return meCache
+            };
+
+
             /**
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
@@ -118,7 +134,7 @@
                 }
 
                 return userProfileCache[userId]
-            }
+            };
 
 
         })

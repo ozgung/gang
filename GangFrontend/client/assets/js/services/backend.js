@@ -6,7 +6,9 @@
 
         .service('backend', function (token, $http) {
 
-            this.request = function (action, query) {
+            this.request = doRequest
+
+            function doRequest(action, query) {
                 console.log("trace", "backend.request 001", "action", action, "query", query);
 
                 var t = token.get();
@@ -71,7 +73,7 @@
                 function getProfileFromBackend(groupId) {
                     console.log("getProfileFromBackend 001");
 
-                    return request("team", {id: groupId})
+                    return doRequest("team", {id: groupId})
                 }
 
 
@@ -85,22 +87,22 @@
                     //update cache..
                     if (optionalGroupId) {
 
-                     if(!userProfileCache[userId]._loading){
+                        if (!userProfileCache[userId]._loading) {
 
-                        var oldProfile = userProfileCache[userId] || {};
-                        oldProfile._loading = true;
+                            var oldProfile = userProfileCache[userId] || {};
+                            oldProfile._loading = true;
 
-                        getProfileFromBackend(optionalGroupId).then(function (response) {
-                            console.log("getProfileFromBackend 002");
-                            var fetchedUserProfile = {displayName: "MockUsername", id: userId};
-                            oldProfile._fetched = true;
-                            oldProfile._loading = false;
-                            angular.extend(oldProfile, fetchedUserProfile);
-                        })
-                     }else{
-                         // do nothing, already loading from previous req.
+                            getProfileFromBackend(optionalGroupId).then(function (response) {
+                                console.log("getProfileFromBackend 002");
+                                var fetchedUserProfile = {displayName: "MockUsername", id: userId};
+                                oldProfile._fetched = true;
+                                oldProfile._loading = false;
+                                angular.extend(oldProfile, fetchedUserProfile);
+                            })
+                        } else {
+                            // do nothing, already loading from previous req.
 
-                     }
+                        }
                     } else {
                         // groupId olmadığı için api'den profili çekemiyoruz
                     }

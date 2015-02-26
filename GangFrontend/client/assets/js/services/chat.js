@@ -66,7 +66,7 @@
 
             var _activeTeam = [];
             this.getActiveChannel = function () {
-                return activeChannel
+                return activeChannelDeferred
             };
 
             this.setChannels = function (channels) {

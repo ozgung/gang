@@ -26,6 +26,9 @@
                 });
 
             };
+
+            $scope.numberOfunreadMessages = chat.numberOfunreadMessages
+
         });
 
 })();

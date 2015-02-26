@@ -4,11 +4,11 @@
 
     angular.module('application')
 
-        .service('chat', function ($websocket, token, $rootScope, backend,$q) {
+        .service('chat', function ($websocket, token, $rootScope, backend, $q) {
 
             var self = this;
             var activeChannelId;
-            var activeChannelDeferred= $q.defer();
+            var activeChannelDeferred = $q.defer();
 
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
             var messages = {};
@@ -22,6 +22,10 @@
                             messages[d.channel] = []
                         }
                         messages[d.channel].push(d);
+
+                        //increase unread message count for this channel
+                        _newMessageCounter_reset(d.channel);
+
                         return true
                     }
                 }
@@ -124,13 +128,42 @@
 
                 backend.getTeam(activeChannelId).then(function (t) {
                     activeChannelDeferred.resolve(t);
-               });
+                });
 
+                //reset unread message number
+                _newMessageCounter_reset(activeChannelId);
 
                 //reset typing users active channel changed!
                 //todo this is a partial solution only fixme ~ilgaz
                 $rootScope.usersTypingNow = {}
             };
+
+
+            /**
+             * Unread messages, move this
+             * @type {{}}
+             * @private
+             */
+            var _newMessageCounter = {};
+
+            function _newMessageCounter_inc(channelid) {
+                var x = _newMessageCounter[channelid] || 0;
+
+                _newMessageCounter[channelid] = x + 1
+            }
+
+            function _newMessageCounter_reset(channelid) {
+                _newMessageCounter[channelid] = 0
+            }
+
+            this.numberOfunreadMessages = function (channelid) {
+                var x = _newMessageCounter[channelid] || 0;
+
+                if (!x) {
+                    _newMessageCounter[channelid] = 0
+                }
+                return x
+            }
 
         });
 })();

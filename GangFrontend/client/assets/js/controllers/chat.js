@@ -41,7 +41,7 @@
             function init() {
                 $scope.messages = chat.messages;
                 $scope.thisChannelMessages = chat.getThisChannelMessages();
-                chat.getActiveChannel.then(function (c) {
+                chat.getActiveChannel().then(function (c) {
                     $scope.activeChannel = c;
                 });
 

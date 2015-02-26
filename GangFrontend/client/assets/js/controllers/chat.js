@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-        .controller('ChatCtrl', function ($scope, chat, $stateParams,backend) {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend) {
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
             $scope.activeChannel = '#' + channelId;
@@ -46,7 +46,10 @@
                 initTypingStatus();
             }
 
-            $scope.getProfile = backend.getUserProfile;
+            $scope.getProfile = function (userId) {
+                console.info("TODO using group id 5 for testing");
+                backend.getUserProfile(userId, 5);
+            };
 
             init();
 

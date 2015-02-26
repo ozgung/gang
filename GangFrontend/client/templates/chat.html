@@ -11,7 +11,7 @@
                             <img width="48" height="48" src="http://graph.facebook.com/{{ message.uid }}/picture"/>
                         </div>
                         <div class="grid-content message-text">
-                            <h6>{{ getProfile(message.uid,5).id}}<span>@DEBUG@Loading:{{ getProfile(message.uid,5)._loading}}$fetched:{{ getProfile(message.uid,5)._fetched}}</span></h6>
+                            <h6>{{getProfile(message.uid).id}}<span>@DEBUG@Loading:{{getProfile(message.uid)._loading}}$fetched:{{getProfile(message.uid)._fetched}}</span></h6>
                             {{ message.msg }}
                         </div>
                     </div>

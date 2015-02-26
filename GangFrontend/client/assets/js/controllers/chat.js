@@ -47,7 +47,7 @@
             }
 
             $scope.getProfile = function (userId) {
-                return backend.getUserProfile(userId, 5);
+                return backend.getUserProfile(userId, channelId);
             };
 
             init();

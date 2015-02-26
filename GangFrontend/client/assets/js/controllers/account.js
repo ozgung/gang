@@ -3,9 +3,16 @@
 
     angular.module('application')
 
-        .controller('AccountCtrl', function ($scope, $state, chat, user, fb) {
+        .controller('AccountCtrl', function ($scope, $state, chat, user, fb, backend) {
 
-            $scope.teams = user.groups;
+            backend.me().then(function (me) {
+                var teams = [];
+                me.teams.forEach(function (_team) {
+                    teams.push(_team.team)
+                });
+
+                $scope.teams = teams
+            });
 
             chat.setChannels(user.groups);
 

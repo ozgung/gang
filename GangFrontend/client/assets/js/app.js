@@ -112,16 +112,19 @@
 								resolve:{
 									
 									group:function($stateParams,fb){
-										return fb.group($stateParams.channel);
+										//return fb.group($stateParams.channel);
+                                        //todo simdilik bozulmasin diye istanbul startups kanalinin facebook idsini yazdim
+                                        //channel artik bizim database deki id facebook idsi degil
+										return fb.group("1404267526538940");
 									},
 									members:function($stateParams,fb){
-										return fb.members($stateParams.channel);
+										return fb.members("1404267526538940");
 									}
 								},
 								views:{
 									'main':{
 										templateUrl: 'templates/chat.html',
-										controller: 'ChatCtrl',
+										controller: 'ChatCtrl'
 									},
 									'right-panel':{
 										templateUrl:'templates/members.html',

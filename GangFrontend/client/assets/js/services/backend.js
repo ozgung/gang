@@ -69,6 +69,8 @@
             var userProfileCache = {};
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
                 function getProfileFromBackend(groupId) {
+                    console.log("getProfileFromBackend 001");
+
                     return request("team", {id: groupId})
                 }
 
@@ -89,6 +91,7 @@
                         oldProfile._loading = true;
 
                         getProfileFromBackend(optionalGroupId).then(function (response) {
+                            console.log("getProfileFromBackend 002");
                             var fetchedUserProfile = {displayName: "MockUsername", id: userId};
                             oldProfile._fetched = true;
                             oldProfile._loading = false;

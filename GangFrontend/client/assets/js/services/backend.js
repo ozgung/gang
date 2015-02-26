@@ -70,8 +70,8 @@
              */
             var userProfileCache = {};
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
-                function getProfileFromBackend(groupId) {
-                    console.log("getProfileFromBackend 001");
+                function getTeamFromBackend(groupId) {
+                    console.log("getTeamFromBackend 001");
 
                     return doRequest("team", {id: groupId})
                 }
@@ -92,12 +92,19 @@
                             var oldProfile = userProfileCache[userId] || {};
                             oldProfile._loading = true;
 
-                            getProfileFromBackend(optionalGroupId).then(function (response) {
+                            getTeamFromBackend(optionalGroupId).then(function (response) {
                                 console.log("getProfileFromBackend 002");
-                                var fetchedUserProfile = {displayName: "MockUsername", id: userId};
-                                oldProfile._fetched = true;
-                                oldProfile._loading = false;
-                                angular.extend(oldProfile, fetchedUserProfile);
+                                response.team.users.forEach(function (userWrapped) {
+
+                                    var fetchedUserProfile = userWrapped.user;
+                                    var _oldProfile = userProfileCache[fetchedUserProfile.username] || {
+                                            _fetched: true,
+                                            _loading: false
+                                        }; //todo should be id not username
+
+
+                                    angular.extend(_oldProfile, fetchedUserProfile);
+                                });
                             })
                         } else {
                             // do nothing, already loading from previous req.

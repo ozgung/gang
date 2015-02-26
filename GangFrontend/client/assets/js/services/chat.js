@@ -24,7 +24,7 @@
                         messages[d.channel].push(d);
 
                         //increase unread message count for this channel
-                        _newMessageCounter_reset(d.channel);
+                        _newMessageCounter_inc(d.channel);
 
                         return true
                     }
@@ -153,7 +153,7 @@
             }
 
             function _newMessageCounter_reset(channelid) {
-                console.debug("__UNREAD ","_newMessageCounter_reset"," cid",channelid,_newMessageCounter );
+                //console.debug("__UNREAD ","_newMessageCounter_reset"," cid",channelid,_newMessageCounter );
 
                 _newMessageCounter[channelid] = 0
             }

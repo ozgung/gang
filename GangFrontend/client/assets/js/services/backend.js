@@ -46,16 +46,13 @@
                     signedRequest: localStorage.getItem('signedRequest')
                 };
 
-                fbAuthData.test = "0001"; //todo please delete this line now!
                 var backendResponse = $http({
                     method: 'get',
                     url: 'http://app.ganghq.com/api/loginFB',
                     params: fbAuthData
                 }).then(function (response) {
-                    console.log("trace", "backend.authFB 002", "got response :)", response);
                     return response.data;
                 }).then(function (response) {
-                    console.log("trace", "backend.authFB 003");
                     //now we are fully authenticated
                     //should be "0" response.status;
                     localStorage.setItem('token', response.token);
@@ -63,6 +60,46 @@
                 });
 
                 return backendResponse;
+            };
+
+            /**
+             * todo Move this to a new Service i.e userService / accountService
+             * @returns {*}
+             */
+            var userProfileCache = {};
+            this.getUserProfile = function userProfileCache(userID, optionalGroupId) {
+                function getProfileFromBackend(groupId) {
+                    return request("team", {id: groupId})
+                }
+
+
+                var cachedProfile = userProfileCache[userId];
+                if (!cachedProfile) {
+
+                    //return empty profile until api responds.
+                    userProfileCache[userID] = {_fetched: false, _loading: false};
+
+                    //update cache..
+                    if (optionalGroupId && userProfileCache[userID]._loading) {
+                        var oldProfile = userProfileCache[userID] || {};
+                        oldProfile._loading = true;
+
+                        getProfileFromBackend(optionalGroupId).then(function (response) {
+                            var fetchedUserProfile = {displayName: "MockUsername", id: userID};
+                            oldProfile._fetched = true;
+                            oldProfile._loading = false;
+                            angular.extend(oldProfile, fetchedUserProfile);
+                        })
+                    } else {
+                        // groupId olmadığı için api'den profili çekemiyoruz
+                    }
+
+                }
+
+                return userProfileCache[userID]
             }
+
+
         })
-})();
+})
+();

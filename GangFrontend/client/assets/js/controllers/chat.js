@@ -46,6 +46,8 @@
                 initTypingStatus();
             }
 
+            $scope.getProfile = backend.getUserProfile;
+
             init();
 
             //Exports

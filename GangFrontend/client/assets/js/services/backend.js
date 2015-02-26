@@ -67,7 +67,7 @@
              * @returns {*}
              */
             var userProfileCache = {};
-            this.getUserProfile = function userProfileCache(userID, optionalGroupId) {
+            this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
                 function getProfileFromBackend(groupId) {
                     return request("team", {id: groupId})
                 }
@@ -77,15 +77,15 @@
                 if (!cachedProfile) {
 
                     //return empty profile until api responds.
-                    userProfileCache[userID] = {_fetched: false, _loading: false};
+                    userProfileCache[userId] = {_fetched: false, _loading: false};
 
                     //update cache..
-                    if (optionalGroupId && userProfileCache[userID]._loading) {
-                        var oldProfile = userProfileCache[userID] || {};
+                    if (optionalGroupId && userProfileCache[userId]._loading) {
+                        var oldProfile = userProfileCache[userId] || {};
                         oldProfile._loading = true;
 
                         getProfileFromBackend(optionalGroupId).then(function (response) {
-                            var fetchedUserProfile = {displayName: "MockUsername", id: userID};
+                            var fetchedUserProfile = {displayName: "MockUsername", id: userId};
                             oldProfile._fetched = true;
                             oldProfile._loading = false;
                             angular.extend(oldProfile, fetchedUserProfile);
@@ -96,7 +96,7 @@
 
                 }
 
-                return userProfileCache[userID]
+                return userProfileCache[userId]
             }
 
 

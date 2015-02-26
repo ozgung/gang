@@ -122,17 +122,9 @@
 
                 activeChannelDeferred = $q.defer();
 
-                backend.me().then(function (me) {
-
-                    me.teams.forEach(function (_team) {
-
-                        if (_team.team.id == activeChannelId) {
-                            activeChannelDeferred.resolve(_team.team);
-                        }
-
-                    });
-
-                });
+                backend.getTeam(activeChannelId).then(function (t) {
+                    activeChannelDeferred.resolve(t);
+               });
 
 
                 //reset typing users active channel changed!

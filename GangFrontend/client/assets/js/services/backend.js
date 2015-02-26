@@ -82,17 +82,29 @@
             };
 
 
+            this.getTeam = function (groupId) {
+                if (!teamCache[groupId]) {
+                    teamCache[groupId] = getTeamFromBackend(groupId)
+                }
+                return teamCache[groupId];
+            };
+            var teamCache = {};
+
+            function getTeamFromBackend(groupId) {
+                console.log("getTeamFromBackend 001");
+
+                return doRequest("team", {id: groupId}).then(function (t) {
+                    return t.team
+                })
+            };
+
+
             /**
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
              */
             var userProfileCache = {};
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
-                function getTeamFromBackend(groupId) {
-                    console.log("getTeamFromBackend 001");
-
-                    return doRequest("team", {id: groupId})
-                }
 
 
                 var cachedProfile = userProfileCache[userId];
@@ -112,7 +124,7 @@
 
                             getTeamFromBackend(optionalGroupId).then(function (response) {
                                 console.log("getProfileFromBackend 002");
-                                response.team.users.forEach(function (userWrapped) {
+                                response.users.forEach(function (userWrapped) {
 
                                     var fetchedUserProfile = userWrapped.user;
                                     var _oldProfile = userProfileCache[fetchedUserProfile.username] || {}; //todo should be id not username

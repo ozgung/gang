@@ -1,9 +1,8 @@
 <ul class="gang-user-list">
 	<li ng-repeat='member in members'>
-		<img src="http://graph.facebook.com/v2.2/{{member.id}}/picture">
+		<img src="http://graph.facebook.com/v2.2/{{member.username}}/picture">
 		<div>
-			{{member.name}}
-			<span>username?</span>
+			{{member.firstName}} {{ member.lastName }}
 		</div>
 	</li>
 </ul>

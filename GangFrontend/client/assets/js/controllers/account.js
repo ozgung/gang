@@ -27,10 +27,6 @@
 
             };
 
-            chat.getActiveChannel().then(function (c) {
-                $scope.activeChannel = c;
-            });
-
             $scope.numberOfunreadMessages = chat.numberOfunreadMessages
 
         });

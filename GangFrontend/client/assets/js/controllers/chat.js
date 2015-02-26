@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend) {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend,$rootScope ) {
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
 
@@ -42,7 +42,7 @@
                 $scope.messages = chat.messages;
                 $scope.thisChannelMessages = chat.getThisChannelMessages();
                 chat.getActiveChannel().then(function (c) {
-                    $scope.activeChannel = c;
+                    $rootScope.activeChannel = c;
                 });
 
                 clearFocus();

@@ -97,10 +97,10 @@
                                 response.team.users.forEach(function (userWrapped) {
 
                                     var fetchedUserProfile = userWrapped.user;
-                                    var _oldProfile = userProfileCache[fetchedUserProfile.username] || {
-                                            _fetched: true,
-                                            _loading: false
-                                        }; //todo should be id not username
+                                    var _oldProfile = userProfileCache[fetchedUserProfile.username] || {}; //todo should be id not username
+
+                                    fetchedUserProfile._fetched = true;
+                                    fetchedUserProfile._loading = false;
 
                                     fetchedUserProfile.displayName = fetchedUserProfile.firstName + " " + fetchedUserProfile.lastName;
 

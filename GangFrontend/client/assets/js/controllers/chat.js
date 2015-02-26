@@ -47,8 +47,8 @@
             }
 
             $scope.getProfile = function (userId) {
-                console.info("TODO using group id 5 for testing");
-                backend.getUserProfile(userId, 5);
+                console.info("TODO using group id 5 for testing. userId: ", userId);
+                return backend.getUserProfile(userId, 5);
             };
 
             init();

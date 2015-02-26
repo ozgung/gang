@@ -108,8 +108,6 @@
 
             .state('chat', {
                 url: ':channel',
-                templateUrl: 'templates/chat.html',
-                controller: 'ChatCtrl',
                 parent: 'account',
 								resolve:{
 									
@@ -121,6 +119,10 @@
 									}
 								},
 								views:{
+									'main':{
+										templateUrl: 'templates/chat.html',
+										controller: 'ChatCtrl',
+									},
 									'right-panel':{
 										templateUrl:'templates/members.html',
 										controller:function($scope,members){

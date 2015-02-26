@@ -13,6 +13,7 @@
             var messages = {};
 
             ws.onMessage(function (e) {
+						
                 function handleTextMessage(d) {
                     if (d.type == "message") {
 

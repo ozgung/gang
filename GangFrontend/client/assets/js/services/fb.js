@@ -36,7 +36,7 @@
 			this.checkStatus = function(){
 				
 				return new Promise(function(resolve,reject){
-
+					
 					Facebook.getLoginStatus(function(response) {
 						
 						if(response.status === 'connected') {
@@ -94,7 +94,7 @@
 			
 				return new Promise(function(resolve,reject){
 					
-					Facebook.api('/' + user.id + '/groups?fields=id,name,cover', function(groups) {
+					Facebook.api('/' + user.id + '/groups?fields=id,name', function(groups) {
 						resolve(groups.data);
 					},{
 						access_token: localStorage.getItem('access-token')
@@ -109,6 +109,18 @@
 					
 					Facebook.api('/' + id + '/?', function(response) {
 						resolve(response);
+					},{
+						access_token: localStorage.getItem('access-token')
+					});
+					
+				});
+			};
+			
+			this.members = function(id){
+				return new Promise(function(resolve,reject){
+					
+					Facebook.api('/' + id + '/members', function(response) {
+						resolve(response.data);
 					},{
 						access_token: localStorage.getItem('access-token')
 					});

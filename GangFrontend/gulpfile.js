@@ -17,7 +17,7 @@ var gulp           = require('gulp'),
     connect        = require('gulp-connect'),
     path           = require('path'),
     modRewrite     = require('connect-modrewrite'),
-	ngConfig       = require('gulp-ng-config'),
+		ngConfig       = require('gulp-ng-config'),
     dynamicRouting = require('./bower_components/foundation-apps/bin/gulp-dynamic-routing');
 
 // 2. SETTINGS VARIABLES
@@ -145,9 +145,22 @@ gulp.task('copy-templates', ['copy'], function () {
 });
 
 gulp.task('config', function () {
-    return gulp.src('./config/config.json')
-        .pipe(ngConfig('config'))
-        .pipe(gulp.dest('./client/assets/js/'));
+	
+	var env = process.env.NODE_ENV || 'development';
+	var config;
+	
+	if(env === 'production'){
+		
+		config = 'production.json';
+		
+	}else if(env === 'development'){
+		
+		config = 'development.json';
+	}
+
+  return gulp.src('./config/' + config)
+      .pipe(ngConfig('config'))
+      .pipe(gulp.dest('./client/assets/js/'));
 });
 
 // Starts a test server, which you can view at http://localhost:8080
@@ -155,6 +168,7 @@ gulp.task('server:start', function () {
     connect.server({
         root: './build',
         livereload: true,
+				port: 8000,
         middleware: function () {
             return [
                 modRewrite(['^[^\\.]*$ /index.html [L]'])
@@ -185,5 +199,5 @@ gulp.task('default', ['build', 'server:start'], function () {
     gulp.watch(['./client/templates/**/*.html'], ['copy-templates']);
 
     // Watch Config
-    gulp.watch(['./config/config.json'], ['uglify']);
+    gulp.watch(['./config/*.*'], ['config']);
 });

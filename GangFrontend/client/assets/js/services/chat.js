@@ -148,15 +148,19 @@
 
             function _newMessageCounter_inc(channelid) {
                 var x = _newMessageCounter[channelid] || 0;
-
+                 console.debug("__UNREAD ","_newMessageCounter"," cid",channelid,_newMessageCounter );
                 _newMessageCounter[channelid] = x + 1
             }
 
             function _newMessageCounter_reset(channelid) {
+                console.debug("__UNREAD ","_newMessageCounter_reset"," cid",channelid,_newMessageCounter );
+
                 _newMessageCounter[channelid] = 0
             }
 
             this.numberOfunreadMessages = function (channelid) {
+                console.debug("__UNREAD ","numberOfunreadMessages"," cid",channelid,_newMessageCounter );
+
                 var x = _newMessageCounter[channelid] || 0;
 
                 if (!x) {

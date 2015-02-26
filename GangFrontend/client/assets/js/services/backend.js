@@ -69,7 +69,9 @@
             this.me = function me() {
                 function getMeFromBackend() {
                     console.log("getMeFromBackend 001");
-                    return doRequest("me")
+                    return doRequest("me").then(function (x) {
+                        return x.appUser
+                    })
                 }
 
                 if (!meCache) {

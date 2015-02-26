@@ -9,7 +9,11 @@
         <div class='grid-content expand'>
 					
 						<ul class='gang-group-list'>
-							<li class="group" ng-repeat='team in teams'><a ui-sref='chat({channel:team.id})'><div class="gang-group-profile" style="background-image: url({{ team.cover.source || '/assets/img/gang-logo.png' }});"></div><span>{{team.name}}</span></a></li>
+							<li class="group" ng-repeat='team in teams'>
+								<a ui-sref='chat({channel:team.id})'>
+									<span>{{team.name}}</span>
+								</a>
+							</li>
 						</ul>
         </div>
         <div class='grid-content shrink'>
@@ -20,13 +24,12 @@
 
     <div class='grid-block vertical'>
 		
-      <ui-view class='grid-block vertical'/>
+      <ui-view class='grid-block vertical'></ui-view>
 			
     </div>
     <zf-panel id="gang-right-panel" zf-swipe-close="right" position="right" class="medium-grid-block medium-2 gang-panel">
-        <div class='grid-content shrink hide-for-medium'>
-            <a zf-close class="close-button">&times;</a>
-
-        </div>
+			<div class="grid-content expand">
+				<ui-view name='right-panel'></ui-view>
+			</div>
     </zf-panel>
 </div>

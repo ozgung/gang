@@ -12,11 +12,17 @@
         //foundation
         'foundation'
     ])
-        .config(config)
-        .run(run);
+		
+    .config(config)
+    .run(run);
 
     function config($urlRouterProvider, $locationProvider, $stateProvider, FacebookProvider) {
-
+				
+				FacebookProvider.init({
+            appId: '343800439138314',
+            status: true
+        });
+				
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
@@ -28,8 +34,9 @@
                 resolve: {
 
                     connected: function (fb, backend) {
-
+												
                         return fb.checkStatus().then(function () {
+												
                             //todo donot send auth request to the backend each time, check with local storage
                             //todo handle backend timeout
                             //~ilgaz
@@ -39,6 +46,7 @@
                                 return true
                             })
                         }, function () {
+													
                             return false
                         });
                     }
@@ -99,10 +107,30 @@
             })
 
             .state('chat', {
-                url: '/:channel',
+                url: ':channel',
                 templateUrl: 'templates/chat.html',
                 controller: 'ChatCtrl',
-                parent: 'account'
+                parent: 'account',
+								resolve:{
+									
+									group:function($stateParams,fb){
+										return fb.group($stateParams.channel);
+									},
+									members:function($stateParams,fb){
+										return fb.members($stateParams.channel);
+									}
+								},
+								views:{
+									'right-panel':{
+										templateUrl:'templates/members.html',
+										controller:function($scope,members){
+											
+											console.log(members);
+											
+											$scope.members = members;
+										}
+									}
+								}
             });
 
         $locationProvider.html5Mode({
@@ -111,11 +139,6 @@
         });
 
         $locationProvider.hashPrefix('!');
-
-        FacebookProvider.init({
-            appId: '343800439138314',
-            status: true
-        });
     }
 
     function run() {

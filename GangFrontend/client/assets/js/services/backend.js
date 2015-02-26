@@ -102,6 +102,7 @@
                                             _loading: false
                                         }; //todo should be id not username
 
+                                    fetchedUserProfile.displayName = fetchedUserProfile.firstName + " " + fetchedUserProfile.lastName;
 
                                     angular.extend(_oldProfile, fetchedUserProfile);
                                 });

@@ -16,6 +16,9 @@
 
             //workaround reset current channel we received our message in the current channel
             var _countNewMessagesNumber = false;
+            var onlineUsers = {};
+            this.isUserOnline = function(uid){return onlineUsers[uid]};
+
             ws.onMessage(function (e) {
 
                 function handleTextMessage(d) {
@@ -33,7 +36,14 @@
                         } else if (d.msg == "_replyingChannelHistory_FINISHED") {
                             _countNewMessagesNumber = true
                         }
+                        //start work around online users
+                        if (d.uid == "_userStatusChanged_ONLINE") {
+                            onlineUsers[d.msg] = true
+                        } else if (d.uid == "_userStatusChanged_OFFLINE") {
+                            delete onlineUsers[d.msg]
+                        }
 
+                        //end work around onliner users
                         return true
                     }
                 }

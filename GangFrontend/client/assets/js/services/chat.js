@@ -17,7 +17,9 @@
             //workaround reset current channel we received our message in the current channel
             var _countNewMessagesNumber = false;
             var onlineUsers = {};
-            this.isUserOnline = function(uid){return onlineUsers[uid]};
+            this.isUserOnline = function (uid) {
+                return onlineUsers[uid]
+            };
 
             ws.onMessage(function (e) {
 
@@ -38,9 +40,15 @@
                         }
                         //start work around online users
                         if (d.uid == "_userStatusChanged_ONLINE") {
-                            onlineUsers[d.msg] = true
+                            onlineUsers[d.msg] = 1 + (onlineUsers[d.msg] || 0)
                         } else if (d.uid == "_userStatusChanged_OFFLINE") {
-                            delete onlineUsers[d.msg]
+                            //handle multiple login with different device(socket) connection
+                            if (onlineUsers[d.msg] <= 0) {
+                                delete onlineUsers[d.msg]
+                            } else {
+                                onlineUsers[d.msg] = onlineUsers[d.msg] - 1;
+                            }
+
                         }
 
                         //end work around onliner users

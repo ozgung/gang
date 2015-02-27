@@ -33,7 +33,7 @@
 
                         //increase unread message count for this channel
                         //workaround reset current channel we received our message in the current channel
-                        if (_countNewMessagesNumber) {
+                        if (_countNewMessagesNumber && activeChannelId != d.channel) {
                             _newMessageCounter_inc(d.channel);
                         } else if (d.uid == "_replyingChannelHistory_FINISHED") {
                             _countNewMessagesNumber = true

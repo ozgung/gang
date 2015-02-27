@@ -40,15 +40,9 @@
                         }
                         //start work around online users
                         if (d.uid == "_userStatusChanged_ONLINE") {
-                            onlineUsers[d.msg] = 1 + (onlineUsers[d.msg] || 0)
+                            onlineUsers[d.msg] = true
                         } else if (d.uid == "_userStatusChanged_OFFLINE") {
-                            //handle multiple login with different device(socket) connection
-                            if (onlineUsers[d.msg] <= 0) {
-                                delete onlineUsers[d.msg]
-                            } else {
-                                onlineUsers[d.msg] = onlineUsers[d.msg] - 1;
-                            }
-
+                            delete onlineUsers[d.msg]
                         }
 
                         //end work around onliner users

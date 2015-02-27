@@ -35,7 +35,7 @@
                         //workaround reset current channel we received our message in the current channel
                         if (_countNewMessagesNumber) {
                             _newMessageCounter_inc(d.channel);
-                        } else if (d.msg == "_replyingChannelHistory_FINISHED") {
+                        } else if (d.uid == "_replyingChannelHistory_FINISHED") {
                             _countNewMessagesNumber = true
                         }
                         //start work around online users

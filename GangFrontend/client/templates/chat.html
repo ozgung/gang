@@ -1,6 +1,6 @@
 <div class='gang-chat-area grid-block vertical'>
     <div class='grid-content collapse shrink'>
-        <div class="title expand ng-scope"> #serbestbolge</div>
+        <div class="title expand ng-scope"> teamId:{{ activeChannel.name }}</div>
     </div>
     <div class='grid-content gang-chat-list expand' scroll-glue>
         <div class='block-list'>
@@ -11,7 +11,7 @@
                             <img width="48" height="48" src="http://graph.facebook.com/{{ message.uid }}/picture"/>
                         </div>
                         <div class="grid-content message-text">
-                            <h6>{{ message.uid }}<span>@handle</span></h6>
+                            <h6>{{getProfile(message.uid).displayName}} <span>@DEBUG@Loading:{{getProfile(message.uid)._loading}}$fetched:{{getProfile(message.uid)._fetched}}</span></h6>
                             {{ message.msg }}
                         </div>
                     </div>

@@ -3,9 +3,20 @@
 
     angular.module('application')
 
-        .controller('AccountCtrl', function ($scope, $state, chat, user, fb) {
+        .controller('AccountCtrl', function ($scope, $state, chat, user, fb, backend) {
 
-            $scope.teams = user.groups;
+            backend.me().then(function (me) {
+                console.log("DEBUG TEAM 000 me: ", me);
+                var teams = [];
+                me.teams.forEach(function (_team) {
+                    console.log("DEBUG TEAM 001", _team);
+
+                    teams.push(_team.team)
+                });
+
+                $scope.teams = teams;
+                console.log("DEBUG TEAMS 002", teams);
+            });
 
             chat.setChannels(user.groups);
 
@@ -15,6 +26,9 @@
                 });
 
             };
+
+            $scope.numberOfunreadMessages = chat.numberOfunreadMessages
+
         });
 
 })();

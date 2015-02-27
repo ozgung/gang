@@ -1,0 +1,14 @@
+<style type="text/css">
+    .userOnline {
+        color: lightseagreen;
+    }
+</style>
+<ul class="gang-user-list">
+    <li ng-repeat='member in members'>
+        <img src="http://graph.facebook.com/v2.2/{{ member.username }}/picture">
+
+        <div ng-class="{userOnline: isUserOnline(member.username)}">
+            {{ member.firstName }} {{ member.lastName }}
+        </div>
+    </li>
+</ul>

@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    console.log("Gang version 023");
+    console.log("Gang version 051");
     var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',
@@ -12,10 +12,16 @@
         //foundation
         'foundation'
     ])
+
         .config(config)
         .run(run);
 
     function config($urlRouterProvider, $locationProvider, $stateProvider, FacebookProvider) {
+
+        FacebookProvider.init({
+            appId: '343800439138314',
+            status: true
+        });
 
         $urlRouterProvider.otherwise('/');
 
@@ -30,6 +36,7 @@
                     connected: function (fb, backend) {
 
                         return fb.checkStatus().then(function () {
+
                             //todo donot send auth request to the backend each time, check with local storage
                             //todo handle backend timeout
                             //~ilgaz
@@ -39,6 +46,7 @@
                                 return true
                             })
                         }, function () {
+
                             return false
                         });
                     }
@@ -99,10 +107,42 @@
             })
 
             .state('chat', {
-                url: '/:channel',
-                templateUrl: 'templates/chat.html',
-                controller: 'ChatCtrl',
-                parent: 'account'
+                url: ':channel',
+                parent: 'account',
+                resolve: {
+                    // todo bu bolume gerek yok artik? ~ilgaz
+                    //group: function ($stateParams, fb) {
+                    //    //return fb.group($stateParams.channel);
+                    //    //todo simdilik bozulmasin diye istanbul startups kanalinin facebook idsini yazdim
+                    //    //channel artik bizim database deki id facebook idsi degil
+                    //    return fb.group("1404267526538940");
+                    //},
+                    //members: function ($stateParams, fb) {
+                    //    return fb.members("1404267526538940");
+                    //}
+                },
+                views: {
+                    'main': {
+                        templateUrl: 'templates/chat.html',
+                        controller: 'ChatCtrl'
+                    },
+                    'right-panel': {
+                        templateUrl: 'templates/members.html',
+                        controller: function ($scope, chat) {
+
+
+                            chat.getActiveChannel().then(function (c) {
+                                var teamUsers = [];
+                                c.users.forEach(function (_u) {
+                                    teamUsers.push(_u.user)
+                                });
+                                $scope.members = teamUsers;
+                                $scope.isUserOnline = chat.isUserOnline
+                            });
+
+                        }
+                    }
+                }
             });
 
         $locationProvider.html5Mode({
@@ -111,11 +151,6 @@
         });
 
         $locationProvider.hashPrefix('!');
-
-        FacebookProvider.init({
-            appId: '343800439138314',
-            status: true
-        });
     }
 
     function run() {

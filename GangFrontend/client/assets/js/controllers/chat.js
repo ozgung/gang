@@ -3,10 +3,9 @@
 
     angular.module('application')
 
-        .controller('ChatCtrl', function ($scope, chat, $stateParams) {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend,$rootScope ) {
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
-            $scope.activeChannel = '#' + channelId;
 
             console.log("channelId", channelId);
             /**
@@ -42,9 +41,17 @@
             function init() {
                 $scope.messages = chat.messages;
                 $scope.thisChannelMessages = chat.getThisChannelMessages();
+                chat.getActiveChannel().then(function (c) {
+                    $rootScope.activeChannel = c;
+                });
+
                 clearFocus();
                 initTypingStatus();
             }
+
+            $scope.getProfile = function (userId) {
+                return backend.getUserProfile(userId, channelId);
+            };
 
             init();
 

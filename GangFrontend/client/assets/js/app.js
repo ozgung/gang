@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    console.log("Gang version 047");
+    console.log("Gang version 048");
     var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',
@@ -137,6 +137,7 @@
                                     teamUsers.push(_u.user)
                                 });
                                 $scope.members = teamUsers;
+                                $scope.isUserOnline = chat.isUserOnline
                             });
 
                         }

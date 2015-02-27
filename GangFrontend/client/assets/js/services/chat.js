@@ -13,6 +13,9 @@
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
             var messages = {};
 
+
+            //workaround reset current channel we received our message in the current channel
+            var _countNewMessagesNumber = false;
             ws.onMessage(function (e) {
 
                 function handleTextMessage(d) {
@@ -24,9 +27,12 @@
                         messages[d.channel].push(d);
 
                         //increase unread message count for this channel
-                        _newMessageCounter_inc(d.channel);
                         //workaround reset current channel we received our message in the current channel
-                        _newMessageCounter_reset(activeChannelId);
+                        if (_countNewMessagesNumber) {
+                            _newMessageCounter_inc(d.channel);
+                        } else if (d.msg == "_replyingChannelHistory_FINISHED") {
+                            _countNewMessagesNumber = true
+                        }
 
                         return true
                     }
@@ -150,7 +156,7 @@
 
             function _newMessageCounter_inc(channelid) {
                 var x = _newMessageCounter[channelid] || 0;
-                 //console.debug("__UNREAD ","_newMessageCounter"," cid",channelid,_newMessageCounter );
+                //console.debug("__UNREAD ","_newMessageCounter"," cid",channelid,_newMessageCounter );
                 _newMessageCounter[channelid] = x + 1
             }
 

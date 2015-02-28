@@ -11,6 +11,7 @@
             var activeChannelDeferred = $q.defer();
 
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
+            window.ws = ws; //just for debug purposes
             var messages = {};
 
 

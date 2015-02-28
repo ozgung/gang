@@ -11,7 +11,13 @@
                             <img width="48" height="48" ng-src="http://graph.facebook.com/{{ message.uid }}/picture"/>
                         </div>
                         <div class="grid-content message-text">
-                            <h6>{{getProfile(message.uid).displayName}} <small>@ {{message.ts| date:'HH:mm'}}</small></h6>
+                            <h6>{{ getProfile(message.uid).displayName }} <span>@ {{ message.ts| date:'HH:mm'}}</span>
+
+                                <div style="float: right">
+                                    <a style="color: #e1e1e1" href="#" ng-click="delete(message)">&epsilon;</a>
+                                    <a style="color: #ffd8dd" href="#" ng-click="edit(message)">&times;</a>
+                                </div>
+                            </h6>
                             {{ message.msg }}
                         </div>
                     </div>
@@ -25,14 +31,14 @@
                 <span ng-if="$first">typing: </span>
 
                 <div class="grid-content shrink">
-                    <img width="24" height="24" ng-src="http://graph.facebook.com/{{ uid }}/picture" title="{{uid}}">
+                    <img width="24" height="24" ng-src="http://graph.facebook.com/{{ uid }}/picture" title="{{ uid }}">
                 </div>
                 <span ng-if="$middle">,</span>
             </span>
         </small>
 
         <form>
-            <input type="text" id="message_input" ng-model='message' class="message-input"
+            <input type="text" id="message_input" ng-model='message' class="message-input" style="{{textInputStyle()}}"
                    placeholder="Type Your Message">
             <button type="submit" class="button message-button" ng-click='send()'>Send</button>
         </form>

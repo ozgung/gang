@@ -35,6 +35,12 @@
                 $scope.$watch('message', function (newValue, oldValue) {
                     var userIsTyping = !!$scope.message;
                     chat.sendUserTypingStatus(userIsTyping);
+
+                    //move this
+                    //reset messageOnEdit after delete
+                    if(!userIsTyping){
+                        messageOnEdit = null
+                    }
                 });
             }
 
@@ -53,6 +59,29 @@
                 return backend.getUserProfile(userId, channelId);
             };
 
+            $scope.delete= function(message){
+                console.log("DELETE MESSAGE MOCK",message);
+
+                var idx = $scope.thisChannelMessages.indexOf(message);
+                $scope.thisChannelMessages.splice(idx,1);
+            };
+
+            var messageOnEdit = null;
+
+            $scope.textInputStyle = function(){
+                if(messageOnEdit){
+                    return "background-color:lightgoldenrodyellow;"
+                } else{
+                    return ""
+                }
+            }
+            $scope.edit= function(message){
+                console.log("EDIT MESSAGE MOCK",message);
+                messageOnEdit = message;
+                clearFocus();
+                $scope.message = message.msg;
+
+            };
             init();
 
             //Exports

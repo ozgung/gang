@@ -11,6 +11,11 @@
             var activeChannelDeferred = $q.defer();
 
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
+
+            //reconnect
+            ws.onClose(socketError);
+            ws.onError(socketError);
+
             window.ws = ws; //just for debug purposes
             var messages = {};
 
@@ -188,6 +193,12 @@
                     _newMessageCounter[channelid] = 0
                 }
                 return x
+            }
+
+            function socketError(event) {
+                console.error("SOCKETERROR001", "trying to reconnect", event);
+                ws = ws.reconnect()
+
             }
 
         });

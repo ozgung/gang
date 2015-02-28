@@ -73,6 +73,13 @@
                     }
                 }
 
+                function handlePingMessage(d) {
+                    if (d.type == "ping") {
+                        console.info("PING received ts",new Date(d.ts));
+                        return true
+                    }
+                }
+
                 function handleOtherMessage(d) {
                     console.error("unexpected message type received! data:", d);
                     return true
@@ -82,7 +89,10 @@
                 var data = JSON.parse(e.data);
                 console.log("message received", "data", data);
 
-                handleTextMessage(data) || handleTypingStatusMessage(data) || handleOtherMessage(data);
+                handleTextMessage(data)        ||
+                handleTypingStatusMessage(data)||
+                handlePingMessage(data)        ||
+                handleOtherMessage(data);
             });
 
             this.messages = messages;
@@ -196,7 +206,7 @@
             }
 
             function socketError(event) {
-                console.error("SOCKETERROR001", "trying to reconnect", event);
+                console.warn("SOCKETERROR001", "trying to reconnect", event);
                 ws = ws.reconnect()
 
             }

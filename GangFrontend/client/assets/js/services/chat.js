@@ -33,10 +33,10 @@
 
                         //increase unread message count for this channel
                         //workaround reset current channel we received our message in the current channel
-                        if (_countNewMessagesNumber[d.channel] && activeChannelId != d.channel) {
+                        if (_countNewMessagesNumber[d.msg] && activeChannelId != d.channel) {
                             _newMessageCounter_inc(d.channel);
                         } else if (d.uid == "_replyingChannelHistory_FINISHED") {
-                            _countNewMessagesNumber[d.channel] = true
+                            _countNewMessagesNumber[d.msg] = true
                         }
                         //start work around online users
                         if (d.uid == "_userStatusChanged_ONLINE") {

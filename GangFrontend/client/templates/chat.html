@@ -15,7 +15,7 @@
 
                                 <div style="float: right" ng-if="message.self">
                                     <a style="color: #e1e1e1" href="#" ng-click="edit(message)">&epsilon;</a>
-                                    <a style="color: #ffd8dd" href="#" ng-click="delete(message)">&times;</a>
+                                    <a style="color: #ffd8dd" href="#" ng-click="deleteMessage(message)">&times;</a>
                                 </div>
                             </h6>
                             <p ng-bind-html="message.msg | emoji"></p>

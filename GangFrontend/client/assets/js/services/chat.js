@@ -11,6 +11,12 @@
             var activeChannelDeferred = $q.defer();
 
             var ws = $websocket('ws://ws.ganghq.com/ws?token=' + token.get());
+
+            //reconnect
+            ws.onClose(socketError);
+            ws.onError(socketError);
+
+            window.ws = ws; //just for debug purposes
             var messages = {};
 
 
@@ -67,6 +73,13 @@
                     }
                 }
 
+                function handlePingMessage(d) {
+                    if (d.type == "ping") {
+                        console.info("PING received ts",new Date(d.ts));
+                        return true
+                    }
+                }
+
                 function handleOtherMessage(d) {
                     console.error("unexpected message type received! data:", d);
                     return true
@@ -76,7 +89,10 @@
                 var data = JSON.parse(e.data);
                 console.log("message received", "data", data);
 
-                handleTextMessage(data) || handleTypingStatusMessage(data) || handleOtherMessage(data);
+                handleTextMessage(data)        ||
+                handleTypingStatusMessage(data)||
+                handlePingMessage(data)        ||
+                handleOtherMessage(data);
             });
 
             this.messages = messages;
@@ -187,6 +203,12 @@
                     _newMessageCounter[channelid] = 0
                 }
                 return x
+            }
+
+            function socketError(event) {
+                console.warn("SOCKETERROR001", "trying to reconnect", event);
+                ws = ws.reconnect()
+
             }
 
         });

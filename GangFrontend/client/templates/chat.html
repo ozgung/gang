@@ -1,6 +1,6 @@
 <div class='gang-chat-area grid-block vertical'>
     <div class='grid-content collapse shrink'>
-        <div class="title expand ng-scope"> teamId:{{ activeChannel.name }}</div>
+        <div class="title expand ng-scope">{{ activeChannel.name }}</div>
     </div>
     <div class='grid-content gang-chat-list expand' scroll-glue>
         <div class='block-list'>
@@ -8,10 +8,16 @@
                 <li ng-repeat="message in thisChannelMessages">
                     <div class="grid-block shrink">
                         <div class="grid-content shrink">
-                            <img width="48" height="48" src="http://graph.facebook.com/{{ message.uid }}/picture"/>
+                            <img width="48" height="48" ng-src="http://graph.facebook.com/{{ message.uid }}/picture"/>
                         </div>
                         <div class="grid-content message-text">
-                            <h6>{{getProfile(message.uid).displayName}} <span>@DEBUG@Loading:{{getProfile(message.uid)._loading}}$fetched:{{getProfile(message.uid)._fetched}}</span></h6>
+                            <h6>{{ getProfile(message.uid).displayName }} <span>@ {{ message.ts| date:'HH:mm'}}</span>
+
+                                <div style="float: right" ng-if="message.self">
+                                    <a style="color: #e1e1e1" href="#" ng-click="edit(message)">&epsilon;</a>
+                                    <a style="color: #ffd8dd" href="#" ng-click="delete(message)">&times;</a>
+                                </div>
+                            </h6>
                             <p ng-bind-html="message.msg | emoji"></p>
                         </div>
                     </div>
@@ -25,14 +31,14 @@
                 <span ng-if="$first">typing: </span>
 
                 <div class="grid-content shrink">
-                    <img width="24" height="24" src="http://graph.facebook.com/{{ uid }}/picture" title="{{uid}}">
+                    <img width="24" height="24" ng-src="http://graph.facebook.com/{{ uid }}/picture" title="{{ uid }}">
                 </div>
                 <span ng-if="$middle">,</span>
             </span>
         </small>
 
         <form>
-            <input type="text" id="message_input" ng-model='message' class="message-input"
+            <input type="text" id="message_input" ng-model='message' class="message-input" style="{{textInputStyle()}}"
                    placeholder="Type Your Message">
             <button type="submit" class="button message-button" ng-click='send()'>Send</button>
         </form>

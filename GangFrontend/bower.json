@@ -29,6 +29,6 @@
     "angular-websocket": "~1.0.9",
     "angulartics": "~0.17.2",
     "angular-sanitize": "~1.3.14",
-    "angular-emoji-filter": "~0.0.2"
+    "angular-emoji-filter-hd": "*"
   }
 }

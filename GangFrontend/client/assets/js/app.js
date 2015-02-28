@@ -11,7 +11,7 @@
         'angulartics.google.analytics',
         //foundation
         'foundation',
-        'emoji',
+        'dbaq.emoji',
         'ngSanitize'
     ])
 

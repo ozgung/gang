@@ -47,7 +47,7 @@ var foundationJS = [
     'bower_components/angular-facebook/lib/angular-facebook.js',
     'bower_components/angular-scroll-glue/src/scrollglue.js',
     'bower_components/angular-websocket/angular-websocket.js',
-    'bower_components/angular-emoji-filter-hd/dist/emoji.min.js'
+    '!bower_components/angular-emoji-filter-hd/dist/emoji.min.js'
 ];
 
 // These files are for your app's JavaScript

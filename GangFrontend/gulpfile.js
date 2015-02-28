@@ -36,10 +36,10 @@ var foundationJS = [
     'bower_components/tether/tether.js',
     'bower_components/angular/angular.js',
     'bower_components/angular-animate/angular-animate.js',
-    '!bower_components/angular-sanitize/angular-sanitize.min.js',
+    'bower_components/angular-sanitize/angular-sanitize.min.js',
     'bower_components/angulartics/dist/angulartics.min.js',
     'bower_components/angulartics/dist/angulartics-ga.min.js',
-    'bower_components/ui-router/release/angular-ui-router.js',
+    'bower_components/angular-ui-router/release/angular-ui-router.js',
     'bower_components/hammerjs/hammer.js',
     'bower_components/foundation-apps/js/vendor/**/*.js',
     'bower_components/foundation-apps/js/angular/**/*.js',
@@ -47,7 +47,7 @@ var foundationJS = [
     'bower_components/angular-facebook/lib/angular-facebook.js',
     'bower_components/angular-scroll-glue/src/scrollglue.js',
     'bower_components/angular-websocket/angular-websocket.js',
-    '!bower_components/angular-emoji-filter-hd/dist/emoji.min.js'
+    'bower_components/angular-emoji-filter-hd/dist/emoji.min.js'
 ];
 
 // These files are for your app's JavaScript

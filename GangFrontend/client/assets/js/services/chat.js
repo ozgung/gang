@@ -15,7 +15,7 @@
 
 
             //workaround reset current channel we received our message in the current channel
-            var _countNewMessagesNumber = false;
+            var _countNewMessagesNumber = {};
             var onlineUsers = {};
             this.isUserOnline = function (uid) {
                 return onlineUsers[uid]
@@ -33,10 +33,10 @@
 
                         //increase unread message count for this channel
                         //workaround reset current channel we received our message in the current channel
-                        if (_countNewMessagesNumber && activeChannelId != d.channel) {
+                        if (_countNewMessagesNumber[d.channel] && activeChannelId != d.channel) {
                             _newMessageCounter_inc(d.channel);
                         } else if (d.uid == "_replyingChannelHistory_FINISHED") {
-                            _countNewMessagesNumber = true
+                            _countNewMessagesNumber[d.channel] = true
                         }
                         //start work around online users
                         if (d.uid == "_userStatusChanged_ONLINE") {

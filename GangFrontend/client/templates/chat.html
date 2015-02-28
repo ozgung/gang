@@ -13,9 +13,9 @@
                         <div class="grid-content message-text">
                             <h6>{{ getProfile(message.uid).displayName }} <span>@ {{ message.ts| date:'HH:mm'}}</span>
 
-                                <div style="float: right">
-                                    <a style="color: #e1e1e1" href="#" ng-click="delete(message)">&epsilon;</a>
-                                    <a style="color: #ffd8dd" href="#" ng-click="edit(message)">&times;</a>
+                                <div style="float: right" ng-if="message.self">
+                                    <a style="color: #e1e1e1" href="#" ng-click="edit(message)">&epsilon;</a>
+                                    <a style="color: #ffd8dd" href="#" ng-click="delete(message)">&times;</a>
                                 </div>
                             </h6>
                             {{ message.msg }}

@@ -36,7 +36,7 @@ var foundationJS = [
     'bower_components/tether/tether.js',
     'bower_components/angular/angular.js',
     'bower_components/angular-animate/angular-animate.js',
-    'bower_components/angular-sanitize/angular-sanitize.min.js',
+    '!bower_components/angular-sanitize/angular-sanitize.min.js',
     'bower_components/angulartics/dist/angulartics.min.js',
     'bower_components/angulartics/dist/angulartics-ga.min.js',
     'bower_components/ui-router/release/angular-ui-router.js',

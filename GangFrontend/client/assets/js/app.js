@@ -10,7 +10,9 @@
         'angulartics',
         'angulartics.google.analytics',
         //foundation
-        'foundation'
+        'foundation',
+        'emoji',
+        'ngSanitize'
     ])
 
         .config(config)

@@ -12,7 +12,7 @@
                         </div>
                         <div class="grid-content message-text">
                             <h6>{{getProfile(message.uid).displayName}} <span>@DEBUG@Loading:{{getProfile(message.uid)._loading}}$fetched:{{getProfile(message.uid)._fetched}}</span></h6>
-                            {{ message.msg }}
+                            <p ng-bind-html="message.msg | emoji"></p>
                         </div>
                     </div>
                 </li>

@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Each channel has a list of message archives
- * 
+ *
  * @author Fatih Mehmet Güler
  */
 public class Channel {
@@ -20,6 +20,15 @@ public class Channel {
     private String description;
     private Team team;
     private List<Message> messages = new VenList(Message.class, "channel"); //messages of this channel
+
+    public Channel() {
+    }
+
+    //used for json serialization with just id
+    public Channel(Integer id) {
+        this.id = id;
+        messages = null;
+    }
 
     /**
      * @return the id
@@ -90,5 +99,5 @@ public class Channel {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

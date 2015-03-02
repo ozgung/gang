@@ -30,6 +30,15 @@ public class AppUser {
 
     private List<TeamUser> teams = new VenList(TeamUser.class, "user"); //teams of this user
 
+    public AppUser() {
+    }
+
+    //used for json serialization with just id
+    public AppUser(Integer id) {
+        this.id = id;
+        teams = null;
+    }
+
     /**
      * @return the id
      */

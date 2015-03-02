@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend,$rootScope ) {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, $rootScope) {
             var channelId = $stateParams.channel;
             chat.setActiveChannel(channelId);
 
@@ -15,9 +15,12 @@
             var MESSAGE_INPUT_ID = "message_input";
 
             function send() {
-
-                //do send
-                chat.sendMessage($scope.message);
+                if (messageOnEdit) {
+                    messageOnEdit.msg = $scope.message
+                } else {
+                    //do send
+                    chat.sendMessage($scope.message);
+                }
 
                 clearFocus();
             }
@@ -38,7 +41,7 @@
 
                     //move this
                     //reset messageOnEdit after delete
-                    if(!userIsTyping){
+                    if (!userIsTyping) {
                         messageOnEdit = null
                     }
                 });
@@ -56,27 +59,28 @@
             }
 
             $scope.getProfile = function (userId) {
-                return backend.getUserProfile(userId, channelId);
+                return backend.getUserProfile(+userId, channelId);
             };
 
-            $scope.delete= function(message){
-                console.log("DELETE MESSAGE MOCK",message);
+            $scope.deleteMessage = function (message) {
+                console.log("DELETE MESSAGE MOCK", message);
 
                 var idx = $scope.thisChannelMessages.indexOf(message);
-                $scope.thisChannelMessages.splice(idx,1);
+                $scope.thisChannelMessages.splice(idx, 1);
             };
 
             var messageOnEdit = null;
 
-            $scope.textInputStyle = function(){
-                if(messageOnEdit){
+            $scope.textInputStyle = function () {
+                if (messageOnEdit) {
                     return "background-color:lightgoldenrodyellow;"
-                } else{
+                } else {
                     return ""
                 }
-            }
-            $scope.edit= function(message){
-                console.log("EDIT MESSAGE MOCK",message);
+            };
+
+            $scope.edit = function (message) {
+                console.log("EDIT MESSAGE MOCK", message);
                 messageOnEdit = message;
                 clearFocus();
                 $scope.message = message.msg;

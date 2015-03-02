@@ -93,41 +93,52 @@
             function getTeamFromBackend(groupId) {
                 console.log("getTeamFromBackend 001");
 
-                return doRequest("team", {id: groupId}).then(function (t) {
+                return doRequest("team", {id: +groupId}).then(function (t) {
                     return t.team
                 })
             };
 
 
+            window._debug = this; //todo delete me
             /**
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
              */
-            var userProfileCache = {};
-            this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
+            var _userProfileCache = {};
+            window._debug_upc = _userProfileCache; //todo delete me
 
+            this.getUserProfile = function getUserProfile(userId, optionalGroupId) {
 
-                var cachedProfile = userProfileCache[userId];
+                var cachedProfile = _userProfileCache[userId];
+
+                //console.log("______", userId, optionalGroupId,cachedProfile);
+
                 if (!cachedProfile) {
-
+                    //console.log("1111111", userId, cachedProfile);
                     //return empty profile until api responds.
-                    userProfileCache[userId] = {_fetched: false, _loading: false};
+                    _userProfileCache[userId] = {_fetched: false, _loading: false};
+                    //console.log("1111111_2", userId, _userProfileCache);
 
 
                     //update cache..
                     if (optionalGroupId) {
+                        //console.log("222222", userId, optionalGroupId);
 
-                        if (!userProfileCache[userId]._loading) {
+                        if (!_userProfileCache[userId]._loading) {
+                            //console.log("333333", userId, optionalGroupId,_userProfileCache[userId]);
 
-                            var oldProfile = userProfileCache[userId] || {};
+                            var oldProfile = _userProfileCache[userId] || {};
                             oldProfile._loading = true;
 
                             getTeamFromBackend(optionalGroupId).then(function (response) {
-                                console.log("getProfileFromBackend 002");
+                                //console.log("444444", userId);
+                                //console.log("getProfileFromBackend 002");
                                 response.users.forEach(function (userWrapped) {
+                                //console.log("55555555555", userId, "warppedUser", userWrapped);
+
 
                                     var fetchedUserProfile = userWrapped.user;
-                                    var _oldProfile = userProfileCache[fetchedUserProfile.username] || {}; //todo should be id not username
+                                    var _oldProfile = _userProfileCache[fetchedUserProfile.id] || {}; //todo should be id not username
 
                                     fetchedUserProfile._fetched = true;
                                     fetchedUserProfile._loading = false;
@@ -147,7 +158,7 @@
 
                 }
 
-                return userProfileCache[userId]
+                return _userProfileCache[userId]
             };
 
 

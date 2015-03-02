@@ -6,6 +6,17 @@
 
         .service('chat', function ($websocket, token, $rootScope, backend, $q) {
 
+            //todo these will be refactored
+            var magic_ids = {
+                _PERSISTED: -15
+                , _userStatusChanged_OFFLINE: -14
+                , _numberOfOnlineUsers: -13
+                , _userStatusChanged_ONLINE: -12
+                , _replyingChannelHistory_FINISHED: -11
+                , _replyingChannelHistory_STARTED: -10
+
+            };
+
             var self = this;
             var activeChannelId;
             var activeChannelDeferred = $q.defer();
@@ -24,7 +35,7 @@
             var _countNewMessagesNumber = {};
             var onlineUsers = {};
             this.isUserOnline = function (uid) {
-                return onlineUsers[uid]
+                return onlineUsers[Number(uid)]
             };
 
             ws.onMessage(function (e) {
@@ -41,14 +52,15 @@
                         //workaround reset current channel we received our message in the current channel
                         if (_countNewMessagesNumber[d.msg] && activeChannelId != d.channel) {
                             _newMessageCounter_inc(d.channel);
-                        } else if (d.uid == "_replyingChannelHistory_FINISHED") {
+                        } else if (d.uid == magic_ids._replyingChannelHistory_FINISHED) {
                             _countNewMessagesNumber[d.msg] = true
                         }
                         //start work around online users
-                        if (d.uid == "_userStatusChanged_ONLINE") {
-                            onlineUsers[d.msg] = true
-                        } else if (d.uid == "_userStatusChanged_OFFLINE") {
-                            delete onlineUsers[d.msg]
+                        if (d.uid == magic_ids._userStatusChanged_ONLINE) {
+                            console.log("user is now online",d);
+                            onlineUsers[Number(d.msg)] = true
+                        } else if (d.uid == magic_ids._userStatusChanged_OFFLINE) {
+                            delete onlineUsers[Number(d.msg)]
                         }
 
                         //end work around onliner users
@@ -75,7 +87,7 @@
 
                 function handlePingMessage(d) {
                     if (d.type == "ping") {
-                        console.info("PING received ts",new Date(d.ts));
+                        //console.info("PING received ts", new Date(d.ts));
                         return true
                     }
                 }
@@ -87,11 +99,11 @@
 
 
                 var data = JSON.parse(e.data);
-                console.log("message received", "data", data);
+                //console.log("message received", "data", data);
 
-                handleTextMessage(data)        ||
-                handleTypingStatusMessage(data)||
-                handlePingMessage(data)        ||
+                handleTextMessage(data) ||
+                handleTypingStatusMessage(data) ||
+                handlePingMessage(data) ||
                 handleOtherMessage(data);
             });
 
@@ -111,8 +123,9 @@
 
             this.setChannels = function (channels) {
                 channels.forEach(function (it) {
-                    console.log("channel id: ", it.id);
-                    messages[it.id] = [];
+                    var channelId =  +it.id;
+                    console.log("channel id: ", +channelId);
+                    messages[channelId] = [];
                 });
             };
 
@@ -122,7 +135,7 @@
                     ws.send(JSON.stringify({
                         type: 'cmd_usr_typing',
                         isTyping: isTyping,
-                        channel: activeChannelId
+                        channel: +activeChannelId
                     }));
                 }
 
@@ -152,13 +165,13 @@
                 ws.send(JSON.stringify({
                     msg: message,
                     type: 'message',
-                    channel: activeChannelId
+                    channel: +activeChannelId
                 }));
             };
 
             this.setActiveChannel = function (channel) {
                 console.log("setting active channelId", channel);
-                activeChannelId = channel;
+                activeChannelId = +channel;
 
                 activeChannelDeferred = $q.defer();
 
@@ -203,7 +216,7 @@
                     _newMessageCounter[channelid] = 0
                 }
                 return x
-            }
+            };
 
             function socketError(event) {
                 console.warn("SOCKETERROR001", "trying to reconnect", event);

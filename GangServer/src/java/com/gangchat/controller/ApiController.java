@@ -10,8 +10,11 @@ import com.auth0.jwt.JWTSigner;
 import com.gangchat.service.chat.ChatService;
 import com.gangchat.service.chat.domain.AppUser;
 import com.gangchat.service.chat.domain.Channel;
+import com.gangchat.service.chat.domain.Message;
 import com.gangchat.service.chat.domain.Team;
 import com.gangchat.service.chat.domain.TeamUser;
+import com.google.gson.Gson;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,11 +24,13 @@ import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.GroupMembership;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -154,8 +159,8 @@ public class ApiController {
                 String fbGroupId = fbGroup.getId();
                 String fbGroupName = fbGroup.getName();
 
-                System.out.println(fbGroupId);
-                System.out.println(fbGroupName);
+                //System.out.println(fbGroupId);
+                //System.out.println(fbGroupName);
 
                 //check the team and create if not exists
                 Team team = chatService.getTeam(fbGroupId);
@@ -295,6 +300,38 @@ public class ApiController {
     }
 
 
+    //ajax - bulk save messages - private API
+    @RequestMapping()
+    public Map saveMessages(@RequestBody String messages) {
+        Map result = new HashMap();
+
+        MessageFormat[] msgArray = new Gson().fromJson(messages, MessageFormat[].class);
+        System.out.println(Arrays.asList(msgArray));
+
+        //return the success status
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK");
+        return result;
+    }
+
+    //ajax - get messages - private API
+    @RequestMapping()
+    public List<Message> getMessages(@RequestParam Integer channelId, @RequestParam Long date) {
+        List<Message> result = new LinkedList();
+
+        for (int i = 0; i < 50; i++) {
+            Message m = new Message();
+            m.setDate(new Date(date));
+            m.setChannel(new Channel(channelId));
+            m.setSender(new AppUser(1));
+            m.setMessage("kaydedilen mesaj: " + i);
+            result.add(m);
+        }
+
+        return result;
+    }
+
+
     //--------------------------------------------------------------------------
     //SETTERS
     //--------------------------------------------------------------------------
@@ -302,5 +339,18 @@ public class ApiController {
     @Autowired
     public void setChatService(ChatService chatService) {
         this.chatService = chatService;
+    }
+}
+
+//Ilgaz's message format
+class MessageFormat {
+    public long uid;
+    public long channel;
+    public long ts;
+    public String txt;
+
+    @Override
+    public String toString() {
+        return "" + uid + " " + channel + " " + ts + " " + txt;
     }
 }

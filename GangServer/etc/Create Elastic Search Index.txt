@@ -1,0 +1,22 @@
+Step 0: Download Elastic search and run it. (Default : localhost:9200)
+
+Step 1: Create the index
+
+//create
+curl -XPUT 'localhost:9200/gang?pretty'
+
+//check it
+curl 'localhost:9200/_cat/indices?v'
+
+
+//create the schema and sample message
+curl -XPUT 'http://localhost:9200/gang/message/1' -d '{
+    "id": 1,
+    "sender" : {"id":1},
+    "channel" : {"id":1},
+    "date" : 1425233190814,
+    "message" : "trying out Elasticsearch"
+}'
+
+//check it
+curl -XGET 'localhost:9200/gang/message/1?pretty'

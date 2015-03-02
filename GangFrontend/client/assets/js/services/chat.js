@@ -86,7 +86,7 @@
 
                 function handlePingMessage(d) {
                     if (d.type == "ping") {
-                        console.info("PING received ts", new Date(d.ts));
+                        //console.info("PING received ts", new Date(d.ts));
                         return true
                     }
                 }
@@ -98,7 +98,7 @@
 
 
                 var data = JSON.parse(e.data);
-                console.log("message received", "data", data);
+                //console.log("message received", "data", data);
 
                 handleTextMessage(data) ||
                 handleTypingStatusMessage(data) ||

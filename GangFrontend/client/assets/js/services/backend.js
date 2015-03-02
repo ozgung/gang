@@ -109,8 +109,8 @@
 
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
 
-
                 var cachedProfile = userProfileCache[userId];
+                console.log("______", userId, optionalGroupId,cachedProfile);
                 if (!cachedProfile) {
 
                     //return empty profile until api responds.

@@ -11,7 +11,7 @@
                             <img width="48" height="48" ng-src="http://graph.facebook.com/{{ message.uid }}/picture"/>
                         </div>
                         <div class="grid-content message-text">
-                            <h6>{{ getProfile(message.uid).displayName }} <span>@ {{ message.ts| date:'HH:mm'}}</span>
+                            <h6>{{ getProfile(message.uid).displayName }} <span>@ {{ message.ts| date:'HH:mm'}} dbg(loading|fetched): {{ getProfile(message.uid)._loading }} | {{ getProfile(message.uid)._fetched }}</span>
 
                                 <div style="float: right" ng-if="message.self">
                                     <a style="color: #e1e1e1" href="#" ng-click="edit(message)">&epsilon;</a>

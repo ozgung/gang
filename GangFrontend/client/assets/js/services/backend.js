@@ -106,6 +106,8 @@
             var userProfileCache = {};
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
 
+                userId = +userId; //force as number
+                optionalGroupId = +optionalGroupId; //force as number
 
                 var cachedProfile = userProfileCache[userId];
                 if (!cachedProfile) {

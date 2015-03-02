@@ -104,30 +104,30 @@
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
              */
-            var userProfileCache = {};
-            window._debug_upc = userProfileCache; //todo delete me
+            var _userProfileCache = {};
+            window._debug_upc = _userProfileCache; //todo delete me
 
-            this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
+            this.getUserProfile = function getUserProfile(userId, optionalGroupId) {
 
-                var cachedProfile = userProfileCache[userId];
+                var cachedProfile = _userProfileCache[userId];
 
                 //console.log("______", userId, optionalGroupId,cachedProfile);
 
                 if (!cachedProfile) {
                     console.log("1111111", userId, cachedProfile);
                     //return empty profile until api responds.
-                    userProfileCache[userId] = {_fetched: false, _loading: false};
-                    console.log("1111111_2", userId, userProfileCache);
+                    _userProfileCache[userId] = {_fetched: false, _loading: false};
+                    console.log("1111111_2", userId, _userProfileCache);
 
 
                     //update cache..
                     if (optionalGroupId) {
                         console.log("222222", userId, optionalGroupId);
 
-                        if (!userProfileCache[userId]._loading) {
-                            console.log("333333", userId, optionalGroupId,userProfileCache[userId]);
+                        if (!_userProfileCache[userId]._loading) {
+                            console.log("333333", userId, optionalGroupId,_userProfileCache[userId]);
 
-                            var oldProfile = userProfileCache[userId] || {};
+                            var oldProfile = _userProfileCache[userId] || {};
                             oldProfile._loading = true;
 
                             getTeamFromBackend(optionalGroupId).then(function (response) {
@@ -136,7 +136,7 @@
                                 response.users.forEach(function (userWrapped) {
 
                                     var fetchedUserProfile = userWrapped.id;
-                                    var _oldProfile = userProfileCache[fetchedUserProfile.id] || {}; //todo should be id not username
+                                    var _oldProfile = _userProfileCache[fetchedUserProfile.id] || {}; //todo should be id not username
 
                                     fetchedUserProfile._fetched = true;
                                     fetchedUserProfile._loading = false;
@@ -156,7 +156,7 @@
 
                 }
 
-                return userProfileCache[userId]
+                return _userProfileCache[userId]
             };
 
 

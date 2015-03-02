@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    console.log("Gang version 066");
+    console.log("Gang version 067");
     var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',

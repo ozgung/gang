@@ -57,9 +57,9 @@
                         }
                         //start work around online users
                         if (d.uid == magic_ids._userStatusChanged_ONLINE) {
-                            onlineUsers[d.msg] = true
+                            onlineUsers[+d.msg] = true
                         } else if (d.uid == magic_ids._userStatusChanged_OFFLINE) {
-                            delete onlineUsers[d.msg]
+                            delete onlineUsers[+d.msg]
                         }
 
                         //end work around onliner users

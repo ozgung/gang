@@ -98,12 +98,15 @@
                 })
             };
 
+
             window._debug = this; //todo delete me
             /**
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
              */
             var userProfileCache = {};
+            window._debug_upc = userProfileCache; //todo delete me
+
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
 
 

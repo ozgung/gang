@@ -93,12 +93,12 @@
             function getTeamFromBackend(groupId) {
                 console.log("getTeamFromBackend 001");
 
-                return doRequest("team", {id: groupId}).then(function (t) {
+                return doRequest("team", {id: +groupId}).then(function (t) {
                     return t.team
                 })
             };
 
-
+            window._debug =  this; //todo delete me
             /**
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
@@ -129,7 +129,7 @@
                                 response.users.forEach(function (userWrapped) {
 
                                     var fetchedUserProfile = userWrapped.user;
-                                    var _oldProfile = userProfileCache[fetchedUserProfile.username] || {}; //todo should be id not username
+                                    var _oldProfile = userProfileCache[+fetchedUserProfile.username] || {}; //todo should be id not username
 
                                     fetchedUserProfile._fetched = true;
                                     fetchedUserProfile._loading = false;

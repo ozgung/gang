@@ -59,7 +59,7 @@
             }
 
             $scope.getProfile = function (userId) {
-                return backend.getUserProfile(userId, channelId);
+                return backend.getUserProfile(+userId, channelId);
             };
 
             $scope.deleteMessage = function (message) {

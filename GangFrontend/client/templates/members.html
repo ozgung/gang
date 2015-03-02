@@ -7,7 +7,7 @@
     <li ng-repeat='member in members'>
         <img ng-src="data:image/png;base64,{{ member.profileImage }}">
 
-        <div ng-class="{userOnline: isUserOnline(member.username)}">
+        <div ng-class="{userOnline: isUserOnline(member.id)}">
             {{ member.firstName }} {{ member.lastName }}
         </div>
     </li>

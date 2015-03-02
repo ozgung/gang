@@ -105,12 +105,7 @@
              */
             var userProfileCache = {};
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
-                console.log("________1", userId, optionalGroupId);
 
-                userId = +userId; //force as number
-                optionalGroupId = +optionalGroupId; //force as number
-
-                console.log("________2", userId, optionalGroupId);
 
                 var cachedProfile = userProfileCache[userId];
                 if (!cachedProfile) {
@@ -131,8 +126,8 @@
                                 console.log("getProfileFromBackend 002");
                                 response.users.forEach(function (userWrapped) {
 
-                                    var fetchedUserProfile = userWrapped.user;
-                                    var _oldProfile = userProfileCache[+fetchedUserProfile.username] || {}; //todo should be id not username
+                                    var fetchedUserProfile = userWrapped.id;
+                                    var _oldProfile = userProfileCache[fetchedUserProfile.id] || {}; //todo should be id not username
 
                                     fetchedUserProfile._fetched = true;
                                     fetchedUserProfile._loading = false;

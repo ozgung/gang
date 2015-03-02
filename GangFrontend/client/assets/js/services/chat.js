@@ -122,8 +122,9 @@
 
             this.setChannels = function (channels) {
                 channels.forEach(function (it) {
-                    console.log("channel id: ", it.id);
-                    messages[it.id] = [];
+                    var channelId =  +it.id;
+                    console.log("channel id: ", +channelId);
+                    messages[channelId] = [];
                 });
             };
 
@@ -133,7 +134,7 @@
                     ws.send(JSON.stringify({
                         type: 'cmd_usr_typing',
                         isTyping: isTyping,
-                        channel: activeChannelId
+                        channel: +activeChannelId
                     }));
                 }
 
@@ -163,13 +164,13 @@
                 ws.send(JSON.stringify({
                     msg: message,
                     type: 'message',
-                    channel: activeChannelId
+                    channel: +activeChannelId
                 }));
             };
 
             this.setActiveChannel = function (channel) {
                 console.log("setting active channelId", channel);
-                activeChannelId = channel;
+                activeChannelId = +channel;
 
                 activeChannelDeferred = $q.defer();
 
@@ -214,7 +215,7 @@
                     _newMessageCounter[channelid] = 0
                 }
                 return x
-            }
+            };
 
             function socketError(event) {
                 console.warn("SOCKETERROR001", "trying to reconnect", event);

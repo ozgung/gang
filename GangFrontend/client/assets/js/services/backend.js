@@ -114,27 +114,27 @@
                 //console.log("______", userId, optionalGroupId,cachedProfile);
 
                 if (!cachedProfile) {
-                    console.log("1111111", userId, cachedProfile);
+                    //console.log("1111111", userId, cachedProfile);
                     //return empty profile until api responds.
                     _userProfileCache[userId] = {_fetched: false, _loading: false};
-                    console.log("1111111_2", userId, _userProfileCache);
+                    //console.log("1111111_2", userId, _userProfileCache);
 
 
                     //update cache..
                     if (optionalGroupId) {
-                        console.log("222222", userId, optionalGroupId);
+                        //console.log("222222", userId, optionalGroupId);
 
                         if (!_userProfileCache[userId]._loading) {
-                            console.log("333333", userId, optionalGroupId,_userProfileCache[userId]);
+                            //console.log("333333", userId, optionalGroupId,_userProfileCache[userId]);
 
                             var oldProfile = _userProfileCache[userId] || {};
                             oldProfile._loading = true;
 
                             getTeamFromBackend(optionalGroupId).then(function (response) {
-                                console.log("444444", userId);
-                                console.log("getProfileFromBackend 002");
+                                //console.log("444444", userId);
+                                //console.log("getProfileFromBackend 002");
                                 response.users.forEach(function (userWrapped) {
-                                console.log("55555555555", userId, "warppedUser", userWrapped);
+                                //console.log("55555555555", userId, "warppedUser", userWrapped);
 
 
                                     var fetchedUserProfile = userWrapped.user;

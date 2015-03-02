@@ -133,7 +133,7 @@
                     ws.send(JSON.stringify({
                         type: 'cmd_usr_typing',
                         isTyping: isTyping,
-                        channel: activeChannelId
+                        channel: +activeChannelId
                     }));
                 }
 
@@ -163,7 +163,7 @@
                 ws.send(JSON.stringify({
                     msg: message,
                     type: 'message',
-                    channel: activeChannelId
+                    channel: +activeChannelId
                 }));
             };
 

@@ -6,6 +6,17 @@
 
         .service('chat', function ($websocket, token, $rootScope, backend, $q) {
 
+            //todo these will be refactored
+            var magic_ids = {
+                _PERSISTED: -15
+                , _userStatusChanged_OFFLINE: -14
+                , _numberOfOnlineUsers: -13
+                , _userStatusChanged_ONLINE: -12
+                , _replyingChannelHistory_FINISHED: -11
+                , _replyingChannelHistory_STARTED: -10
+
+            };
+
             var self = this;
             var activeChannelId;
             var activeChannelDeferred = $q.defer();
@@ -41,13 +52,13 @@
                         //workaround reset current channel we received our message in the current channel
                         if (_countNewMessagesNumber[d.msg] && activeChannelId != d.channel) {
                             _newMessageCounter_inc(d.channel);
-                        } else if (d.uid == "_replyingChannelHistory_FINISHED") {
+                        } else if (d.uid == magic_ids._replyingChannelHistory_FINISHED) {
                             _countNewMessagesNumber[d.msg] = true
                         }
                         //start work around online users
-                        if (d.uid == "_userStatusChanged_ONLINE") {
+                        if (d.uid == magic_ids._userStatusChanged_ONLINE) {
                             onlineUsers[d.msg] = true
-                        } else if (d.uid == "_userStatusChanged_OFFLINE") {
+                        } else if (d.uid == magic_ids._userStatusChanged_OFFLINE) {
                             delete onlineUsers[d.msg]
                         }
 
@@ -75,7 +86,7 @@
 
                 function handlePingMessage(d) {
                     if (d.type == "ping") {
-                        console.info("PING received ts",new Date(d.ts));
+                        console.info("PING received ts", new Date(d.ts));
                         return true
                     }
                 }
@@ -89,9 +100,9 @@
                 var data = JSON.parse(e.data);
                 console.log("message received", "data", data);
 
-                handleTextMessage(data)        ||
-                handleTypingStatusMessage(data)||
-                handlePingMessage(data)        ||
+                handleTextMessage(data) ||
+                handleTypingStatusMessage(data) ||
+                handlePingMessage(data) ||
                 handleOtherMessage(data);
             });
 

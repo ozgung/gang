@@ -134,8 +134,10 @@
                                 console.log("444444", userId);
                                 console.log("getProfileFromBackend 002");
                                 response.users.forEach(function (userWrapped) {
+                                console.log("55555555555", userId, "warppedUser", userWrapped);
 
-                                    var fetchedUserProfile = userWrapped.id;
+
+                                    var fetchedUserProfile = userWrapped.user;
                                     var _oldProfile = _userProfileCache[fetchedUserProfile.id] || {}; //todo should be id not username
 
                                     fetchedUserProfile._fetched = true;

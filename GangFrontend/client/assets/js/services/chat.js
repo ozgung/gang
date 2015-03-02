@@ -35,7 +35,7 @@
             var _countNewMessagesNumber = {};
             var onlineUsers = {};
             this.isUserOnline = function (uid) {
-                return onlineUsers[uid]
+                return onlineUsers[Number(uid)]
             };
 
             ws.onMessage(function (e) {
@@ -57,9 +57,10 @@
                         }
                         //start work around online users
                         if (d.uid == magic_ids._userStatusChanged_ONLINE) {
-                            onlineUsers[+d.msg] = true
+                            console.log("user is now online",d);
+                            onlineUsers[Number(d.msg)] = true
                         } else if (d.uid == magic_ids._userStatusChanged_OFFLINE) {
-                            delete onlineUsers[+d.msg]
+                            delete onlineUsers[Number(d.msg)]
                         }
 
                         //end work around onliner users

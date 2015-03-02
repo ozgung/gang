@@ -98,16 +98,19 @@
                 })
             };
 
-            window._debug =  this; //todo delete me
+            window._debug = this; //todo delete me
             /**
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
              */
             var userProfileCache = {};
             this.getUserProfile = function userProfileCache(userId, optionalGroupId) {
+                console("________1", userId, optionalGroupId);
 
                 userId = +userId; //force as number
                 optionalGroupId = +optionalGroupId; //force as number
+
+                console("________2", userId, optionalGroupId);
 
                 var cachedProfile = userProfileCache[userId];
                 if (!cachedProfile) {

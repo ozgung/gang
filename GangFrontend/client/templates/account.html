@@ -1,4 +1,34 @@
-<div class='grid-frame gang-home'>
+<div class="wrapper">
+  <div class="left-panel">
+    <div class="logo"><img src="assets/img/logo.png"></div>
+    <div class="user-panel"><img class="user-settings-icon" src="assets/img/settings.png"><img class="user-profile-icon" src="img/user.jpg"><img class="user-logout-icon" src="img/logout.png"></div>
+    <div class="groups-and-friends">
+      <div class="groups-button"><img src="assets/img/groups.gif"> Groups</div>
+      <div class="friends-button">Users <img src="assets/img/friends.gif"></div>
+    </div>
+    <div class="group-list group">
+			<ul>
+				<li ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" ui-sref='chat({channel:team.id})'>
+					<div class="colorbox">
+						<div style="background-color: #c0392b;">SI</div>
+					</div>
+					<span>{{ team.name }}</span>
+					<i class="fa fa-times"></i>
+        </li>
+			</ul>
+		</div>
+	</div>
+	<div class="main-panel">
+	
+		<ui-view name='main'></ui-view>
+		
+    <div class="right-panel">
+			<div class="right-title">Users</div>
+		</div>
+	</div>
+</div>
+	
+<!--<div class='grid-frame gang-home'>
 
     <zf-panel id="gang-left-panel" zf-swipe-close="left" position="left"
               class="medium-grid-block medium-3 gang-panel vertical">
@@ -35,4 +65,4 @@
             <ui-view name='right-panel'></ui-view>
         </div>
     </zf-panel>
-</div>
+</div>-->

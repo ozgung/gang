@@ -1,4 +1,36 @@
-<div class='gang-chat-area grid-block vertical'>
+<div class="main-title">
+	<div class="colorbox"><div style="background-color: #c0392b;">SI</div></div> Startup Istanbul <span class="online-users"><i class="fa fa-angle-double-right"></i> <i class="fa fa-users"></i> 6</span>
+</div>
+<div class="collapse">
+
+	<div class="antiscroll-wrap">
+		<div class="messages antiscroll-inner">
+			<ul>
+				<li ng-repeat="message in thisChannelMessages">
+					<div class="profile"><img src="assets/img/user.jpg"></div>
+					<div class="message">
+						<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b> @erencan - 13:32</div>
+						<div class="message-text" ng-bind-html="message.msg | emoji"></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="input-area">
+    <textarea id="message_input" placeholder="Mesajınızı yazıp enter'a basın..." ng-model='message'></textarea>
+    <span class="is-typing" ng-repeat="(uid, user) in usersTypingNow">
+      <span ng-if="$first">typing: </span>
+
+      <div class="grid-content shrink">
+          <img width="24" height="24" ng-src="http://graph.facebook.com/{{ uid }}/picture" title="{{ uid }}">
+      </div>
+      <span ng-if="$middle">,</span>
+    </span>
+  </div>
+</div>
+
+<!--<div class='gang-chat-area grid-block vertical'>
     <div class='grid-content collapse shrink'>
         <div class="title expand ng-scope">{{ activeChannel.name }}</div>
     </div>
@@ -45,4 +77,4 @@
 
     </div>
 
-</div>
+</div>-->

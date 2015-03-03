@@ -35,6 +35,11 @@ public class ElasticSearchUtil {
 
         String url = "http://localhost:9200/gang";
         ServerResult result = null;
+        
+        /*
+        System.out.println(new Date().getTime());
+        if (true) return;
+        /*/
 
         /*
          result = restTemplate.getForObject(url + "/message/{id}", ServerResult.class, "1");
@@ -126,6 +131,7 @@ public class ElasticSearchUtil {
                 + "      }\n"
                 + "    }\n"
                 + "  },\n"
+                + "  \"sort\" : \"date\",\n"
                 + "  \"size\": 50\n"
                 + "}";
         

@@ -96,6 +96,7 @@ public class SearchService {
                 + "      }\n"
                 + "    }\n"
                 + "  },\n"
+                + "  \"sort\" : \"date\",\n"
                 + "  \"size\": 50\n"
                 + "}";
 

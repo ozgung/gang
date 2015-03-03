@@ -80,46 +80,60 @@ public class ElasticSearchUtil {
 
 
         //bulk create
-        List<Message> messages = new LinkedList();
-        for (int i = 1; i < 10; i++) {
-            m = new Message();
-            m.setSender(new AppUser(i));
-            m.setChannel(new Channel(i));
-            m.setMessage("bu bir test mesajıdır " + i);
-            m.setDate(new Date());
-            messages.add(m);
+        /*
+         List<Message> messages = new LinkedList();
+         for (int i = 1; i < 10; i++) {
+         m = new Message();
+         m.setSender(new AppUser(i));
+         m.setChannel(new Channel(i));
+         m.setMessage("bu bir test mesajıdır " + i);
+         m.setDate(new Date());
+         messages.add(m);
+         }
+
+         StringBuilder sb = new StringBuilder();
+         for (Message msg : messages) {
+         sb.append("{\"index\":{\"_id\":\"" + msg.getChannel().getId() + "_" + msg.getDate().getTime() + "\"}}");
+         sb.append('\n');
+         sb.append(new String(jsonConverter.getObjectMapper().writer().writeValueAsString(msg)));
+         //sb.append(gson.toJson(msg));
+         sb.append('\n');
+         }
+
+         System.out.println(sb.toString());
+         String resultStr = restTemplate.postForObject(url + "/message/_bulk", sb.toString(), String.class);
+         System.out.println(resultStr);
+         */
+
+        //load
+
+        long ts = 1425415959775L;
+        String query = "{\n"
+                + "  \"query\": {\n"
+                + "    \"filtered\": {\n"
+                + "      \"query\": { \"match_all\": {} },\n"
+                + "      \"filter\": {\n"
+                + "        \"and\": [\n"
+                + "            {\n"
+                + "                \"range\": {\n"
+                + "                    \"date\": {\"lt\": " + ts + "}\n"
+                + "                }\n"
+                + "            },\n"
+                + "            {\n"
+                + "               \"term\" : { \"channel.id\" : " + 3 + "}\n"
+                + "            } \n"
+                + "        ]          \n"
+                + "      }\n"
+                + "    }\n"
+                + "  },\n"
+                + "  \"size\": 50\n"
+                + "}";
+        
+        result = restTemplate.postForObject(url+"/message/_search", query, ServerResult.class);
+        for (ServerResult h : result.hits.hits){
+            System.out.println(new com.google.gson.Gson().toJson(h._source));
         }
-
-        StringBuilder sb = new StringBuilder();
-        for (Message msg : messages) {
-            sb.append("{\"index\":{\"_id\":\"" + msg.getChannel().getId() + "_" + msg.getDate().getTime() + "\"}}");
-            sb.append('\n');
-            sb.append(new String(jsonConverter.getObjectMapper().writer().writeValueAsString(msg)));
-            //sb.append(gson.toJson(msg));
-            sb.append('\n');
-        }
-
-        System.out.println(sb.toString());
-        String resultStr = restTemplate.postForObject(url + "/message/_bulk", sb.toString(), String.class);
-        System.out.println(resultStr);
-
+                
     }
 
-}
-
-class ServerResult {
-    public String _index;
-    public String _type;
-    public String _id;
-    public Integer _version;
-    public Boolean found;
-    public Boolean created;
-    //public Map _source;
-    public Message _source;
-    public ServerResultHits hits;
-}
-
-class ServerResultHits {
-    public Integer total;
-    public List<ServerResult> hits;
 }

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.gangchat.service.chat.domain.Message;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -67,4 +68,61 @@ public class SearchService {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Load 50 messages before a certain date in a certain channel
+     * @param channelId the channel
+     * @param date the timestamp
+     * @return list of messages
+     */
+    public List<Message> loadMessages(int channelId, long date) {
+        List<Message> result = new LinkedList();
+        
+        String query = "{\n"
+                + "  \"query\": {\n"
+                + "    \"filtered\": {\n"
+                + "      \"query\": { \"match_all\": {} },\n"
+                + "      \"filter\": {\n"
+                + "        \"and\": [\n"
+                + "            {\n"
+                + "                \"range\": {\n"
+                + "                    \"date\": {\"lt\": " + date + "}\n"
+                + "                }\n"
+                + "            },\n"
+                + "            {\n"
+                + "               \"term\" : { \"channel.id\" : " + channelId + "}\n"
+                + "            } \n"
+                + "        ]          \n"
+                + "      }\n"
+                + "    }\n"
+                + "  },\n"
+                + "  \"size\": 50\n"
+                + "}";
+
+        ServerResult serverResult = restTemplate.postForObject(url + "/message/_search", query, ServerResult.class);
+        for (ServerResult r : serverResult.hits.hits){
+            r._source.getSender().setTeams(null);
+            r._source.getChannel().setMessages(null);
+            result.add(r._source);
+        }
+        
+        return result;
+    }
+}
+
+class ServerResult {
+    public String _index;
+    public String _type;
+    public String _id;
+    public Integer _version;
+    public Boolean found;
+    public Boolean created;
+    //public Map _source;
+    public Message _source;
+    public ServerResultHits hits;
+}
+
+class ServerResultHits {
+    public Integer total;
+    public List<ServerResult> hits;
 }

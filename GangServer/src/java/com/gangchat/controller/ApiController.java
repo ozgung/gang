@@ -332,18 +332,7 @@ public class ApiController {
     //ajax - get messages - private API
     @RequestMapping()
     public List<Message> getMessages(@RequestParam Integer channelId, @RequestParam Long date) {
-        List<Message> result = new LinkedList();
-
-        for (int i = 0; i < 50; i++) {
-            Message m = new Message();
-            m.setDate(new Date(date));
-            m.setChannel(new Channel(channelId));
-            m.setSender(new AppUser(1));
-            m.setMessage("kaydedilen mesaj: " + i);
-            result.add(m);
-        }
-
-        return result;
+        return searchService.loadMessages(channelId, date);
     }
 
 

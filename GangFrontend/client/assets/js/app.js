@@ -1,6 +1,16 @@
+/**********************************************/
+/*     DISABLING LOGS    											*/
+
+//var CONSOLE_LOG = console.log;
+//console.log = function(){};
+
+/**********************************************/
+
 (function () {
     'use strict';
-    console.log("Gang version 073");
+    
+		console.log("Gang version 073");
+		
     var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',
@@ -111,40 +121,8 @@
             .state('chat', {
                 url: ':channel',
                 parent: 'account',
-                resolve: {
-                    // todo bu bolume gerek yok artik? ~ilgaz
-                    //group: function ($stateParams, fb) {
-                    //    //return fb.group($stateParams.channel);
-                    //    //todo simdilik bozulmasin diye istanbul startups kanalinin facebook idsini yazdim
-                    //    //channel artik bizim database deki id facebook idsi degil
-                    //    return fb.group("1404267526538940");
-                    //},
-                    //members: function ($stateParams, fb) {
-                    //    return fb.members("1404267526538940");
-                    //}
-                },
-                views: {
-                    'main': {
-                        templateUrl: 'templates/chat.html',
-                        controller: 'ChatCtrl'
-                    },
-                    'right-panel': {
-                        templateUrl: 'templates/members.html',
-                        controller: function ($scope, chat) {
-
-
-                            chat.getActiveChannel().then(function (c) {
-                                var teamUsers = [];
-                                c.users.forEach(function (_u) {
-                                    teamUsers.push(_u.user)
-                                });
-                                $scope.members = teamUsers;
-                                $scope.isUserOnline = chat.isUserOnline
-                            });
-
-                        }
-                    }
-                }
+								templateUrl:'templates/chat.html',
+								controller: 'ChatCtrl'
             });
 
         $locationProvider.html5Mode({

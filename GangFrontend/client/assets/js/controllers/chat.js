@@ -52,6 +52,12 @@
                 $scope.thisChannelMessages = chat.getThisChannelMessages();
                 chat.getActiveChannel().then(function (c) {
                     $rootScope.activeChannel = c;
+										var teamUsers = [];
+										c.users.forEach(function (_u) {
+												teamUsers.push(_u.user)
+										});
+										$scope.members = teamUsers;
+										$scope.isUserOnline = chat.isUserOnline
                 });
 
                 clearFocus();
@@ -86,11 +92,11 @@
                 $scope.message = message.msg;
 
             };
-            init();
+            
+						init();
 
             //Exports
             $scope.send = send;
-
 
         });
 

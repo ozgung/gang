@@ -1,0 +1,63 @@
+.messages {
+}
+.messages ul {
+	width: 100%;
+}
+.messages .profile {
+	position: absolute;
+	left: 25px;
+}
+.messages .profile img {
+	margin-top: 2px;
+	width: 36px;
+	height: 36px;
+	border-radius: 5px;
+}
+.messages, .message-info, .message {
+	width: 100%;
+}
+.message-info {
+	color: #ccc;
+}
+.message-info a {
+	color: #ccc;
+	cursor: pointer;
+}
+.message-info b {
+	color: #444;
+}
+.message .message-options {
+	display: none;
+
+}
+.message textarea {
+	width: 100%;
+	margin-top: 5px;
+	line-height: 22px;
+	padding: 5px;
+	border-radius: 5px;
+	resize: none;
+}
+.messages .editing {
+	background: #FFF5CF;
+}
+.message .edit-info {
+	color: #666;
+	font-size: 12px;
+	line-height: 12px;
+	height: 16px;
+}
+.message .edit-info a {
+	font-weight: 700;
+}
+.message:hover .message-options {
+	display: inline-block;
+}
+.message-text {
+	line-height: 1.4;
+}
+.message {
+	padding-left:70px;
+	padding-right: 20px;
+	margin-top: 15px;
+}

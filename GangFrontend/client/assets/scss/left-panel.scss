@@ -1,0 +1,146 @@
+.left-panel {
+	background: rgba(47,135,193,0.8);
+	width: 220px;
+  color: #ffffff;
+	padding: 20px 0;
+	position: relative;
+}
+
+.logo {
+	margin-bottom: 20px;
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+.user-panel {
+	text-align: center;
+}
+.user-panel img {
+	margin: 10px;
+}
+
+.user-profile-icon {
+	max-width: 64px;
+	max-height: 64px;
+	border-radius: 32px;
+}
+.user-settings-icon, .user-logout-icon {
+	position: relative;
+	bottom: 16px;
+}
+.groups-and-friends {
+	width: 180px;
+	height: 32px;
+	text-align: center;
+	margin: auto;
+}
+.groups-and-friends img {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	float: left;
+	margin: 8px 8px 8px 10px;
+}
+
+.friends-button img {
+	float: right;
+	margin: 8px 10px 8px 8px;
+}
+
+.groups-button, .friends-button {
+	width: 90px;
+	border-radius: 20px 0 0 20px;
+	background: #ffffff;
+	line-height: 32px;
+	height: 32px;
+	color: #0474c8;
+	font-size: 13px;
+	font-weight: 700;
+	text-align: left;
+	float: left;
+}
+
+.friends-button {
+	border-radius: 0 20px 20px 0;
+	text-align: right;
+	float: right;
+	border-left: 1px solid #f0eade;
+}
+
+.group-list {
+	margin-top: 20px;
+}
+
+.group-list > ul{
+	margin:0;
+}
+
+.group-list .profilebox {
+	margin: 0;
+	padding: 7px;
+	background-color: #ffffff;
+	width: 48px;
+	height: 48px;
+	border-radius: 0px 24px 24px 0px;
+}
+
+.group-list .profilebox img {
+	border-radius: 16px;
+	width: 32px;
+	height: 32px;
+}
+
+.group-list li {
+	height: 48px;
+	width: 100%;
+	display: table;
+	margin-top: 5px;
+	background-color: #2f87c1;
+	border-top: 1px solid #1d7ab7;
+	border-bottom: 1px solid #1d7ab7;
+	position: relative;
+	cursor: pointer;
+}
+.group-list li i {
+	position: absolute;
+	right: 10px;
+	top: 16px;
+	font-size: 13px;
+	cursor: pointer;
+	opacity: 0.7;
+	display: none;
+}
+.group-list li i:hover {
+	opacity: 1;
+}
+.group-list li:hover i {
+	display: block;
+}
+.group-list span {
+	display: table-cell;
+	vertical-align: middle;
+	height: 48px;
+	width: 180px;
+	padding-left: 5px;
+	padding-right: 20px;
+	font-size: 13px;
+	font-weight: 700;
+	color: #c4d6ed;
+}
+.group-list li.has-messages span {
+	font-weight: 900;
+	color: #ffffff;
+}
+.group-list li.active span {
+	color: #2f87c1;
+}
+.group-list li.active {
+	background-color: #ffffff;
+}
+.group-list li:hover span {
+	color: #ffffff;
+}
+.group-list li.active:hover span {
+	color: #2f87c1;
+}

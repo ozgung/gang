@@ -1,80 +1,100 @@
-<div class="main-title">
-	<div class="colorbox"><div style="background-color: #c0392b;">SI</div></div> Startup Istanbul <span class="online-users"><i class="fa fa-angle-double-right"></i> <i class="fa fa-users"></i> 6</span>
-</div>
-<div class="collapse">
+<div class='grid-block vertical'>
 
-	<div class="antiscroll-wrap">
-		<div class="messages antiscroll-inner">
-			<ul>
-				<li ng-repeat="message in thisChannelMessages">
-					<div class="profile"><img src="assets/img/user.jpg"></div>
-					<div class="message">
-						<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b> @erencan - 13:32</div>
-						<div class="message-text" ng-bind-html="message.msg | emoji"></div>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
-	
-	<div class="input-area">
-    <textarea id="message_input" placeholder="Mesajınızı yazıp enter'a basın..." ng-model='message'></textarea>
-    <span class="is-typing" ng-repeat="(uid, user) in usersTypingNow">
-      <span ng-if="$first">typing: </span>
-
-      <div class="grid-content shrink">
-          <img width="24" height="24" ng-src="http://graph.facebook.com/{{ uid }}/picture" title="{{ uid }}">
-      </div>
-      <span ng-if="$middle">,</span>
-    </span>
+  <div class='grid-content collapse shrink'>
+		<div class="main-title">
+      
+			<div class="colorbox">
+				<div style="background-color: #c0392b;">SI</div>
+			</div> 
+			
+			{{activeChannel.name}}
+			
+			<span class="online-users">
+				<i class="fa fa-angle-double-right"></i> 
+				<i class="fa fa-users"></i> 6
+			</span>
+    </div>
+		<!--<div class="title expand ng-scope">{{ activeChannel.name }}</div>-->
   </div>
+	
+	<div class='grid-block'>
+
+		<div class='grid-block vertical'>
+		
+			<div class='grid-content' scroll-glue>
+			
+				<div class='block-list messages'>
+					<ul>
+						<li ng-repeat="message in thisChannelMessages">
+							<div class="profile"><img ng-src="data:image/png;base64,{{getProfile(message.uid).profileImage}}"/></div>
+							<div class="message">
+								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b> @erencan - {{ getProfile(message.uid)._fetched }}</div>
+								<div class="message-text" ng-bind-html="message.msg | emoji"></div>
+							</div>
+
+							<!--<div class="grid-block shrink">
+								<div class="grid-content shrink">
+									<img width="48" height="48" ng-src="data:image/png;base64,{{getProfile(message.uid).profileImage}}"/>
+								</div>
+								<div class="grid-content message-text">
+								
+									<h6> <span>@ {{ message.ts| date:'HH:mm'}} dbg(loading|fetched): {{ getProfile(message.uid)._loading }} | </span>
+										<div style="float: right" ng-if="message.self">
+											<a style="color: #e1e1e1" href="#" ng-click="edit(message)">&epsilon;</a>
+											<a style="color: #ffd8dd" href="#" ng-click="deleteMessage(message)">&times;</a>
+										</div>
+									</h6>
+									<p ng-bind-html="message.msg | emoji"></p>
+								</div>
+							</div>-->
+						</li>
+					</ul>
+				</div>
+			</div>	
+			<div class='grid-content collapse shrink'>
+			
+				<!--<small class="inline-label">
+					<span ng-repeat="(uid, user) in usersTypingNow">
+						<span ng-if="$first">typing: </span>
+		
+						<div class="grid-content shrink">
+								<img width="24" height="24" ng-src="http://graph.facebook.com/{{ uid }}/picture" title="{{ uid }}">
+						</div>
+						<span ng-if="$middle">,</span>
+					</span>
+				</small>-->
+		
+				<div class="input-area">
+					<span class="is-typing" ng-repeat="(uid, user) in usersTypingNow">Ilgaz Şumnulu is typing...</span>
+					<textarea id="message_input" ng-model='message' placeholder="Type Your Message"></textarea>
+				</div>
+			</div>
+		</div>
+		
+		<zf-panel id="gang-right-panel" zf-swipe-close="right" position="right" class="medium-grid-block medium-2 right-panel">
+	
+			<div class="grid-content collapse expand">
+			
+				<div class="right-title">Users</div>
+				
+				<ul class="userlist">
+				
+					<li ng-repeat='member in members'>
+					
+						<div class="profilebox">
+						
+							<img ng-src="data:image/png;base64,{{ member.profileImage }}">
+							
+							<div class="username">{{ member.firstName }} {{ member.lastName }}</div>
+							
+							<span>
+								<i class="fa fa-circle online"></i> 
+								<i class="fa fa-check read"></i>
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</zf-panel>
+	</div>
 </div>
-
-<!--<div class='gang-chat-area grid-block vertical'>
-    <div class='grid-content collapse shrink'>
-        <div class="title expand ng-scope">{{ activeChannel.name }}</div>
-    </div>
-    <div class='grid-content gang-chat-list expand' scroll-glue>
-        <div class='block-list'>
-            <ul>
-                <li ng-repeat="message in thisChannelMessages">
-                    <div class="grid-block shrink">
-                        <div class="grid-content shrink">
-                            <img width="48" height="48" ng-src="data:image/png;base64,{{getProfile(message.uid).profileImage}}"/>
-                        </div>
-                        <div class="grid-content message-text">
-                            <h6>{{ getProfile(message.uid).displayName }} <span>@ {{ message.ts| date:'HH:mm'}} dbg(loading|fetched): {{ getProfile(message.uid)._loading }} | {{ getProfile(message.uid)._fetched }}</span>
-
-                                <div style="float: right" ng-if="message.self">
-                                    <a style="color: #e1e1e1" href="#" ng-click="edit(message)">&epsilon;</a>
-                                    <a style="color: #ffd8dd" href="#" ng-click="deleteMessage(message)">&times;</a>
-                                </div>
-                            </h6>
-                            <p ng-bind-html="message.msg | emoji"></p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="message-input grid-content collapse shrink">
-        <small class="inline-label">
-            <span ng-repeat="(uid, user) in usersTypingNow">
-                <span ng-if="$first">typing: </span>
-
-                <div class="grid-content shrink">
-                    <img width="24" height="24" ng-src="http://graph.facebook.com/{{ uid }}/picture" title="{{ uid }}">
-                </div>
-                <span ng-if="$middle">,</span>
-            </span>
-        </small>
-
-        <form>
-            <input type="text" id="message_input" ng-model='message' class="message-input" style="{{textInputStyle()}}"
-                   placeholder="Type Your Message">
-            <button type="submit" class="button message-button" ng-click='send()'>Send</button>
-        </form>
-
-    </div>
-
-</div>-->

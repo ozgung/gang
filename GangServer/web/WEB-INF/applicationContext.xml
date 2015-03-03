@@ -44,5 +44,9 @@
         <bean id="chatService" class="com.gangchat.service.chat.ChatService" init-method="init">      
             <property name="dataSource" ref="dataSource" />
         </bean>
+        
+        <!-- search service, message persistence and search operations -->
+        <bean id="searchService" class="com.gangchat.service.search.SearchService" init-method="init">      
+        </bean>
 
 </beans>

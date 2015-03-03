@@ -13,8 +13,8 @@ import com.gangchat.service.chat.domain.Channel;
 import com.gangchat.service.chat.domain.Message;
 import com.gangchat.service.chat.domain.Team;
 import com.gangchat.service.chat.domain.TeamUser;
+import com.gangchat.service.search.SearchService;
 import com.google.gson.Gson;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.GroupMembership;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
@@ -42,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ApiController {
     private ChatService chatService;
+    private SearchService searchService;
 
     //json enumerations
     public static final String JSON_STATUS_SUCCESS = "0";
@@ -304,9 +304,24 @@ public class ApiController {
     @RequestMapping()
     public Map saveMessages(@RequestBody String messages) {
         Map result = new HashMap();
-
+        
+        //get the messages to be saved in Ilgaz's format
         MessageFormat[] msgArray = new Gson().fromJson(messages, MessageFormat[].class);
-        System.out.println(Arrays.asList(msgArray));
+        
+        //convert to message object
+        List<Message> msgList = new LinkedList();
+        for (MessageFormat msg :msgArray){
+            Message message = new Message();
+            message.setMessage(msg.txt);
+            message.setSender(new AppUser((int)msg.uid));
+            message.setDate(new Date(msg.ts));
+            message.setChannel(new Channel((int)msg.channel));
+            message.setId(null);
+            msgList.add(message);
+        }
+        
+        //save for search
+        searchService.saveMessages(msgList);
 
         //return the success status
         result.put("status", JSON_STATUS_SUCCESS);
@@ -340,6 +355,12 @@ public class ApiController {
     public void setChatService(ChatService chatService) {
         this.chatService = chatService;
     }
+
+    @Autowired
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
+    
 }
 
 //Ilgaz's message format

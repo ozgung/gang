@@ -38,6 +38,11 @@
              * @param fbAuthData
              * @returns {*}
              */
+						 
+						/*
+							normalde bunlar backendde saklanacak. biz backendden aldığımız token ı localstorage da tutucaz. catay
+						*/
+						 
             this.authFB = function authWithFB() {
                 console.log("trace", "backend.authFB 001");
 
@@ -64,8 +69,8 @@
                 return backendResponse;
             };
 
-
             var meCache = null;
+						
             this.me = function me() {
                 function getMeFromBackend() {
                     console.log("getMeFromBackend 001");
@@ -81,14 +86,14 @@
                 return meCache
             };
 
-
             this.getTeam = function (groupId) {
                 if (!teamCache[groupId]) {
                     teamCache[groupId] = getTeamFromBackend(groupId)
                 }
                 return teamCache[groupId];
             };
-            var teamCache = {};
+            
+						var teamCache = {};
 
             function getTeamFromBackend(groupId) {
                 console.log("getTeamFromBackend 001");
@@ -98,13 +103,14 @@
                 })
             };
 
-
             window._debug = this; //todo delete me
             /**
              * todo Move this to a new Service i.e userService / accountService
              * @returns {*}
              */
-            var _userProfileCache = {};
+
+						 var _userProfileCache = {};
+						 
             window._debug_upc = _userProfileCache; //todo delete me
 
             this.getUserProfile = function getUserProfile(userId, optionalGroupId) {
@@ -161,7 +167,6 @@
                 return _userProfileCache[userId]
             };
 
-
-        })
+        });
 })
 ();

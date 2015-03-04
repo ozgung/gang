@@ -4,8 +4,10 @@
     angular.module('application')
 
         .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, $rootScope) {
-            var channelId = $stateParams.channel;
-            chat.setActiveChannel(channelId);
+            
+						var channelId = $stateParams.channel;
+            
+						chat.setActiveChannel(channelId);
 
             console.log("channelId", channelId);
             /**
@@ -15,14 +17,15 @@
             var MESSAGE_INPUT_ID = "message_input";
 
             function send() {
-                if (messageOnEdit) {
-                    messageOnEdit.msg = $scope.message
-                } else {
-                    //do send
-                    chat.sendMessage($scope.message);
-                }
-
-                clearFocus();
+						
+              if (messageOnEdit) {
+                  messageOnEdit.msg = $scope.message
+              } else {
+                  //do send
+                  chat.sendMessage($scope.message);
+              }
+							
+							clearFocus();
             }
 
             function clearFocus() {
@@ -48,15 +51,23 @@
             }
 
             function init() {
+						
                 $scope.messages = chat.messages;
+								
                 $scope.thisChannelMessages = chat.getThisChannelMessages();
+								
                 chat.getActiveChannel().then(function (c) {
+								
                     $rootScope.activeChannel = c;
+										
 										var teamUsers = [];
+										
 										c.users.forEach(function (_u) {
 												teamUsers.push(_u.user)
 										});
+										
 										$scope.members = teamUsers;
+										
 										$scope.isUserOnline = chat.isUserOnline
                 });
 
@@ -93,6 +104,19 @@
 
             };
             
+						$scope.keyPressed = function(event){
+							
+							var enter = (event.keyCode === 13);
+							var shift = event.shiftKey;
+							
+							if(enter && !shift){
+								send();
+								event.preventDefault();
+							}
+							
+							
+						};
+						
 						init();
 
             //Exports

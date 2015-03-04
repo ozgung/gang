@@ -2,7 +2,7 @@
 /*     DISABLING LOGS    											*/
 
 //var CONSOLE_LOG = console.log;
-//console.log = function(){};
+console.log = function(){};
 
 /**********************************************/
 
@@ -52,14 +52,23 @@
                             //todo donot send auth request to the backend each time, check with local storage
                             //todo handle backend timeout
                             //~ilgaz
+														
+														/* 
+															bu each time request göndermiyo ama.. her page reloadda gönderiyo. 
+															access token vs değişmesi ihtimali var falan. o yüzden
+															çatay
+														*/
+														
                             console.log("trace", "app.js/0001");
+														
                             return backend.authFB().then(function () {
+														
                                 console.log("trace", "app.js/0002");
-                                return true
+                                return true;
                             })
                         }, function () {
 
-                            return false
+                            return false;
                         });
                     }
                 }

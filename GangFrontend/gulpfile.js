@@ -27,8 +27,8 @@ var gulp           = require('gulp'),
 var sassPaths = [
   'client/assets/scss',
   'bower_components/foundation-apps/scss',
-	'bower_components/antiscroll/antiscroll.css',
 	'bower_components/angular-emoji-filter-hd/lib/emoji.css',
+	'bower_components/jquery.scrollbar/jquery.scrollbar.css',
 ];
 // These files include Foundation for Apps and its dependencies
 
@@ -50,7 +50,9 @@ var foundationJS = [
     'bower_components/angular-facebook/lib/angular-facebook.js',
     'bower_components/angular-scroll-glue/src/scrollglue.js',
     'bower_components/angular-websocket/angular-websocket.js',
-    'bower_components/angular-emoji-filter-hd/lib/emoji.js'
+    'bower_components/angular-emoji-filter-hd/lib/emoji.js',
+		'bower_components/jquery/dist/jquery.js',
+		'bower_components/jquery.scrollbar/jquery.scrollbar.js',
 ];
 
 // These files are for your app's JavaScript

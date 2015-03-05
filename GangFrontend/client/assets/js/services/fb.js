@@ -58,14 +58,18 @@
 					
 						var authResponse = response.authResponse;
 						
-						saveAuthResponse(authResponse);
-						resolve(authResponse.userId);
+						//saveAuthResponse(authResponse);
+						
+						resolve(authResponse);
+						
 					},{
 						scope:'email,user_groups'
 					});
 				});
 			};
-		
+			
+			/*
+			
 			this.logout = function() {
 			
 				return new Promise(function(resolve,reject){
@@ -117,6 +121,8 @@
 			};
 			
 			this.members = function(id){
+			
+			
 				return new Promise(function(resolve,reject){
 					
 					Facebook.api('/' + id + '/members', function(response) {
@@ -127,5 +133,7 @@
 					
 				});
 			};
+			
+			*/
 		});
 })();

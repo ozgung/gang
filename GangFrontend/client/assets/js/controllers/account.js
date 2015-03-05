@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-      .controller('AccountCtrl',function($scope,$state,chat,fb,user,teams) {
+      .controller('AccountCtrl',function($scope,$state,chat,fb,user,teams,$window) {
 				
 				chat.setChannels(teams);
 				
@@ -14,7 +14,7 @@
 				
 				$scope.logout = function(){
 				
-					localStorage.removeItem('token');
+					$window.localStorage.removeItem('token');
 					$state.go('guest');
 				};
       });

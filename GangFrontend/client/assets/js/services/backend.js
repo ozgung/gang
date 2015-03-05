@@ -29,43 +29,45 @@
               });
           };
 
-          /**
-           *
-           * todo refactor these: move them to service layer
-           * todo do not get these from localstorage
-           * @param fbAuthData
-           * @returns {*}
-           */
-				 
+        /**
+         *
+         * todo refactor these: move them to service layer
+         * todo do not get these from localstorage
+         * @param fbAuthData
+         * @returns {*}
+         */
+				
 				/*
 					normalde bunlar backendde saklanacak. biz backendden aldığımız token ı localstorage da tutucaz. catay
 				*/
 				 
-          this.authFB = function authWithFB(){
+          this.authFB = function authWithFB(fbAuthData){
 				
-              var fbAuthData = {
-                  token: localStorage.getItem('access-token'),
-                  expiresIn: localStorage.getItem('expiresIn'),
-                  userId: localStorage.getItem('userId'),
-                  signedRequest: localStorage.getItem('signedRequest')
-              };
-
-              var backendResponse = $http({
+              return doRequest('loginFB',{
+								token:fbAuthData.accessToken
+							}).then(function(response){
+							
+								localStorage.setItem('token', response.token);
+							});
+							/*
+							$http({
                   
 								method: 'get',
-                  url: 'http://app.ganghq.com/api/loginFB',
-                  params: fbAuthData
+                url: 'http://app.ganghq.com/api/loginFB',
+                params: fbAuthData
 								
               }).then(function(response){
-						
-							return response.data;
+								
+								console.log(response);
+								
+								return response.data;
+							
               }).then(function(response){
 						
                 localStorage.setItem('token', response.token);
+								
                 return response;
-              });
-
-              return backendResponse;
+              });*/
           };
 
           var meCache = null;

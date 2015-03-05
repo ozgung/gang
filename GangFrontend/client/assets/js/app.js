@@ -48,26 +48,27 @@
 
                   connected: function (fb, backend) {
 
-                      return fb.checkStatus().then(function () {
+                    return fb.checkStatus().then(function () {
 
-                          //todo donot send auth request to the backend each time, check with local storage
-                          //todo handle backend timeout
-                          //~ilgaz
-												
-												/* 
-													bu each time request göndermiyo ama.. her page reloadda gönderiyo. 
-													access token vs değişmesi ihtimali var falan. o yüzden
-													çatay
-												*/
-												
-                        return backend.authFB().then(function (){
-												
+                      //todo donot send auth request to the backend each time, check with local storage
+                      //todo handle backend timeout
+                      //~ilgaz
+										
+											/* 
+												bu each time request göndermiyo ama.. her page reloadda gönderiyo. 
+												access token vs değişmesi ihtimali var falan. o yüzden
+												çatay
+											*/
+										
+										return true;
+										
+                      /*
+												return backend.authFB().then(function (){
 													return true;
-                        });
-													
-                      }, function () {
-												return false;
-                      });
+												});
+											*/
+											
+                    });
                   }
               }
           })
@@ -77,12 +78,12 @@
               parent: 'app',
               templateUrl: 'templates/guest.html',
               controller: 'GuestCtrl',
-              onEnter:function(connected,$state){
+              /*onEnter:function(connected,$state){
 							
                 if(connected){
 									$state.go('account');
                 }
-              }
+              }*/
           })
 
           .state('account', {

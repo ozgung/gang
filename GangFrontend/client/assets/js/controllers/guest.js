@@ -10,9 +10,9 @@
 
           $scope.login = function(){
 
-            fb.login().then(function(response){
+            fb.login().then(function(fbResponse){
 						
-							return backend.authFB();
+							return backend.authFB(fbResponse);
 						
             }).then(function(response){
 						

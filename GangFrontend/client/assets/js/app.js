@@ -21,8 +21,7 @@
         //foundation
         'foundation',
         'dbaq.emoji',
-        'ngSanitize',
-				'antiscroll'
+        'ngSanitize'
     ])
 
     .config(config)

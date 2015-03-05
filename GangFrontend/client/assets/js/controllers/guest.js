@@ -16,7 +16,7 @@
 						
             }).then(function(response){
 						
-							$state.go('account');
+							$state.go('account.index');
             });
           };
         });

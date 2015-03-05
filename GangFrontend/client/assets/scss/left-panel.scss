@@ -4,13 +4,26 @@
   color: #ffffff;
 	padding: 20px 0;
 	position: relative;
-}
+	
+	& .menu {
+		
+		margin-bottom:20px;
+		
+		& .logo {
 
-.logo {
-	margin-bottom: 20px;
-	display: block;
-	width: 100%;
-	text-align: center;
+			margin-bottom: 20px;
+			display: block;
+			width: 100%;
+			text-align: center;
+		}
+		
+	}
+	
+	& .profile {
+		
+		margin-top:20px;
+	}
+	
 }
 
 .user-panel {
@@ -70,6 +83,7 @@
 
 .group-list {
 	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .group-list > ul{

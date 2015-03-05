@@ -8,7 +8,7 @@
     </div>
 		-->
 		
-		<div class='grid-content shrink'>
+		<div class='grid-content shrink menu'>
 			
 			<div class="logo"><img src="assets/img/logo.png"></div>
 			
@@ -22,24 +22,27 @@
 		
     <div class='grid-content collapse expand'>
 		
-			<div class='scrollbar-inner'>
-			
-				<div class='group-list'>
-					<ul>
-							<li ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" ui-sref='chat({channel:team.id})'>
-								<div class="colorbox">
-									<div style="background-color: #c0392b;">SI</div>
-								</div>
-								<span>{{ team.name }}</span>
-								<i class="fa fa-times"></i>
-								<div ng-show="numberOfunreadMessages(team.id)" style="position: relative;left: -5px;  float: left;color: magenta;">{{ numberOfunreadMessages(team.id) }}</div>
-							</li>
-					</ul>
-				</div>
+			<div class='group-list'>
+				<ul>
+				
+					<li ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" ui-sref='chat({channel:team.id})'>
+						
+						<div class="colorbox">
+							<div style="background-color: #c0392b;">SI</div>
+						</div>
+						
+						<span>{{ team.name }}</span>
+						
+						<i class="fa fa-times"></i>
+						
+						<div ng-show="numberOfunreadMessages(team.id)" style="position: relative;left: -5px;  float: left;color: magenta;">{{ numberOfunreadMessages(team.id) }}</div>
+					</li>
+				</ul>
 			</div>
     </div>
 		
-    <div class='grid-content shrink'>
+    <div class='grid-content shrink profile'>
+		
 			<div class="user-panel">
 				
 				<img class="user-settings-icon" src="assets/img/settings.png">

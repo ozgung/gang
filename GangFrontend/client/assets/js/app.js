@@ -50,25 +50,12 @@
 
                     return fb.checkStatus().then(function () {
 
-                      //todo donot send auth request to the backend each time, check with local storage
-                      //todo handle backend timeout
-                      //~ilgaz
+                      return true;
+                    },function(){
 										
-											/* 
-												bu each time request göndermiyo ama.. her page reloadda gönderiyo. 
-												access token vs değişmesi ihtimali var falan. o yüzden
-												çatay
-											*/
-										
-										return true;
-										
-                      /*
-												return backend.authFB().then(function (){
-													return true;
-												});
-											*/
-											
-                    });
+											localStorage.removeItem('token');
+											return false;
+										});
                   }
               }
           })
@@ -78,17 +65,18 @@
               parent: 'app',
               templateUrl: 'templates/guest.html',
               controller: 'GuestCtrl',
-              /*onEnter:function(connected,$state){
+              onEnter:function(connected,$state){
 							
                 if(connected){
-									$state.go('account');
+									$state.go('account.index');
                 }
-              }*/
+              }
           })
 
           .state('account', {
               url: '',
               parent: 'app',
+							abstract:true,
               templateUrl: 'templates/account.html',
               controller: 'AccountCtrl',
 							
@@ -118,11 +106,32 @@
 							}
           })
 
+					.state('account.index', {
+            url: '',
+						templateUrl:'templates/account.index.html',
+						onEnter:function($state){
+							
+							var last = localStorage.getItem('lastChannel');
+							
+							if(last){
+								
+								$state.go('chat',{
+									channel:last
+								});
+								
+							}
+						}
+          })
+					
           .state('chat', {
             url: ':channel',
             parent: 'account',
 						templateUrl:'templates/chat.html',
-						controller: 'ChatCtrl'
+						controller: 'ChatCtrl',
+						onEnter:function($stateParams){
+						
+							localStorage.setItem('lastChannel',$stateParams.channel);
+						}
           });
 
       $locationProvider.html5Mode({

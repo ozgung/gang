@@ -273,7 +273,8 @@ $include-css: (
 // 8. Block List
 // - - - - - - - - - - - - - - -
 
-// $blocklist-background: #fff;
+$blocklist-background: #fff;
+
 // $blocklist-fullbleed: true;
 // $blocklist-fontsize: 1rem;
 
@@ -281,7 +282,8 @@ $include-css: (
 // $blocklist-item-color: isitlight($blocklist-background, #000, #fff);
 // $blocklist-item-background-hover: smartscale($blocklist-background, 4.5%);
 // $blocklist-item-color-disabled: #999;
-// $blocklist-item-border: 1px solid smartscale($blocklist-background, 18.5%);
+
+$blocklist-item-border: 0px solid smartscale($blocklist-background, 18.5%);
 
 // $blocklist-item-label-color: scale-color($blocklist-item-color, $lightness: 60%);
 // $blocklist-item-icon-size: 0.8;

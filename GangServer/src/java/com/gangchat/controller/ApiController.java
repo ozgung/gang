@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.GroupMembership;
+import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -132,26 +133,25 @@ public class ApiController {
         try {
             Facebook facebook = new FacebookTemplate(token);
             String facebookId = facebook.userOperations().getUserProfile().getId();
+            String facebookFirstName = facebook.userOperations().getUserProfile().getFirstName();
+            String facebookMiddleName = facebook.userOperations().getUserProfile().getMiddleName();
+            String facebookLastName = facebook.userOperations().getUserProfile().getLastName();
+            String facebookEmail = facebook.userOperations().getUserProfile().getEmail();
+            byte[] profileImgBytes = facebook.userOperations().getUserProfileImage(ImageType.SQUARE);
 
             //get the user
             AppUser user = chatService.getUser(facebookId);
 
-            //check if user exist
-            if (user == null) {
+            //create/update user (create if not exist, update if already exists)
+            if (user == null) user = new AppUser();
+            user.setUsername(facebookId);
+            user.setFirstName(facebookFirstName);
+            if (facebookMiddleName != null && !facebookMiddleName.trim().equals("")) user.setFirstName(user.getFirstName() + " " + facebookMiddleName);
+            user.setLastName(facebookLastName);
+            user.setEmail(facebookEmail);
+            if (profileImgBytes != null) user.setProfileImage(Base64.getEncoder().encodeToString(profileImgBytes));
 
-                //create a new user (signup)
-                user = new AppUser();
-                user.setUsername(facebookId);
-                user.setFirstName(facebook.userOperations().getUserProfile().getFirstName());
-                String middleName = facebook.userOperations().getUserProfile().getMiddleName();
-                if (middleName != null && !middleName.trim().equals("")) user.setFirstName(user.getFirstName() + " " + middleName);
-                user.setLastName(facebook.userOperations().getUserProfile().getLastName());
-                user.setEmail(facebook.userOperations().getUserProfile().getEmail());
-                byte[] profileImgBytes = facebook.userOperations().getUserProfileImage();
-                if (profileImgBytes != null) user.setProfileImage(Base64.getEncoder().encodeToString(profileImgBytes));
-
-                chatService.saveUser(user);
-            }
+            chatService.saveUser(user);
 
             //Check user's FB groups and subscribe to new groups, archive nonexisting groups
             for (GroupMembership fbGroup : facebook.groupOperations().getMemberships()) {
@@ -304,13 +304,13 @@ public class ApiController {
     @RequestMapping()
     public Map saveMessages(@RequestBody String messages) {
         Map result = new HashMap();
-        
+
         //get the messages to be saved in Ilgaz's format
         MessageFormat[] msgArray = new Gson().fromJson(messages, MessageFormat[].class);
-        
+
         //convert to message object
         List<Message> msgList = new LinkedList();
-        for (MessageFormat msg :msgArray){
+        for (MessageFormat msg : msgArray) {
             Message message = new Message();
             message.setMessage(msg.txt);
             message.setSender(new AppUser((int)msg.uid));
@@ -319,7 +319,7 @@ public class ApiController {
             message.setId(null);
             msgList.add(message);
         }
-        
+
         //save for search
         searchService.saveMessages(msgList);
 
@@ -349,7 +349,7 @@ public class ApiController {
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
     }
-    
+
 }
 
 //Ilgaz's message format

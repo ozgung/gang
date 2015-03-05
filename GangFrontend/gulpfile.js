@@ -50,11 +50,7 @@ var foundationJS = [
     'bower_components/angular-facebook/lib/angular-facebook.js',
     'bower_components/angular-scroll-glue/src/scrollglue.js',
     'bower_components/angular-websocket/angular-websocket.js',
-    'bower_components/angular-emoji-filter-hd/lib/emoji.js',
-		'bower_components/jquery/jquery.js',
-		'bower_components/jquery.mousewheel/jquery.mousewheel.js',
-		'bower_components/antiscroll/antiscroll.js',
-		'bower_components/angular-antiscroll/angular-antiscroll.js',
+    'bower_components/angular-emoji-filter-hd/lib/emoji.js'
 ];
 
 // These files are for your app's JavaScript

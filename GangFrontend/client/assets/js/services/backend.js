@@ -70,7 +70,15 @@
 
           var meCache = null;
 				
-          this.me = function me() {
+					this.me = function(){
+					
+						return doRequest("me").then(function(response){
+						
+							return response.appUser;
+            });
+					};
+				
+          /*this.me = function me() {
 				
             function getMeFromBackend() {
 					
@@ -85,7 +93,7 @@
             }
 
             return meCache;
-          };
+          };*/
 
           this.getTeam = function (groupId) {
 				

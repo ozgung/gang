@@ -10,13 +10,14 @@
 
           $scope.login = function(){
 
-              fb.login().then(function(response){
-							
+            fb.login().then(function(response){
+						
 							return backend.authFB();
-								
-              }).then(function(response){
+						
+            }).then(function(response){
+						
 							$state.go('account');
-              });
+            });
           };
         });
 

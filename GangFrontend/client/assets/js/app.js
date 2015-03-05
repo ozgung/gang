@@ -21,7 +21,8 @@
         //foundation
         'foundation',
         'dbaq.emoji',
-        'ngSanitize'
+        'ngSanitize',
+				'jQueryScrollbar'
     ])
 
     .config(config)
@@ -95,7 +96,25 @@
                 if(!connected){
 									$state.go('guest');
                 }
-              }
+              },
+							
+							resolve:{
+								
+								user:function(backend){
+									return backend.me();
+								},
+								
+								teams:function(user){
+								
+									var teams = [];
+								
+									user.teams.forEach(function(team){
+										teams.push(team.team)
+									});
+									
+									return teams;
+								}
+							}
           })
 
           .state('chat', {

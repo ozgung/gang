@@ -2,38 +2,49 @@
 
   <zf-panel id="gang-left-panel" zf-swipe-close="left" position="left" class="medium-grid-block shrink vertical left-panel">
 			
-    <!--<div class='grid-content shrink hide-for-medium'>
-      <a zf-close class="close-button">&times;</a>
-    </div>-->
+    <!--
+			<div class='grid-content shrink hide-for-medium'>
+				<a zf-close class="close-button">&times;</a>
+    </div>
+		-->
+		
 		<div class='grid-content shrink'>
 			
 			<div class="logo"><img src="assets/img/logo.png"></div>
 			
 			<div class="groups-and-friends">
+			
 				<div class="groups-button"><img src="assets/img/groups.gif"> Groups</div>
+				
 				<div class="friends-button">Users <img src="assets/img/friends.gif"></div>
 			</div>
 		</div>
 		
-    <div id='gang-list' class='grid-content collapse expand'>
-			<div class='group-list'>
-				<ul>
-						<li ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" ui-sref='chat({channel:team.id})'>
-							<div class="colorbox">
-								<div style="background-color: #c0392b;">SI</div>
-							</div>
-							<span>{{ team.name }}</span>
-							<i class="fa fa-times"></i>
-							<div ng-show="numberOfunreadMessages(team.id)" style="position: relative;left: -5px;  float: left;color: magenta;">{{ numberOfunreadMessages(team.id) }}</div>
-						</li>
-				</ul>
+    <div class='grid-content collapse expand'>
+		
+			<div class='scrollbar-inner'>
+			
+				<div class='group-list'>
+					<ul>
+							<li ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" ui-sref='chat({channel:team.id})'>
+								<div class="colorbox">
+									<div style="background-color: #c0392b;">SI</div>
+								</div>
+								<span>{{ team.name }}</span>
+								<i class="fa fa-times"></i>
+								<div ng-show="numberOfunreadMessages(team.id)" style="position: relative;left: -5px;  float: left;color: magenta;">{{ numberOfunreadMessages(team.id) }}</div>
+							</li>
+					</ul>
+				</div>
 			</div>
     </div>
 		
     <div class='grid-content shrink'>
 			<div class="user-panel">
+				
 				<img class="user-settings-icon" src="assets/img/settings.png">
 				<img class="user-profile-icon" src="assets/img/user.jpg">
+				
 				<a href='#' ng-click='logout()'><img class="user-logout-icon" src="assets/img/logout.png"></a>
 			</div>
     </div>

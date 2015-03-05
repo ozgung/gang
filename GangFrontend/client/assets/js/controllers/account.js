@@ -3,32 +3,19 @@
 
     angular.module('application')
 
-        .controller('AccountCtrl', function ($scope, $state, chat, fb, backend) {
-
-            backend.me().then(function(me){
-						
-                var teams = [];
-								
-                me.teams.forEach(function(team){
-								
-                  teams.push(team.team)
-                });
-
-                $scope.teams = teams;
-								
-								chat.setChannels(teams);
-            });
-
-            $scope.logout = function () {
-						
-              fb.logout().then(function(){
-							
-								$state.go('guest');
-              });
-            };
-
-            $scope.numberOfunreadMessages = chat.numberOfunreadMessages
-
-        });
-
+      .controller('AccountCtrl',function($scope,$state,chat,fb,user,teams) {
+				
+				chat.setChannels(teams);
+				
+				$scope.user = user;
+				$scope.teams = teams;
+				
+				$scope.numberOfunreadMessages = chat.numberOfunreadMessages;
+				
+				$scope.logout = function(){
+				
+					localStorage.removeItem('token');
+					$state.go('guest');
+				};
+      });
 })();

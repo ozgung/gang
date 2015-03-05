@@ -44,8 +44,13 @@
 			<div class='grid-content collapse shrink'>
 			
 				<div class="input-area">
-				
-					<span class="is-typing" ng-repeat="(uid, user) in usersTypingNow">Ilgaz Şumnulu is typing...</span>
+                    <span class="is-typing">
+                        <span ng-repeat="(uid, user) in usersTypingNow">{{ getProfile(uid).displayName }}</span>
+                        <span ng-if="$middle">,</span>
+                        <span ng-if="$last"> is typing... </span>
+                    </span>
+
+
 					
 					<textarea id="message_input" ng-model='message' placeholder="Type Your Message" ng-keypress='keyPressed($event)'></textarea>
 					
@@ -70,9 +75,9 @@
 							
 						</div>
 							<div class="username">{{ member.firstName }} {{ member.lastName }}  Eben</div>
-							
+
 							<span>
-								<i class="fa fa-circle online"></i> 
+								<i class="fa fa-circle online"></i>
 								<i class="fa fa-check read"></i>
 							</span>
 					</li>

@@ -28,7 +28,7 @@
 						<li ng-repeat="message in thisChannelMessages">
 							<div class="profile"><img ng-src="data:image/png;base64,{{getProfile(message.uid).profileImage}}"/></div>
 							<div class="message">
-								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b> @erencan - {{ getProfile(message.uid)._fetched }}</div>
+								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b></div>
 								<div class="message-text" ng-bind-html="message.msg | emoji"></div>
 							</div>
 						</li>

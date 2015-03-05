@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-        .controller('AccountCtrl', function ($scope, $state, chat, user, fb, backend) {
+        .controller('AccountCtrl', function ($scope, $state, chat, fb, backend) {
 
             backend.me().then(function(me){
 						
@@ -15,9 +15,9 @@
                 });
 
                 $scope.teams = teams;
+								
+								chat.setChannels(teams);
             });
-
-            chat.setChannels(user.groups);
 
             $scope.logout = function () {
 						

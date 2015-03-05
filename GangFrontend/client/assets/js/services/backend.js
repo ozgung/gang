@@ -9,8 +9,7 @@
           this.request = doRequest
 
           function doRequest(action, query) {
-              console.log("trace", "backend.request 001", "action", action, "query", query);
-
+              
               var t = token.get();
 
               if (!query) {
@@ -25,9 +24,8 @@
                   method: 'get',
                   url: 'http://app.ganghq.com/api/' + action,
                   params: query
-              }).then(function (response) {
-                  console.log("trace", "backend.request 002", "got response :)", response);
-                  return response.data;
+              }).then(function(response){
+								return response.data;
               });
           };
 

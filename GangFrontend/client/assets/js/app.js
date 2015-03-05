@@ -95,22 +95,6 @@
                 if(!connected){
 									$state.go('guest');
                 }
-              },
-							
-              resolve: {
-							
-                user: function (fb, $q) {
-								
-                  return fb.user().then(function (user) {
-									
-                    return fb.groups(user).then(function (groups) {
-										
-											user.groups = groups;
-											
-                      return user;
-                    });
-                  });
-                }
               }
           })
 

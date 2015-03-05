@@ -4,169 +4,161 @@
 
     angular.module('application')
 
-        .service('backend', function (token, $http, $q) {
+      .service('backend',function(token,$http,$q){
 
-            this.request = doRequest
+          this.request = doRequest
 
-            function doRequest(action, query) {
-                console.log("trace", "backend.request 001", "action", action, "query", query);
+          function doRequest(action, query) {
+              console.log("trace", "backend.request 001", "action", action, "query", query);
 
-                var t = token.get();
+              var t = token.get();
 
-                if (!query) {
-                    query = {};
-                }
+              if (!query) {
+                  query = {};
+              }
 
-                if (t) {
-                    query.token = t;
-                }
+              if (t) {
+                  query.token = t;
+              }
 
-                return $http({
-                    method: 'get',
-                    url: 'http://app.ganghq.com/api/' + action,
-                    params: query
-                }).then(function (response) {
-                    console.log("trace", "backend.request 002", "got response :)", response);
-                    return response.data;
-                });
-            };
+              return $http({
+                  method: 'get',
+                  url: 'http://app.ganghq.com/api/' + action,
+                  params: query
+              }).then(function (response) {
+                  console.log("trace", "backend.request 002", "got response :)", response);
+                  return response.data;
+              });
+          };
 
-            /**
-             *
-             * todo refactor these: move them to service layer
-             * todo do not get these from localstorage
-             * @param fbAuthData
-             * @returns {*}
-             */
-						 
-						/*
-							normalde bunlar backendde saklanacak. biz backendden aldığımız token ı localstorage da tutucaz. catay
-						*/
-						 
-            this.authFB = function authWithFB() {
-                console.log("trace", "backend.authFB 001");
+          /**
+           *
+           * todo refactor these: move them to service layer
+           * todo do not get these from localstorage
+           * @param fbAuthData
+           * @returns {*}
+           */
+				 
+				/*
+					normalde bunlar backendde saklanacak. biz backendden aldığımız token ı localstorage da tutucaz. catay
+				*/
+				 
+          this.authFB = function authWithFB(){
+				
+              var fbAuthData = {
+                  token: localStorage.getItem('access-token'),
+                  expiresIn: localStorage.getItem('expiresIn'),
+                  userId: localStorage.getItem('userId'),
+                  signedRequest: localStorage.getItem('signedRequest')
+              };
 
-                var fbAuthData = {
-                    token: localStorage.getItem('access-token'),
-                    expiresIn: localStorage.getItem('expiresIn'),
-                    userId: localStorage.getItem('userId'),
-                    signedRequest: localStorage.getItem('signedRequest')
-                };
-
-                var backendResponse = $http({
-                    method: 'get',
-                    url: 'http://app.ganghq.com/api/loginFB',
-                    params: fbAuthData
-                }).then(function (response) {
-                    return response.data;
-                }).then(function (response) {
-                    //now we are fully authenticated
-                    //should be "0" response.status;
-                    localStorage.setItem('token', response.token);
-                    return response;
-                });
-
-                return backendResponse;
-            };
-
-            var meCache = null;
+              var backendResponse = $http({
+                  
+								method: 'get',
+                  url: 'http://app.ganghq.com/api/loginFB',
+                  params: fbAuthData
+								
+              }).then(function(response){
 						
-            this.me = function me() {
-                function getMeFromBackend() {
-                    console.log("getMeFromBackend 001");
-                    return doRequest("me").then(function (x) {
-                        return x.appUser
-                    })
-                }
+							return response.data;
+              }).then(function(response){
+						
+                localStorage.setItem('token', response.token);
+                return response;
+              });
 
-                if (!meCache) {
-                    meCache = getMeFromBackend()
-                }
+              return backendResponse;
+          };
 
-                return meCache
-            };
+          var meCache = null;
+				
+          this.me = function me() {
+				
+            function getMeFromBackend() {
+					
+              return doRequest("me").then(function(x){
+					
+								return x.appUser;
+              });
+            }
 
-            this.getTeam = function (groupId) {
-                if (!teamCache[groupId]) {
-                    teamCache[groupId] = getTeamFromBackend(groupId)
-                }
-                return teamCache[groupId];
-            };
-            
-						var teamCache = {};
+            if(!meCache){
+							meCache = getMeFromBackend();
+            }
 
-            function getTeamFromBackend(groupId) {
-                console.log("getTeamFromBackend 001");
+            return meCache;
+          };
 
-                return doRequest("team", {id: +groupId}).then(function (t) {
-                    return t.team
-                })
-            };
+          this.getTeam = function (groupId) {
+				
+            if (!teamCache[groupId]){
+					
+						teamCache[groupId] = getTeamFromBackend(groupId);
+            }
+            return teamCache[groupId];
+          };
+          
+				var teamCache = {};
 
-            window._debug = this; //todo delete me
-            /**
-             * todo Move this to a new Service i.e userService / accountService
-             * @returns {*}
-             */
+          function getTeamFromBackend(groupId) {
+				
+            return doRequest("team",{id:+groupId}).then(function(t){
+					
+                return t.team;
+            });
+          };
 
-						 var _userProfileCache = {};
-						 
-            window._debug_upc = _userProfileCache; //todo delete me
+          window._debug = this; 
+				var _userProfileCache = {};
+				 
+          window._debug_upc = _userProfileCache; //todo delete me
 
-            this.getUserProfile = function getUserProfile(userId, optionalGroupId) {
+          this.getUserProfile = function getUserProfile(userId, optionalGroupId) {
 
-                var cachedProfile = _userProfileCache[userId];
+              var cachedProfile = _userProfileCache[userId];
 
-                //console.log("______", userId, optionalGroupId,cachedProfile);
+              if (!cachedProfile) {
+                  _userProfileCache[userId] = {_fetched: false, _loading: false};
+                  
+								if (optionalGroupId) {
+                      
+										if (!_userProfileCache[userId]._loading) {
+                          //console.log("333333", userId, optionalGroupId,_userProfileCache[userId]);
 
-                if (!cachedProfile) {
-                    //console.log("1111111", userId, cachedProfile);
-                    //return empty profile until api responds.
-                    _userProfileCache[userId] = {_fetched: false, _loading: false};
-                    //console.log("1111111_2", userId, _userProfileCache);
+                          var oldProfile = _userProfileCache[userId] || {};
+                          oldProfile._loading = true;
 
-
-                    //update cache..
-                    if (optionalGroupId) {
-                        //console.log("222222", userId, optionalGroupId);
-
-                        if (!_userProfileCache[userId]._loading) {
-                            //console.log("333333", userId, optionalGroupId,_userProfileCache[userId]);
-
-                            var oldProfile = _userProfileCache[userId] || {};
-                            oldProfile._loading = true;
-
-                            getTeamFromBackend(optionalGroupId).then(function (response) {
-                                //console.log("444444", userId);
-                                //console.log("getProfileFromBackend 002");
-                                response.users.forEach(function (userWrapped) {
-                                //console.log("55555555555", userId, "warppedUser", userWrapped);
+                          getTeamFromBackend(optionalGroupId).then(function (response) {
+                              //console.log("444444", userId);
+                              //console.log("getProfileFromBackend 002");
+                              response.users.forEach(function (userWrapped) {
+                              //console.log("55555555555", userId, "warppedUser", userWrapped);
 
 
-                                    var fetchedUserProfile = userWrapped.user;
-                                    var _oldProfile = _userProfileCache[fetchedUserProfile.id] || {}; //todo should be id not username
+                                  var fetchedUserProfile = userWrapped.user;
+                                  var _oldProfile = _userProfileCache[fetchedUserProfile.id] || {}; //todo should be id not username
 
-                                    fetchedUserProfile._fetched = true;
-                                    fetchedUserProfile._loading = false;
+                                  fetchedUserProfile._fetched = true;
+                                  fetchedUserProfile._loading = false;
 
-                                    fetchedUserProfile.displayName = fetchedUserProfile.firstName + " " + fetchedUserProfile.lastName;
+                                  fetchedUserProfile.displayName = fetchedUserProfile.firstName + " " + fetchedUserProfile.lastName;
 
-                                    angular.extend(_oldProfile, fetchedUserProfile);
-                                });
-                            })
-                        } else {
-                            // do nothing, already loading from previous req.
+                                  angular.extend(_oldProfile, fetchedUserProfile);
+                              });
+                          })
+                      } else {
+                          // do nothing, already loading from previous req.
 
-                        }
-                    } else {
-                        // groupId olmadığı için api'den profili çekemiyoruz
-                    }
+                      }
+                  } else {
+                      // groupId olmadığı için api'den profili çekemiyoruz
+                  }
 
-                }
+              }
 
-                return _userProfileCache[userId]
-            };
+              return _userProfileCache[userId]
+          };
 
-        });
+      });
 })
 ();

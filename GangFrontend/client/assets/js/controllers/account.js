@@ -5,26 +5,26 @@
 
         .controller('AccountCtrl', function ($scope, $state, chat, user, fb, backend) {
 
-            backend.me().then(function (me) {
-                console.log("DEBUG TEAM 000 me: ", me);
+            backend.me().then(function(me){
+						
                 var teams = [];
-                me.teams.forEach(function (_team) {
-                    console.log("DEBUG TEAM 001", _team);
-
-                    teams.push(_team.team)
+								
+                me.teams.forEach(function(team){
+								
+                  teams.push(team.team)
                 });
 
                 $scope.teams = teams;
-                console.log("DEBUG TEAMS 002", teams);
             });
 
             chat.setChannels(user.groups);
 
             $scope.logout = function () {
-                fb.logout().then(function () {
-                    $state.go('guest');
-                });
-
+						
+              fb.logout().then(function(){
+							
+								$state.go('guest');
+              });
             };
 
             $scope.numberOfunreadMessages = chat.numberOfunreadMessages

@@ -1,4 +1,7 @@
 (function () {
+	
+		// Object {type: "error", code: "rate_limit", msg: "RATE LIMIT EXCEEDED! BACK OFF! 1.0/s", ts: 1425499697252}`
+
 
     'use strict';
 
@@ -57,7 +60,6 @@
                         }
                         //start work around online users
                         if (d.uid == magic_ids._userStatusChanged_ONLINE) {
-                            console.log("user is now online",d);
                             onlineUsers[Number(d.msg)] = true
                         } else if (d.uid == magic_ids._userStatusChanged_OFFLINE) {
                             delete onlineUsers[Number(d.msg)]
@@ -86,21 +88,18 @@
                 }
 
                 function handlePingMessage(d) {
-                    if (d.type == "ping") {
-                        //console.info("PING received ts", new Date(d.ts));
-                        return true
-                    }
+                  if (d.type == "ping") {
+                      return true;
+                  }
                 }
 
                 function handleOtherMessage(d) {
-                    console.error("unexpected message type received! data:", d);
-                    return true
+                  return true;
                 }
 
 
                 var data = JSON.parse(e.data);
-                //console.log("message received", "data", data);
-
+                
                 handleTextMessage(data) ||
                 handleTypingStatusMessage(data) ||
                 handlePingMessage(data) ||
@@ -124,7 +123,6 @@
             this.setChannels = function (channels) {
                 channels.forEach(function (it) {
                     var channelId =  +it.id;
-                    console.log("channel id: ", +channelId);
                     messages[channelId] = [];
                 });
             };
@@ -152,10 +150,10 @@
                     }
                 } else {
                     if (userIsTypingOnChannel) {
-                        userIsTypingOnChannel = false;
-                        updateStatus()
+                      userIsTypingOnChannel = false;
+                      updateStatus()
                     } else {
-                        //do nothing, shebang knows it
+											
                     }
                 }
 
@@ -170,7 +168,7 @@
             };
 
             this.setActiveChannel = function (channel) {
-                console.log("setting active channelId", channel);
+                
                 activeChannelId = +channel;
 
                 activeChannelDeferred = $q.defer();
@@ -187,41 +185,31 @@
                 $rootScope.usersTypingNow = {}
             };
 
-
-            /**
-             * Unread messages, move this
-             * @type {{}}
-             * @private
-             */
             var _newMessageCounter = {};
 
-            function _newMessageCounter_inc(channelid) {
-                var x = _newMessageCounter[channelid] || 0;
-                //console.debug("__UNREAD ","_newMessageCounter"," cid",channelid,_newMessageCounter );
-                _newMessageCounter[channelid] = x + 1
+            function _newMessageCounter_inc(channelid){
+						
+              var x = _newMessageCounter[channelid] || 0;
+							
+              _newMessageCounter[channelid] = x + 1
             }
 
-            function _newMessageCounter_reset(channelid) {
-                //console.debug("__UNREAD ","_newMessageCounter_reset"," cid",channelid,_newMessageCounter );
-
-                _newMessageCounter[channelid] = 0
+            function _newMessageCounter_reset(channelid){
+							_newMessageCounter[channelid] = 0
             }
 
-            this.numberOfunreadMessages = function (channelid) {
-                //console.debug("__UNREAD ","numberOfunreadMessages"," cid",channelid,_newMessageCounter );
-
+            this.numberOfunreadMessages = function(channelid){
+						
                 var x = _newMessageCounter[channelid] || 0;
 
-                if (!x) {
-                    _newMessageCounter[channelid] = 0
+                if(!x){
+									_newMessageCounter[channelid] = 0;
                 }
-                return x
+                return x;
             };
 
             function socketError(event) {
-                console.warn("SOCKETERROR001", "trying to reconnect", event);
-                ws = ws.reconnect()
-
+							ws = ws.reconnect();
             }
 
         });

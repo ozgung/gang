@@ -26,7 +26,9 @@ var gulp           = require('gulp'),
 // Sass will check these folders for files when you use @import.
 var sassPaths = [
   'client/assets/scss',
-  'bower_components/foundation-apps/scss'
+  'bower_components/foundation-apps/scss',
+	'bower_components/antiscroll/antiscroll.css',
+	'bower_components/angular-emoji-filter-hd/lib/emoji.css',
 ];
 // These files include Foundation for Apps and its dependencies
 
@@ -48,15 +50,21 @@ var foundationJS = [
     'bower_components/angular-facebook/lib/angular-facebook.js',
     'bower_components/angular-scroll-glue/src/scrollglue.js',
     'bower_components/angular-websocket/angular-websocket.js',
-    'bower_components/angular-emoji-filter-hd/dist/emoji.min.js'
+    'bower_components/angular-emoji-filter-hd/lib/emoji.js',
+		'bower_components/jquery/jquery.js',
+		'bower_components/jquery.mousewheel/jquery.mousewheel.js',
+		'bower_components/antiscroll/antiscroll.js',
+		'bower_components/angular-antiscroll/angular-antiscroll.js',
 ];
 
 // These files are for your app's JavaScript
 var appJS = [
 	'client/assets/js/config.js',
-    'client/assets/js/app.js',
+  'client/assets/js/app.js',
 	'client/assets/js/services/**/*.js',
-	'client/assets/js/controllers/**/*.js'
+	'client/assets/js/controllers/**/*.js',
+	'client/assets/js/factories/**/*.js',
+	'client/assets/js/directives/**/*.js',
 ];
 
 // 3. TASKS
@@ -139,10 +147,10 @@ gulp.task('uglify', function () {
 // Copies your app's page templates and generates URLs for them
 gulp.task('copy-templates', ['copy'], function () {
     return gulp.src('./client/templates/**/*.html')
-        .pipe(dynamicRouting({
+        /*.pipe(dynamicRouting({
             path: 'build/assets/js/routes.js',
             root: 'client'
-        }))
+        }))*/
         .pipe(gulp.dest('./build/templates'))
         .pipe(connect.reload());
 });

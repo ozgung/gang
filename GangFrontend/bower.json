@@ -29,9 +29,10 @@
     "angular-websocket": "~1.0.9",
     "angulartics": "~0.17.2",
     "angular-sanitize": "~1.3.14",
-    "angular-emoji-filter-hd": "*"
+    "angular-emoji-filter-hd": "*",
+    "angular-antiscroll": "*"
   },
-    "resolutions": {
-    "angular": "~1.3.14"
+  "resolutions": {
+    "angular": "1.3.14"
   }
 }

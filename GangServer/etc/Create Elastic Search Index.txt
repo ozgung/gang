@@ -20,3 +20,7 @@ curl -XPUT 'http://localhost:9200/gang/message/1' -d '{
 
 //check it
 curl -XGET 'localhost:9200/gang/message/1?pretty'
+
+
+//get all
+curl -XGET 'localhost:9200/gang/_search?q=*&pretty'

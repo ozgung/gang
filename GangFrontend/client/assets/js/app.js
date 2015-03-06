@@ -83,6 +83,8 @@
               onEnter: function (connected, $state) {
 							
                 if(!connected){
+									localStorage.removeItem('token');
+									localStorage.removeItem('lastChannel');
 									$state.go('guest');
                 }
               },
@@ -93,6 +95,8 @@
 									return backend.me().then(function(user){
 										return user;
 									},function(){
+										localStorage.removeItem('token');
+										localStorage.removeItem('lastChannel');
 										$state.go('guest');
 									});
 								},

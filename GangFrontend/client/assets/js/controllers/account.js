@@ -15,6 +15,7 @@
 				$scope.logout = function(){
 				
 					$window.localStorage.removeItem('token');
+					$window.localStorage.removeItem('lastChannel')
 					$state.go('guest');
 				};
       });

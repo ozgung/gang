@@ -80,6 +80,7 @@ public class AAInterceptor extends HandlerInterceptorAdapter {
         if (path.equals("/api/signup")) return true;
         if (path.equals("/api/saveMessages")) return true;
         if (path.equals("/api/getMessages")) return true;
+        if (path.equals("/api/teamimage")) return true;
 
         return false;
     }

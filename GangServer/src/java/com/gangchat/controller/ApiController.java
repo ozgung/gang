@@ -14,7 +14,9 @@ import com.gangchat.service.chat.domain.Message;
 import com.gangchat.service.chat.domain.Team;
 import com.gangchat.service.chat.domain.TeamUser;
 import com.gangchat.service.search.SearchService;
+import com.gangchat.service.metaimage.MetaImageService;
 import com.google.gson.Gson;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.GroupMembership;
@@ -43,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ApiController {
     private ChatService chatService;
     private SearchService searchService;
+    private MetaImageService metaImageService;
 
     //json enumerations
     public static final String JSON_STATUS_SUCCESS = "0";
@@ -335,6 +339,22 @@ public class ApiController {
         return searchService.loadMessages(channelId, date);
     }
 
+    @RequestMapping()
+    public void teamimage(@RequestParam Integer id, HttpServletResponse response) throws IOException{
+        Team team = chatService.getTeam(id);
+        if (team == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        byte[] theImage = metaImageService.generateMetaImage(team.getName(), team.getDescription());
+        
+        response.setContentType("image/png");
+        response.setContentLength(theImage.length);
+        response.getOutputStream().write(theImage);
+        response.getOutputStream().close();
+    }
+
 
     //--------------------------------------------------------------------------
     //SETTERS
@@ -348,6 +368,11 @@ public class ApiController {
     @Autowired
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
+    }
+
+    @Autowired
+    public void setMetaImageService(MetaImageService metaImageService) {
+        this.metaImageService = metaImageService;
     }
 
 }

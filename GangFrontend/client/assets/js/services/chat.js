@@ -20,6 +20,14 @@
 
             };
 
+            function replaceSmiley(m) {
+                //todo replace these with parser may be regex
+                return m.split(":)").join(":smiley:")
+                    .split(":D").join(":grinning:")
+                    .split(":p").join("::stuck_out_tongue::")
+                    .split(":P").join("::stuck_out_tongue::");
+            }
+
             var self = this;
             var activeChannelId;
             var activeChannelDeferred = $q.defer();
@@ -63,6 +71,7 @@
                         //condition is need until workarounds removed (i.e. messages with special user ids)
                         if (fromNormalUser) {
                             messages[d.channel].push(d);
+                            d.msg = replaceSmiley(d.msg);
                         }
 
 

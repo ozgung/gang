@@ -11,8 +11,6 @@
 							
 							$rootScope.$broadcast("show_loader");
 							
-							console.log('loading');
-							
 							return (config || $q.when(config));
 						},
 						
@@ -20,7 +18,6 @@
 							
 							$rootScope.$broadcast("hide_loader");
 							
-							console.log('not loading');
 							return (response || $q.when(response));
 						},
 						
@@ -28,8 +25,6 @@
 							
 							$rootScope.$broadcast("hide_loader");
 
-							console.log('not loading');
-							
 							return $q.reject(response);
 						}
 				};

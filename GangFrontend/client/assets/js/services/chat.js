@@ -22,8 +22,8 @@
 
             function replaceSmiley(m) {
                 //todo replace these with parser may be regex
-                return m.split(":)").join(":smiley:")
-                    .split(":D").join(":grinning:")
+                return m.split(":D").join(":smiley:")
+                    .split(":)").join(":grinning:")
                     .split(":p").join(":stuck_out_tongue:")
                     .split(":P").join(":stuck_out_tongue:");
             }

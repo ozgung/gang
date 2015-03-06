@@ -46,49 +46,26 @@
               template: '<ui-view/>',
               resolve: {
 
-                  connected: function (fb, backend) {
+                connected:function(fb){
 
-                    return fb.checkStatus().then(function () {
+                  return fb.checkStatus().then(function () {
 
-                      return true;
-                    },function(){
-										
-											localStorage.removeItem('token');
-											return false;
-										});
-                  }
-              }
-          })
-
-          .state('guest', {
-              url: '',
-              parent: 'app',
-              templateUrl: 'templates/guest.html',
-              controller: 'GuestCtrl',
-              onEnter:function(connected,$state){
-							
-                if(connected){
-									$state.go('account.index');
+                    return true;
+                  },function(){
+									
+										localStorage.removeItem('token');
+										return false;
+									});
                 }
               }
           })
-
+					
           .state('account', {
               url: '',
               parent: 'app',
 							abstract:true,
               templateUrl: 'templates/account.html',
               controller: 'AccountCtrl',
-							
-              onEnter: function (connected, $state) {
-							
-                if(!connected){
-									localStorage.removeItem('token');
-									localStorage.removeItem('lastChannel');
-									$state.go('guest');
-                }
-              },
-							
 							resolve:{
 								
 								user:function(backend,$state){
@@ -140,6 +117,13 @@
 						
 							localStorage.setItem('lastChannel',$stateParams.channel);
 						}
+          })
+					
+					.state('guest', {
+              url: '',
+              parent: 'app',
+              templateUrl: 'templates/guest.html',
+              controller: 'GuestCtrl'
           });
 
       $locationProvider.html5Mode({

@@ -89,8 +89,12 @@
 							
 							resolve:{
 								
-								user:function(backend){
-									return backend.me();
+								user:function(backend,$state){
+									return backend.me().then(function(user){
+										return user;
+									},function(){
+										$state.go('guest');
+									});
 								},
 								
 								teams:function(user){

@@ -42,12 +42,9 @@
     </div>
 		
     <div class='grid-content shrink profile'>
-		
 			<div class="user-panel">
-				
 				<img class="user-settings-icon" src="assets/img/settings.png">
-				<img class="user-profile-icon" src="assets/img/user.jpg">
-				
+				<img class="user-profile-icon" ng-src="data:image/png;base64,{{user.profileImage}}"/>
 				<a href='#' ng-click='logout()'><img class="user-logout-icon" src="assets/img/logout.png"></a>
 			</div>
     </div>

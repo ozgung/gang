@@ -32,7 +32,7 @@
 							
 							<div class="message">
 							
-								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b></div>
+								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b> {{ message.ts| date:'HH:mm'}} </div>
 								<div class="message-text" ng-bind-html="message.msg | emoji"></div>
 							</div>
 						</li>
@@ -44,8 +44,12 @@
 			<div class='grid-content collapse shrink'>
 			
 				<div class="input-area">
-				
-					<span class="is-typing" ng-repeat="(uid, user) in usersTypingNow">Ilgaz Şumnulu is typing...</span>
+                    <span class="is-typing">
+                        <span ng-repeat="(uid, user) in usersTypingNow">{{ getProfile(uid).displayName }}
+                            <span ng-if="$middle">,</span>
+                            <span ng-if="$last"> is typing... </span>
+                        </span>
+                    </span>
 					
 					<textarea id="message_input" ng-model='message' placeholder="Type Your Message" ng-keypress='keyPressed($event)'></textarea>
 					
@@ -68,13 +72,13 @@
 						
 							<img ng-src="data:image/png;base64,{{ member.profileImage }}">
 							
-							<div class="username">{{ member.firstName }} {{ member.lastName }}  Eben</div>
-							
+						</div>
+							<div class="username">{{ member.firstName }} {{ member.lastName }}</div>
+
 							<span>
-								<i class="fa fa-circle online"></i> 
+								<i class="fa fa-circle online"></i>
 								<i class="fa fa-check read"></i>
 							</span>
-						</div>
 					</li>
 				</ul>
 			</div>

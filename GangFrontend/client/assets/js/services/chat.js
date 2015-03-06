@@ -1,6 +1,6 @@
 (function () {
-	
-		// Object {type: "error", code: "rate_limit", msg: "RATE LIMIT EXCEEDED! BACK OFF! 1.0/s", ts: 1425499697252}`
+
+    // Object {type: "error", code: "rate_limit", msg: "RATE LIMIT EXCEEDED! BACK OFF! 1.0/s", ts: 1425499697252}`
 
 
     'use strict';
@@ -45,25 +45,37 @@
 
                 function handleTextMessage(d) {
                     if (d.type == "message") {
-
+                        var fromNormalUser = true;
                         if (!messages[d.channel]) {
                             messages[d.channel] = []
                         }
-                        messages[d.channel].push(d);
+
 
                         //increase unread message count for this channel
                         //workaround reset current channel we received our message in the current channel
                         if (_countNewMessagesNumber[d.msg] && activeChannelId != d.channel) {
                             _newMessageCounter_inc(d.channel);
                         } else if (d.uid == magic_ids._replyingChannelHistory_FINISHED) {
-                            _countNewMessagesNumber[d.msg] = true
+                            _countNewMessagesNumber[d.msg] = true;
+                            fromNormalUser = false;
                         }
+
+                        //condition is need until workarounds removed (i.e. messages with special user ids)
+                        if (fromNormalUser) {
+                            messages[d.channel].push(d);
+                        }
+
+
                         //start work around online users
                         if (d.uid == magic_ids._userStatusChanged_ONLINE) {
-                            onlineUsers[Number(d.msg)] = true
+                            onlineUsers[Number(d.msg)] = true;
+                            fromNormalUser = false;
                         } else if (d.uid == magic_ids._userStatusChanged_OFFLINE) {
-                            delete onlineUsers[Number(d.msg)]
+                            delete onlineUsers[Number(d.msg)];
+                            fromNormalUser = false;
                         }
+
+
 
                         //end work around onliner users
                         return true
@@ -88,18 +100,18 @@
                 }
 
                 function handlePingMessage(d) {
-                  if (d.type == "ping") {
-                      return true;
-                  }
+                    if (d.type == "ping") {
+                        return true;
+                    }
                 }
 
                 function handleOtherMessage(d) {
-                  return true;
+                    return true;
                 }
 
 
                 var data = JSON.parse(e.data);
-                
+
                 handleTextMessage(data) ||
                 handleTypingStatusMessage(data) ||
                 handlePingMessage(data) ||
@@ -122,7 +134,7 @@
 
             this.setChannels = function (channels) {
                 channels.forEach(function (it) {
-                    var channelId =  +it.id;
+                    var channelId = +it.id;
                     messages[channelId] = [];
                 });
             };
@@ -150,10 +162,10 @@
                     }
                 } else {
                     if (userIsTypingOnChannel) {
-                      userIsTypingOnChannel = false;
-                      updateStatus()
+                        userIsTypingOnChannel = false;
+                        updateStatus()
                     } else {
-											
+
                     }
                 }
 
@@ -168,7 +180,7 @@
             };
 
             this.setActiveChannel = function (channel) {
-                
+
                 activeChannelId = +channel;
 
                 activeChannelDeferred = $q.defer();
@@ -187,29 +199,29 @@
 
             var _newMessageCounter = {};
 
-            function _newMessageCounter_inc(channelid){
-						
-              var x = _newMessageCounter[channelid] || 0;
-							
-              _newMessageCounter[channelid] = x + 1
-            }
+            function _newMessageCounter_inc(channelid) {
 
-            function _newMessageCounter_reset(channelid){
-							_newMessageCounter[channelid] = 0
-            }
-
-            this.numberOfunreadMessages = function(channelid){
-						
                 var x = _newMessageCounter[channelid] || 0;
 
-                if(!x){
-									_newMessageCounter[channelid] = 0;
+                _newMessageCounter[channelid] = x + 1
+            }
+
+            function _newMessageCounter_reset(channelid) {
+                _newMessageCounter[channelid] = 0
+            }
+
+            this.numberOfunreadMessages = function (channelid) {
+
+                var x = _newMessageCounter[channelid] || 0;
+
+                if (!x) {
+                    _newMessageCounter[channelid] = 0;
                 }
                 return x;
             };
 
             function socketError(event) {
-							ws = ws.reconnect();
+                ws = ws.reconnect();
             }
 
         });

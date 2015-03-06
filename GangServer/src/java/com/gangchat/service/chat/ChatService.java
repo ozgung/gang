@@ -12,10 +12,10 @@ import com.gangchat.service.chat.domain.Channel;
 import com.gangchat.service.chat.domain.AppUser;
 import com.gangchat.service.chat.domain.Team;
 import com.gangchat.service.chat.domain.TeamUser;
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.sql.DataSource;
 
@@ -167,7 +167,7 @@ public class ChatService {
     public void removeChannel(int id) {
         ven.delete(id, Channel.class);
     }
-
+    
     //--------------------------------------------------------------------------
     //SETTERS
     //--------------------------------------------------------------------------

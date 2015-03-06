@@ -55,6 +55,12 @@
 }
 .message-text {
 	line-height: 1.4;
+  /*
+  \n'ler için
+  https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
+  */
+    white-space: pre-wrap;
+
 }
 .message {
 	padding-left:70px;

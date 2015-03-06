@@ -32,7 +32,7 @@
 							
 							<div class="message">
 							
-								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b></div>
+								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b> {{ message.ts| date:'HH:mm'}} </div>
 								<div class="message-text" ng-bind-html="message.msg | emoji"></div>
 							</div>
 						</li>

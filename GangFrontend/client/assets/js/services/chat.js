@@ -24,8 +24,8 @@
                 //todo replace these with parser may be regex
                 return m.split(":)").join(":smiley:")
                     .split(":D").join(":grinning:")
-                    .split(":p").join("::stuck_out_tongue::")
-                    .split(":P").join("::stuck_out_tongue::");
+                    .split(":p").join(":stuck_out_tongue:")
+                    .split(":P").join(":stuck_out_tongue:");
             }
 
             var self = this;

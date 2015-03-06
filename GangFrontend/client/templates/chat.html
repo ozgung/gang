@@ -1,87 +1,90 @@
 <div class='grid-block vertical'>
 
-  <div class='grid-content collapse shrink'>
-		<div class="main-title">
-      
-			<div class="colorbox">
-				<div style="background-color: #c0392b;">SI</div>
-			</div> 
-			
-			{{activeChannel.name}}
+    <div class='grid-content collapse shrink'>
+        <div class="main-title">
+
+            <div class="colorbox">
+                <div style="background-color: #c0392b;">SI</div>
+            </div>
+
+            {{ activeChannel.name }}
 			
 			<span class="online-users">
 				<i class="fa fa-angle-double-right"></i> 
 				<i class="fa fa-users"></i> 6
 			</span>
+        </div>
     </div>
-  </div>
-	
-	<div class='grid-block'>
 
-		<div class='grid-block vertical'>
-		
-			<div class='grid-content' scroll-glue>
-			
-				<div class='block-list messages'>
-				
-					<ul>
-					
-						<li ng-repeat="message in thisChannelMessages">
-						
-							<div class="profile"><img ng-src="data:image/png;base64,{{getProfile(message.uid).profileImage}}"/></div>
-							
-							<div class="message">
-							
-								<div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b> {{ message.ts| date:'HH:mm'}} </div>
-								<div class="message-text" ng-bind-html="message.msg | emoji"></div>
-							</div>
-						</li>
-						
-					</ul>
-				</div>
-			</div>	
-			
-			<div class='grid-content collapse shrink'>
-			
-				<div class="input-area">
+    <div class='grid-block'>
+
+        <div class='grid-block vertical'>
+
+            <div class='grid-content' scroll-glue>
+
+                <div class='block-list messages'>
+
+                    <ul>
+
+                        <li ng-repeat="message in thisChannelMessages">
+
+                            <div class="profile"><img
+                                    ng-src="data:image/png;base64,{{ getProfile(message.uid).profileImage }}"/></div>
+
+                            <div class="message">
+
+                                <div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b>
+                                    {{ message.ts| date:'HH:mm'}} </div>
+                                <div class="message-text" ng-bind-html="message.msg | emoji"></div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class='grid-content collapse shrink'>
+
+                <div class="input-area">
                     <span class="is-typing">
                         <span ng-repeat="(uid, user) in usersTypingNow">{{ getProfile(uid).displayName }}
                             <span ng-if="$middle">,</span>
                             <span ng-if="$last"> is typing... </span>
                         </span>
                     </span>
-					
-					<textarea id="message_input" ng-model='message' placeholder="Type Your Message" ng-keypress='keyPressed($event)'></textarea>
-					
-				</div>
-			</div>
-			
-		</div>
-		
-		<zf-panel id="gang-right-panel" zf-swipe-close="right" position="right" class="medium-grid-block medium-2">
-	
-			<div class="grid-content collapse expand right-panel">
-			
-				<div class="right-title">Users</div>
-				
-				<ul class="userlist">
-				
-					<li ng-repeat='member in members'>
-					
-						<div class="profilebox">
-						
-							<img ng-src="data:image/png;base64,{{ member.profileImage }}">
-							
-						</div>
-							<div class="username">{{ member.firstName }} {{ member.lastName }}</div>
+
+                    <textarea id="message_input" ng-model='message' placeholder="Type Your Message"
+                              ng-keypress='keyPressed($event)'></textarea>
+
+                </div>
+            </div>
+
+        </div>
+
+        <zf-panel id="gang-right-panel" zf-swipe-close="right" position="right" class="medium-grid-block medium-2">
+
+            <div class="grid-content collapse expand right-panel">
+
+                <div class="right-title">Users</div>
+
+                <ul class="userlist">
+
+                    <li ng-repeat='member in members'>
+
+                        <div class="profilebox">
+
+                            <img ng-src="data:image/png;base64,{{ member.profileImage }}">
+
+                        </div>
+                        <div class="username">{{ member.firstName }} {{ member.lastName }}</div>
 
 							<span>
-								<i class="fa fa-circle online"></i>
-								<i class="fa fa-check read"></i>
+								<i class="fa fa-circle" ng-class="{online: isUserOnline(member.id)}"></i>
+								<i class="fa fa-check" ng-class="{read: false}"></i>
 							</span>
-					</li>
-				</ul>
-			</div>
-		</zf-panel>
-	</div>
+                    </li>
+                </ul>
+            </div>
+        </zf-panel>
+    </div>
 </div>

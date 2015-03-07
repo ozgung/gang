@@ -213,6 +213,18 @@
                 ws.send(JSON.stringify(data));
             };
 
+            this.deleteMessage = function (ts) {
+                var data = {
+                    ts: message,
+                    msg: "",
+                    edited: true,
+                    deleted: true,
+                    type: 'message',
+                    channel: +activeChannelId
+                };
+                ws.send(JSON.stringify(data));
+            };
+
             this.setActiveChannel = function (channel) {
 
                 activeChannelId = +channel;

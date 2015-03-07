@@ -89,7 +89,7 @@
             };
 
             $scope.deleteMessageInline = function (message) {
-
+                chat.deleteMessage(message.ts);
                 var idx = $scope.thisChannelMessages.indexOf(message);
                 $scope.thisChannelMessages.splice(idx, 1);
             };
@@ -121,8 +121,8 @@
                 if (enter && !shift) {
                     //todo send to server
                     messageOnEdit.msg = $scope.inlineEdit_msg;
-                    console.debug("Message edited inline",messageOnEdit );
-                    chat.sendMessage(messageOnEdit.msg,messageOnEdit);
+                    console.debug("Message edited inline", messageOnEdit);
+                    chat.sendMessage(messageOnEdit.msg, messageOnEdit);
 
                     messageOnEdit = null;
                     event.preventDefault();

@@ -79,20 +79,27 @@
                         //condition is need until workarounds removed (i.e. messages with special user ids)
                         if (fromNormalUser) {
                             var historyChanged = false;
-                            messages[d.channel].forEach(function (m) {
-                                if (m.ts == d.ts) {
-                                    //old message update history
-                                    angular.extend(m, d);
-                                    historyChanged = true
+                            if (d.msg.length > 0) {
+
+
+                                messages[d.channel].forEach(function (m) {
+                                    if (m.ts == d.ts) {
+                                        //old message update history
+                                        angular.extend(m, d);
+                                        historyChanged = true
+                                    }
+                                });
+
+                                if (!historyChanged) {
+                                    //this is new message add to history
+                                    messages[d.channel].push(d);
                                 }
-                            });
 
-                            if (!historyChanged) {
-                                //this is new message add to history
-                                messages[d.channel].push(d);
+                                d.msg = replaceSmiley(d.msg);
+                            }else{
+                                //this is delete command  i.e. message with empty txt
+                                //todo not implemented yet!
                             }
-
-                            d.msg = replaceSmiley(d.msg);
                         }
 
 

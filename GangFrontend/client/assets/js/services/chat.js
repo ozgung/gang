@@ -96,7 +96,7 @@
                             d.msg = replaceSmiley(d.msg);
 
                             //clean deleted messages
-                            if (d.msg.length > 0) {
+                            if (d.msg.trim().length == 0 ) {
                                 //this is delete command  i.e. message with empty txt
                                 //todo not implemented yet!
 
@@ -105,7 +105,7 @@
 
                                 for (i = 0; i < len; i++)
 
-                                    if (arr[i] && arr[i].msg) {
+                                    if (arr[i] && arr[i].msg && arr[i].msg.trim().length > 0) {
                                         arr.push(arr[i]);
                                     }  // copy non-empty values to the end of the array
 

@@ -67,7 +67,9 @@
 
 
                     $scope.isUserOnline = chat.isUserOnline;
-                    $scope.numberOfOnlineUsers = chat.numberOfOnlineUsers
+                    $scope.numberOfOnlineUsers = function(){
+                        return teamUsers.length
+                    }
                 });
 
                 clearFocus();

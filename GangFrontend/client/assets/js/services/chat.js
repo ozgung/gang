@@ -207,7 +207,8 @@
                     channel: +activeChannelId
                 };
                 if (edited) {
-                    data.edited = true
+                    data.edited = true;
+                    data.ts = message.ts;
                 }
                 ws.send(JSON.stringify(data));
             };

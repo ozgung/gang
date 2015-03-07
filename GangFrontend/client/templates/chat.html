@@ -8,11 +8,12 @@
             </div>
 
             {{ activeChannel.name }}
-			
+            <a href="" ng-click="hideOnlineUsers = !hideOnlineUsers">
 			<span class="online-users">
 				<i class="fa fa-angle-double-right"></i> 
 				<i class="fa fa-users"></i> 6
 			</span>
+            </a>
         </div>
     </div>
 
@@ -63,7 +64,7 @@
 
         <zf-panel id="gang-right-panel" zf-swipe-close="right" position="right" class="medium-grid-block medium-2">
 
-            <div class="grid-content collapse expand right-panel">
+            <div class="grid-content collapse expand right-panel" ng-class="{collapsed: hideOnlineUsers}">
 
                 <div class="right-title">Users</div>
 

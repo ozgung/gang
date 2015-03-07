@@ -96,16 +96,34 @@
 
             var messageOnEdit = null;
 
+            $scope.inlineEdit_msg = "";
+
             $scope.messageOnEdit = function () {
                 return messageOnEdit || false
             };
 
             $scope.editInlineCancel = function () {
                 messageOnEdit = false;
+                $scope.inlineEdit_msg = "";
             };
 
             $scope.editInline = function (message) {
                 messageOnEdit = message;
+                $scope.inlineEdit_msg = message.msg;
+                //todo set focus to textArea
+
+            };
+
+            $scope.editInlineKeyPressed = function (event) {
+                var enter = (event.keyCode === 13);
+                var shift = event.shiftKey;
+
+                if (enter && !shift) {
+                    //todo send to server
+                    messageOnEdit.msg = $scope.inlineEdit_msg;
+                    event.preventDefault();
+                }
+
 
                 //clearFocus();
                 //$scope.message = message.msg;

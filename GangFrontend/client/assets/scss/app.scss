@@ -6,10 +6,30 @@
 @import "left-panel";
 @import "right-panel";
 
-html, body { 
-	font-family: 'Lato', sans-serif;
+html,body{
+
+	font-family: 'Lato', sans-serif;  
   
-  background: url("../img/icons-blue.jpg");
+}
+
+.guest-frame{
+	background: url("../img/bg.jpg");
+}
+
+.account-frame{
+	background: url("../img/icons-blue.jpg");
+}
+
+.gang-guest{
+	
+	& > .cta{
+		margin-top:40px;
+		background-color:rgba(0,0,0,0.2);
+	}
+	
+	& a {
+		backgorund-color:#3b5998 !important;
+	}
 }
 
 .colorbox {

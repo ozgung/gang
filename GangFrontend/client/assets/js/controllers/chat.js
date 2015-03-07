@@ -115,17 +115,16 @@
 
             };
 
-            $scope.editInlineKeyPressed = function (event) {
+            $scope.editInlineKeyPressed = function (event,msg) {
                 var enter = (event.keyCode === 13);
                 var shift = event.shiftKey;
-                var message_txt = $scope.inlineEdit_msg;
+                var message_txt = msg;
 
-                console.debug(message_txt);
 
                 if (enter && !shift) {
                     //todo send to server
                     messageOnEdit.msg = message_txt;
-                    console.debug("Message edited inline", message_txt,messageOnEdit);
+
                     chat.sendMessage(message_txt, messageOnEdit);
 
                     messageOnEdit = null;

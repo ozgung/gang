@@ -4,6 +4,12 @@
     angular.module('application')
 
         .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, $rootScope) {
+            /**
+             * this should be false for mobile
+             * @type {boolean}
+             */
+            var FOCUS_ON_INIT = true;
+
 
             var channelId = $stateParams.channel;
 
@@ -64,7 +70,7 @@
                             return bo - ao
                         });
                     };
-                    $scope.numberOfUsers = function(){
+                    $scope.numberOfUsers = function () {
                         return $scope.members.length
                     };
 
@@ -72,8 +78,9 @@
                     $scope.numberOfTeamUsers = teamUsers.length
 
                 });
-
-                clearFocus();
+                if (FOCUS_ON_INIT) {
+                    clearFocus()
+                }
                 initTypingStatus();
             }
 
@@ -107,8 +114,6 @@
                 $scope.message = message.msg;
 
             };
-
-
 
 
             $scope.keyPressed = function (event) {

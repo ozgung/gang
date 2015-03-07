@@ -200,12 +200,16 @@
 
             };
 
-            this.sendMessage = function (message) {
-                ws.send(JSON.stringify({
+            this.sendMessage = function (message, edited) {
+                var data = {
                     msg: message,
                     type: 'message',
                     channel: +activeChannelId
-                }));
+                };
+                if (edited) {
+                    data.edited = true
+                }
+                ws.send(JSON.stringify(data));
             };
 
             this.setActiveChannel = function (channel) {

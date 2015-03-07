@@ -107,6 +107,11 @@
 
             };
 
+            $scope.numberOfUsers = function(){
+                return $scope.members.length
+            };
+
+
             $scope.keyPressed = function (event) {
 
                 var enter = (event.keyCode === 13);

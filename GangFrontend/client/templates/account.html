@@ -28,7 +28,7 @@
 					<li ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" ui-sref='chat({channel:team.id})'>
 						
 						<div class="colorbox">
-							<div style="background-color:{{getTeamColor(team)}};">getTeamShortName(team)</div>
+							<div style="background-color:{{getTeamColor(team)}};">{{getTeamShortName(team)}}</div>
 						</div>
 						
 						<div ng-show="numberOfunreadMessages(team.id)" class="new-message-badge" >{{ numberOfunreadMessages(team.id)}}</div>

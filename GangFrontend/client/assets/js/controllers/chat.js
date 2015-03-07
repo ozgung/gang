@@ -88,7 +88,7 @@
                 return backend.getUserProfile(+userId, channelId);
             };
 
-            $scope.deleteMessage = function (message) {
+            $scope.deleteMessageInline = function (message) {
 
                 var idx = $scope.thisChannelMessages.indexOf(message);
                 $scope.thisChannelMessages.splice(idx, 1);
@@ -96,22 +96,19 @@
 
             var messageOnEdit = null;
 
-            $scope.textInputStyle = function () {
-
-                if (messageOnEdit) {
-
-                    return "background-color:lightgoldenrodyellow;";
-
-                } else {
-
-                    return "";
-                }
+            $scope.messageOnEdit = function () {
+                return messageOnEdit || false
             };
 
-            $scope.edit = function (message) {
+            $scope.editInlineCancel = function () {
+                messageOnEdit = false;
+            };
+
+            $scope.editInline = function (message) {
                 messageOnEdit = message;
-                clearFocus();
-                $scope.message = message.msg;
+
+                //clearFocus();
+                //$scope.message = message.msg;
 
             };
 

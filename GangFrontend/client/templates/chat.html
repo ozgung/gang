@@ -33,12 +33,19 @@
                             <div class="profile"><img
                                     ng-src="data:image/png;base64,{{ getProfile(message.uid).profileImage }}"/></div>
 
-                            <div class="message">
+                            <div class="message"  ng-if="messageOnEdit() != message">
 
                                 <div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b>
                                     {{ message.ts| date:'HH:mm'}} </div>
+                                <span class="message-options"><a ng-click="editInline(message)"><i class="fa fa-pencil"></i> Edit</a> - <a ng-click="deleteMessageInline(message)"><i class="fa fa-times"></i> Delete</a></span>
                                 <div class="message-text" ng-bind-html="message.msg | emoji"></div>
                             </div>
+
+                            <div class="message editing" ng-if="messageOnEdit() == message">
+                                <textarea>{{ message.msg }}</textarea>
+                                <div class="edit-info">esc to <a href="" ng-click="editInlineCancel()">cancel</a></div>
+                            </div>
+
                         </li>
 
                     </ul>

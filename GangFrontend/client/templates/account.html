@@ -28,7 +28,7 @@
 					<li ng-repeat='team in teams' ng-class="{active: team.id == activeChannel.id}" ui-sref='chat({channel:team.id})'>
 						
 						<div class="colorbox">
-							<div style="background-color: #c0392b;">SI</div>
+							<div style="background-color:{{getTeamColor(team)}};">getTeamShortName(team)</div>
 						</div>
 						
 						<span>{{ team.name }}</span>

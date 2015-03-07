@@ -10,8 +10,9 @@
             {{ activeChannel.name }}
             <a href="" ng-click="hideOnlineUsers = !hideOnlineUsers">
 			<span class="online-users">
-				<i class="fa fa-angle-double-right"></i> 
-				<i class="fa fa-users"></i> 6
+				<i ng-if="!hideOnlineUsers" class="fa fa-angle-double-right"></i>
+				<i ng-if="hideOnlineUsers" class="fa fa-angle-double-left"></i>
+				<i class="fa fa-users"></i> {{ numberOfOnlineUsers }}
 			</span>
             </a>
         </div>

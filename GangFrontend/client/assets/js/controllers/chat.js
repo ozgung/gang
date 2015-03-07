@@ -66,7 +66,8 @@
                     };
 
 
-                    $scope.isUserOnline = chat.isUserOnline
+                    $scope.isUserOnline = chat.isUserOnline;
+                    $scope.numberOfOnlineUsers = chat.numberOfOnlineUsers
                 });
 
                 clearFocus();

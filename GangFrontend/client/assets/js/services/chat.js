@@ -208,7 +208,7 @@
                 };
                 if (edited) {
                     data.edited = true;
-                    data.ts = message.ts;
+                    data.ts = edited.ts;
                 }
                 ws.send(JSON.stringify(data));
             };

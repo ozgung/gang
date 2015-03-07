@@ -4,6 +4,12 @@
     angular.module('application')
 
         .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, $rootScope) {
+            /**
+             * this should be false for mobile
+             * @type {boolean}
+             */
+            var FOCUS_ON_INIT = true;
+
 
             var channelId = $stateParams.channel;
 
@@ -64,12 +70,17 @@
                             return bo - ao
                         });
                     };
+                    $scope.numberOfUsers = function () {
+                        return $scope.members.length
+                    };
 
+                    $scope.isUserOnline = chat.isUserOnline;
+                    $scope.numberOfTeamUsers = teamUsers.length
 
-                    $scope.isUserOnline = chat.isUserOnline
                 });
-
-                clearFocus();
+                if (FOCUS_ON_INIT) {
+                    clearFocus()
+                }
                 initTypingStatus();
             }
 
@@ -77,7 +88,7 @@
                 return backend.getUserProfile(+userId, channelId);
             };
 
-            $scope.deleteMessage = function (message) {
+            $scope.deleteMessageInline = function (message) {
 
                 var idx = $scope.thisChannelMessages.indexOf(message);
                 $scope.thisChannelMessages.splice(idx, 1);
@@ -85,24 +96,40 @@
 
             var messageOnEdit = null;
 
-            $scope.textInputStyle = function () {
+            $scope.inlineEdit_msg = "";
 
-                if (messageOnEdit) {
-
-                    return "background-color:lightgoldenrodyellow;";
-
-                } else {
-
-                    return "";
-                }
+            $scope.messageOnEdit = function () {
+                return messageOnEdit || false
             };
 
-            $scope.edit = function (message) {
+            $scope.editInlineCancel = function () {
+                messageOnEdit = false;
+                $scope.inlineEdit_msg = "";
+            };
+
+            $scope.editInline = function (message) {
                 messageOnEdit = message;
-                clearFocus();
-                $scope.message = message.msg;
+                $scope.inlineEdit_msg = message.msg;
+                //todo set focus to textArea
 
             };
+
+            $scope.editInlineKeyPressed = function (event) {
+                var enter = (event.keyCode === 13);
+                var shift = event.shiftKey;
+
+                if (enter && !shift) {
+                    //todo send to server
+                    messageOnEdit.msg = $scope.inlineEdit_msg;
+                    event.preventDefault();
+                }
+
+
+                //clearFocus();
+                //$scope.message = message.msg;
+
+            };
+
 
             $scope.keyPressed = function (event) {
 

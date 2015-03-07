@@ -45,6 +45,14 @@
             //workaround reset current channel we received our message in the current channel
             var _countNewMessagesNumber = {};
             var onlineUsers = {};
+
+            this.numberOfOnlineUsers = function() {
+                var size = 0, key;
+                for (key in onlineUsers) {
+                    if (onlineUsers.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
             this.isUserOnline = function (uid) {
                 return onlineUsers[Number(uid)]
             };

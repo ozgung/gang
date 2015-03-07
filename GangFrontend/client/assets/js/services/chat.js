@@ -46,7 +46,7 @@
             var _countNewMessagesNumber = {};
             var onlineUsers = {};
 
-            this.numberOfOnlineUsers = function() {
+            this.numberOfOnlineUsers = function () {
                 var size = 0, key;
                 for (key in onlineUsers) {
                     if (onlineUsers.hasOwnProperty(key)) size++;
@@ -78,7 +78,20 @@
 
                         //condition is need until workarounds removed (i.e. messages with special user ids)
                         if (fromNormalUser) {
-                            messages[d.channel].push(d);
+                            var historyChanged = false;
+                            messages[d.channel].forEach(function (m) {
+                                if (m.ts == d.ts) {
+                                    //old message update history
+                                    angular.extend(m, d);
+                                    historyChanged = true
+                                }
+                            });
+
+                            if (!historyChanged) {
+                                //this is new message add to history
+                                messages[d.channel].push(d);
+                            }
+
                             d.msg = replaceSmiley(d.msg);
                         }
 
@@ -91,7 +104,6 @@
                             delete onlineUsers[Number(d.msg)];
                             fromNormalUser = false;
                         }
-
 
 
                         //end work around onliner users

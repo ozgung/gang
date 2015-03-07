@@ -121,6 +121,7 @@
                 if (enter && !shift) {
                     //todo send to server
                     messageOnEdit.msg = $scope.inlineEdit_msg;
+                    messageOnEdit = null;
                     event.preventDefault();
                 }
 

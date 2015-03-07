@@ -9,8 +9,8 @@
 (function () {
 
     'use strict';
-    
-		var Gang = angular.module('application', [
+
+    var Gang = angular.module('application', [
         'ui.router',
         'ngAnimate',
         'facebook',
@@ -22,123 +22,123 @@
         'foundation',
         'dbaq.emoji',
         'ngSanitize',
-				'jQueryScrollbar'
+        'jQueryScrollbar'
     ])
 
-    .config(config)
-		
-    .run(run);
+        .config(config)
 
-    function config($urlRouterProvider,$locationProvider,$stateProvider,FacebookProvider,$httpProvider) {
+        .run(run);
 
-      FacebookProvider.init({
-          appId: '343800439138314',
-          status: true
-      });
+    function config($urlRouterProvider, $locationProvider, $stateProvider, FacebookProvider, $httpProvider) {
 
-      $urlRouterProvider.otherwise('/');
+        FacebookProvider.init({
+            appId: '343800439138314',
+            status: true
+        });
 
-      $stateProvider
+        $urlRouterProvider.otherwise('/');
 
-          .state('app', {
-              url: '/',
-              abstract: true,
-              template: '<ui-view/>',
-              resolve: {
+        $stateProvider
 
-                connected:function(fb){
+            .state('app', {
+                url: '/',
+                abstract: true,
+                template: '<ui-view/>',
+                resolve: {
 
-                  return fb.checkStatus().then(function () {
+                    connected: function (fb) {
 
-                    return true;
-                  },function(){
-									
-										localStorage.removeItem('token');
-										return false;
-									});
+                        return fb.checkStatus().then(function () {
+
+                            return true;
+                        }, function () {
+
+                            localStorage.removeItem('token');
+                            return false;
+                        });
+                    }
                 }
-              }
-          })
-					
-          .state('account', {
-              url: '',
-              parent: 'app',
-							abstract:true,
-              templateUrl: 'templates/account.html',
-              controller: 'AccountCtrl',
-							resolve:{
-								
-								user:function(backend,$state){
-									return backend.me().then(function(user){
-										return user;
-									},function(){
-										localStorage.removeItem('token');
-										localStorage.removeItem('lastChannel');
-										$state.go('guest');
-									});
-								},
-								
-								teams:function(user){
-								
-									var teams = [];
-								
-									user.teams.forEach(function(team){
-										teams.push(team.team)
-									});
-									
-									return teams;
-								}
-							}
-          })
+            })
 
-					.state('account.index', {
-            url: '',
-						templateUrl:'templates/account.index.html',
-						onEnter:function($state){
-							
-							var last = localStorage.getItem('lastChannel');
-							
-							if(last){
-								
-								$state.go('chat',{
-									channel:last
-								});
-								
-							}
-						}
-          })
-					
-          .state('chat', {
-            url: ':channel',
-            parent: 'account',
-						templateUrl:'templates/chat.html',
-						controller: 'ChatCtrl',
-						onEnter:function($stateParams){
-						
-							localStorage.setItem('lastChannel',$stateParams.channel);
-						}
-          })
-					
-					.state('guest', {
-              url: '',
-              parent: 'app',
-              templateUrl: 'templates/guest.html',
-              controller: 'GuestCtrl'
-          });
+            .state('account', {
+                url: '',
+                parent: 'app',
+                abstract: true,
+                templateUrl: 'templates/account.html',
+                controller: 'AccountCtrl',
+                resolve: {
 
-      $locationProvider.html5Mode({
-          enabled: false,
-          requireBase: false
-      });
+                    user: function (backend, $state) {
+                        return backend.me().then(function (user) {
+                            return user;
+                        }, function () {
+                            localStorage.removeItem('token');
+                            localStorage.removeItem('lastChannel');
+                            $state.go('guest');
+                        });
+                    },
 
-      $locationProvider.hashPrefix('!');
-			
-			$httpProvider.interceptors.push('httpInterceptor');
+                    teams: function (user) {
+
+                        var teams = [];
+
+                        user.teams.forEach(function (team) {
+                            teams.push(team.team)
+                        });
+
+                        return teams;
+                    }
+                }
+            })
+
+            .state('account.index', {
+                url: '',
+                templateUrl: 'templates/account.index.html',
+                onEnter: function ($state) {
+
+                    var last = localStorage.getItem('lastChannel');
+
+                    if (last) {
+
+                        $state.go('chat', {
+                            channel: last
+                        });
+
+                    }
+                }
+            })
+
+            .state('chat', {
+                url: ':channel',
+                parent: 'account',
+                templateUrl: 'templates/chat.html',
+                controller: 'ChatCtrl',
+                onEnter: function ($stateParams) {
+
+                    localStorage.setItem('lastChannel', $stateParams.channel);
+                }
+            })
+
+            .state('guest', {
+                url: '',
+                parent: 'app',
+                templateUrl: 'templates/guest.html',
+                controller: 'GuestCtrl'
+            });
+
+        $locationProvider.html5Mode({
+            enabled: false,
+            requireBase: false
+        });
+
+        $locationProvider.hashPrefix('!');
+
+        $httpProvider.interceptors.push('httpInterceptor');
     }
 
     function run() {
-			
-			FastClick.attach(document.body);
+
+        FastClick.attach(document.body);
     }
 
 })();

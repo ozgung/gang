@@ -8,8 +8,7 @@
 
 html, body { 
 	font-family: 'Lato', sans-serif;
-  width: 100%;
-  height: 100%;
+  
   background: url("../img/icons-blue.jpg");
 }
 
@@ -43,3 +42,22 @@ html, body {
 	float: right;
 	margin-right: 20px;
 }
+
+.new-message-badge{
+	position: relative;
+	font-size: 10px !important;
+	top: 0px;
+	left: -8px;
+	width: 16px !important;
+	height: 16px !important;
+	background-color: #F04124;
+	border-radius: 8px;
+	text-align: center; 
+	display: inline-block;
+}
+
+.new-message-text{
+	font-weight: bold !important;
+	color: white !important;
+}
+

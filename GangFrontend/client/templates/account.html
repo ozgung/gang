@@ -31,11 +31,12 @@
 							<div style="background-color:{{getTeamColor(team)}};">getTeamShortName(team)</div>
 						</div>
 						
-						<span>{{ team.name }}</span>
+						<div ng-show="numberOfunreadMessages(team.id)" class="new-message-badge" >{{ numberOfunreadMessages(team.id)}}</div>
+						<span ng-class="{ 'new-message-text': numberOfunreadMessages(team.id)}">{{ team.name }}</span>
 						
 						<i class="fa fa-times"></i>
 						
-						<div ng-show="numberOfunreadMessages(team.id)" style="position: relative;left: -5px;  float: left;color: magenta;">{{ numberOfunreadMessages(team.id) }}</div>
+						
 					</li>
 				</ul>
 			</div>
@@ -50,7 +51,7 @@
     </div>
   </zf-panel>
 
-  <div class='grid-block vertical main-panel'>
+  <div class='grid-block vertical main-panel' swipe-open=''>
 	
 		<ui-view class='grid-block vertical'></ui-view>
 		

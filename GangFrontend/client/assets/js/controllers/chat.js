@@ -91,8 +91,9 @@
             $scope.deleteMessageInline = function (message) {
                 chat.deleteMessage(message.ts);
                 console.debug("delte message", message);
-                var idx = $scope.thisChannelMessages.indexOf(message);
-                $scope.thisChannelMessages.splice(idx, 1);
+                //var idx = $scope.thisChannelMessages.indexOf(message);
+                //$scope.thisChannelMessages.splice(idx, 1);
+                $scope.thisChannelMessages = chat.getThisChannelMessages();
             };
 
             var messageOnEdit = null;

@@ -79,27 +79,41 @@
                         //condition is need until workarounds removed (i.e. messages with special user ids)
                         if (fromNormalUser) {
                             var historyChanged = false;
-                            if (d.msg.length > 0) {
 
-
-                                messages[d.channel].forEach(function (m) {
-                                    if (m.ts == d.ts) {
-                                        //old message update history
-                                        angular.extend(m, d);
-                                        historyChanged = true
-                                    }
-                                });
-
-                                if (!historyChanged) {
-                                    //this is new message add to history
-                                    messages[d.channel].push(d);
+                            messages[d.channel].forEach(function (m) {
+                                if (m.ts == d.ts) {
+                                    //old message update history
+                                    angular.extend(m, d);
+                                    historyChanged = true
                                 }
+                            });
 
-                                d.msg = replaceSmiley(d.msg);
-                            }else{
+                            if (!historyChanged) {
+                                //this is new message add to history
+                                messages[d.channel].push(d);
+                            }
+
+                            d.msg = replaceSmiley(d.msg);
+
+                            //clean deleted messages
+                            if (d.msg.length > 0) {
                                 //this is delete command  i.e. message with empty txt
                                 //todo not implemented yet!
+
+                                var arr = messages[d.channel],
+                                    len = arr.length, i;
+
+                                for (i = 0; i < len; i++)
+
+                                    if (arr[i] && arr[i].msg) {
+                                        arr.push(arr[i]);
+                                    }  // copy non-empty values to the end of the array
+
+                                arr.splice(0, len);  // cut the array and leave only the non-empty values
+
                             }
+
+
                         }
 
 

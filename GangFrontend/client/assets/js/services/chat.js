@@ -215,7 +215,7 @@
 
             this.deleteMessage = function (ts) {
                 var data = {
-                    ts: message,
+                    ts: ts,
                     msg: "",
                     edited: true,
                     deleted: true,

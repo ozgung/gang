@@ -64,12 +64,13 @@
                             return bo - ao
                         });
                     };
-
+                    $scope.numberOfUsers = function(){
+                        return $scope.members.length
+                    };
 
                     $scope.isUserOnline = chat.isUserOnline;
-                    $scope.numberOfOnlineUsers = function(){
-                        return teamUsers.length
-                    }
+                    $scope.numberOfTeamUsers = teamUsers.length
+
                 });
 
                 clearFocus();
@@ -107,9 +108,7 @@
 
             };
 
-            $scope.numberOfUsers = function(){
-                return $scope.members.length
-            };
+
 
 
             $scope.keyPressed = function (event) {

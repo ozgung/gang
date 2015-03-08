@@ -38,6 +38,8 @@
             ws.onClose(socketError);
             ws.onError(socketError);
 
+            ws.onOpen(socketConnected);
+
             window.ws = ws; //just for debug purposes
             var messages = {};
 
@@ -96,7 +98,7 @@
                             d.msg = replaceSmiley(d.msg);
 
                             //clean deleted messages
-                            if (d.msg.trim().length == 0 ) {
+                            if (d.msg.trim().length == 0) {
                                 //this is delete command  i.e. message with empty txt
                                 //todo not implemented yet!
 
@@ -151,6 +153,9 @@
 
                 function handlePingMessage(d) {
                     if (d.type == "ping") {
+                        return true;
+                    } else if (d.type == "pong") {
+                        console.debug(d);
                         return true;
                     }
                 }
@@ -289,6 +294,21 @@
 
             function socketError(event) {
                 ws = ws.reconnect();
+            }
+
+            function socketConnected(event) {
+                function ping() {
+                    var data = {
+                        ts: new Date().valueOf(),
+                        type: 'ping'
+                    };
+                    ws.send(JSON.stringify(data));
+                }
+
+                setInterval(ping, 30000);
+
+                ping();
+
             }
 
         });

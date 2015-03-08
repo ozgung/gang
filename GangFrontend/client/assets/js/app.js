@@ -31,9 +31,7 @@
 
     function config($urlRouterProvider, $locationProvider, $stateProvider, FacebookProvider, $httpProvider) {
 				
-				console.log('angular config');
-				
-        FacebookProvider.init({
+				FacebookProvider.init({
             appId: '343800439138314',
             status: true
         });
@@ -46,17 +44,14 @@
                 url: '/',
                 abstract: true,
                 template: '<ui-view/>',
-								
                 resolve: {
 
                     connected: function (fb,$window) {
-												console.log(fb.ready);
+												
                         return fb.checkStatus().then(function () {
-														console.log('facebook connected');
-                            return true;
+														return true;
                         }, function () {
-														console.log('facebook not connected');
-                            $window.localStorage.removeItem('token');
+														$window.localStorage.removeItem('token');
                             return false;
                         });
                     }
@@ -121,22 +116,33 @@
                     localStorage.setItem('lastChannel', $stateParams.channel);
                 }
             })
-
-            .state('guest', {
-                url: '',
-                parent: 'app',
-                templateUrl: 'templates/guest.html',
-                controller: 'GuestCtrl',
-								onEnter:function(){
-									console.log('guest entered');
-								}
-            })
 						
 						.state('about', {
                 url: '/about',
                 parent: 'account',
                 templateUrl: 'templates/about.html'
             })
+						
+						.state('users', {
+                url: '/users',
+                parent: 'account',
+                templateUrl: 'templates/users.html'
+            })
+						
+						.state('groups', {
+                url: '/groups',
+                parent: 'account',
+                templateUrl: 'templates/groups.html'
+            })
+						
+            .state('guest', {
+                url: '',
+                parent: 'app',
+                templateUrl: 'templates/guest.html',
+                controller: 'GuestCtrl'
+            });
+						
+						
 
         $locationProvider.html5Mode({
             enabled: false,
@@ -149,8 +155,7 @@
     }
 
     function run() {
-				console.log('angular run');
-        FastClick.attach(document.body);
+			FastClick.attach(document.body);
     }
 
 })();

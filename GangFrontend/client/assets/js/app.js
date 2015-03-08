@@ -30,7 +30,9 @@
         .run(run);
 
     function config($urlRouterProvider, $locationProvider, $stateProvider, FacebookProvider, $httpProvider) {
-
+				
+				console.log('angular config');
+				
         FacebookProvider.init({
             appId: '343800439138314',
             status: true
@@ -44,16 +46,17 @@
                 url: '/',
                 abstract: true,
                 template: '<ui-view/>',
+								
                 resolve: {
 
-                    connected: function (fb) {
-
+                    connected: function (fb,$window) {
+												console.log(fb.ready);
                         return fb.checkStatus().then(function () {
-
+														console.log('facebook connected');
                             return true;
                         }, function () {
-
-                            localStorage.removeItem('token');
+														console.log('facebook not connected');
+                            $window.localStorage.removeItem('token');
                             return false;
                         });
                     }
@@ -123,8 +126,17 @@
                 url: '',
                 parent: 'app',
                 templateUrl: 'templates/guest.html',
-                controller: 'GuestCtrl'
-            });
+                controller: 'GuestCtrl',
+								onEnter:function(){
+									console.log('guest entered');
+								}
+            })
+						
+						.state('about', {
+                url: '/about',
+                parent: 'account',
+                templateUrl: 'templates/about.html'
+            })
 
         $locationProvider.html5Mode({
             enabled: false,
@@ -137,7 +149,7 @@
     }
 
     function run() {
-
+				console.log('angular run');
         FastClick.attach(document.body);
     }
 

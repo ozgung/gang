@@ -53,6 +53,7 @@ var foundationJS = [
     'bower_components/angular-emoji-filter-hd/lib/emoji.js',
 		'bower_components/jquery/dist/jquery.js',
 		'bower_components/jquery.scrollbar/jquery.scrollbar.js',
+		'bower_components/ng-device-detector/ng-device-detector.js',
 ];
 
 // These files are for your app's JavaScript

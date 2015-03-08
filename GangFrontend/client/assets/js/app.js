@@ -118,19 +118,19 @@
             })
 						
 						.state('about', {
-                url: '/about',
+                url: 'about',
                 parent: 'account',
                 templateUrl: 'templates/about.html'
             })
 						
 						.state('users', {
-                url: '/users',
+                url: 'users',
                 parent: 'account',
                 templateUrl: 'templates/users.html'
             })
 						
 						.state('groups', {
-                url: '/groups',
+                url: 'groups',
                 parent: 'account',
                 templateUrl: 'templates/groups.html'
             })

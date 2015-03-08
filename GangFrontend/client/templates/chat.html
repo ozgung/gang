@@ -57,7 +57,7 @@
                 <div class="input-area">
                     <span class="is-typing">
                         <span ng-repeat="(uid, user) in usersTypingNow">{{ getProfile(uid).displayName }}
-                            <span ng-if="$middle">,</span>
+                            <span ng-if="!$last">, </span>
                             <span ng-if="$last"> is typing... </span>
                         </span>
                     </span>

@@ -33,7 +33,7 @@
     function config($urlRouterProvider, $locationProvider, $stateProvider, FacebookProvider, $httpProvider) {
 				
 				FacebookProvider.init({
-            appId: '343800439138314',
+            appId: '343745845810440',
             status: true
         });
 

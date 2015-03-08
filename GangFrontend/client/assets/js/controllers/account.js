@@ -26,7 +26,7 @@
              * color palette
              * source: http://flatuicolors.co/
              */
-            $scope.palette = [
+            var palette = [
                 "#1ABC9C",//0
                 "#16A085",//1
                 "#F1C40F",//2
@@ -50,9 +50,12 @@
              * @returns {string}
              */
             $scope.getTeamColor = function (team) {
-                var id = team.id, result = "#34495E";
-                result = $scope.palette[id % 16];
-                return result;
+                var id = 0;
+                if (team) {
+                    id = team.id
+                }
+
+                return palette[id % 16];
             };
 
             /**
@@ -61,7 +64,10 @@
              * @returns {string}
              */
             $scope.getTeamShortName = function (team) {
-                return shortName(team.name, 2);
+                if (team) {
+                    return shortName(team.name, 2);
+                }
+                return ""
             };
 
             $scope.numberOfunreadMessages = chat.lastReadMessagesGet;

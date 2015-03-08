@@ -159,6 +159,12 @@
                         return true;
                     }
                 }
+                function handleErrorMessages(d) {
+                    if (d.type == "error") {
+                        console.error(d);
+                        return true;
+                    }
+                }
 
                 function handleOtherMessage(d) {
                     return true;
@@ -170,6 +176,7 @@
                 handleTextMessage(data) ||
                 handleTypingStatusMessage(data) ||
                 handlePingMessage(data) ||
+                handleErrorMessages(data) ||
                 handleOtherMessage(data);
             });
 
@@ -296,18 +303,24 @@
                 ws = ws.reconnect();
             }
 
+
+            function ping() {
+                var data = {
+                    ts: new Date().valueOf(),
+                    type: 'ping'
+                };
+                ws.send(JSON.stringify(data));
+            }
+
+            var pinging = false;
+
             function socketConnected(event) {
-                function ping() {
-                    var data = {
-                        ts: new Date().valueOf(),
-                        type: 'ping'
-                    };
-                    ws.send(JSON.stringify(data));
+                if (!pinging) {
+                    setInterval(ping, 30000);
+                    pinging = true;
+                    ping();
                 }
 
-                setInterval(ping, 30000);
-
-                ping();
 
             }
 

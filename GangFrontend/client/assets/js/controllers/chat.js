@@ -64,10 +64,8 @@
                     });
 
                     $scope.members = function () {
-                        return teamUsers.sort(function (a, b) {
-                            var ao = +chat.isUserOnline(a.id);
-                            var bo = +chat.isUserOnline(b.id);
-                            return bo - ao
+                        return _.sortBy(teamUsers, function (u) {
+                            return +chat.isUserOnline(u.id);
                         });
                     };
                     $scope.numberOfUsers = function () {

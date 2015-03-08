@@ -51,6 +51,7 @@ var foundationJS = [
     'bower_components/angular-scroll-glue/src/scrollglue.js',
     'bower_components/angular-websocket/angular-websocket.js',
     'bower_components/angular-emoji-filter-hd/lib/emoji.js',
+    'bower_components/lodash/lodash.min.js',
 		'bower_components/jquery/dist/jquery.js',
 		'bower_components/jquery.scrollbar/jquery.scrollbar.js',
 		'bower_components/ng-device-detector/ng-device-detector.js',

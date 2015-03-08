@@ -74,9 +74,34 @@
 
             <div class="grid-content collapse expand right-panel" ng-hide="hideOnlineUsers">
 
-                <div class="right-title">Users</div>
+								<div class="right-title">Users</div>
+								
+								<div class='block-list user-list'>
+								
+									<ul>
+	
+										<li class='grid-block' ng-repeat='member in members()'>
 
-                <ul class="userlist">
+												<div class='grid-content shrink collapse'>
+												
+													<img ng-src="data:image/png;base64,{{ member.profileImage }}">
+													
+												</div>
+												<div class='grid-content collapse'>
+													<p>
+														{{ member.firstName }} {{ member.lastName }}
+													</p>
+												</div>
+												<div class='grid-content shrink collapse'>
+													<span>
+														<i class="fa fa-circle" ng-class="{online: isUserOnline(member.id)}"></i>
+														<i class="fa fa-check" ng-class="{read: false}"></i>
+													</span>
+												</div>
+										</li>
+									</ul>
+								</div>
+                <!--<ul class="userlist">
 
                     <li ng-repeat='member in members()'>
 
@@ -85,14 +110,15 @@
                             <img ng-src="data:image/png;base64,{{ member.profileImage }}">
 
                         </div>
+												
                         <div class="username">{{ member.firstName }} {{ member.lastName }}</div>
 
-							<span>
-								<i class="fa fa-circle" ng-class="{online: isUserOnline(member.id)}"></i>
-								<i class="fa fa-check" ng-class="{read: false}"></i>
-							</span>
+												<span>
+													<i class="fa fa-circle" ng-class="{online: isUserOnline(member.id)}"></i>
+													<i class="fa fa-check" ng-class="{read: false}"></i>
+												</span>
                     </li>
-                </ul>
+                </ul>-->
             </div>
         </zf-panel>
     </div>

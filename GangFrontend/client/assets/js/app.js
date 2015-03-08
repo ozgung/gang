@@ -18,11 +18,12 @@
         'ngWebSocket',
         'angulartics',
         'angulartics.google.analytics',
+				'dbaq.emoji',
+        'ngSanitize',
+        'jQueryScrollbar',
+				'ng.deviceDetector',
         //foundation
         'foundation',
-        'dbaq.emoji',
-        'ngSanitize',
-        'jQueryScrollbar'
     ])
 
         .config(config)

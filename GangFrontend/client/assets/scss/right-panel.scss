@@ -1,5 +1,8 @@
+#gang-right-panel {
+	width:300px;
+}
+
 .right-panel {
-	width: 220px;
 	background: #eee;
 	border-left: 2px solid #ddd;
 }
@@ -16,9 +19,43 @@
 	color: #666;
 }
 
-.userlist{
+.user-list{
 	background: #eee;
 	margin:0;
+}
+
+.user-list .grid-block {
+	
+	padding:6px;
+}
+
+.user-list img{
+	width: 32px;
+	height: 32px;
+	border-radius: 3px;
+}
+
+.user-list p {
+	width:80px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.user-list li span {
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.user-list i {
+	color: #999;
+	margin-left: 3px;
+}
+.user-list i.online {
+	color: #0F9D28;
+}
+.user-list i.read {
+	color: #3A8EE4;
 }
 
 .userlist li {
@@ -28,11 +65,9 @@
 	font-weight: 700;
 	color: #666;
 	border-bottom: 1px solid #ddd;
-	width: 100%;
 	line-height: 32px;
 	cursor: pointer;
 	height: 52px;
-	width:100%;
 }
 .userlist li:hover {
 	background: #fff;
@@ -43,6 +78,7 @@
 	display: inline-block;
 	float: right;
 }
+
 .userlist i {
 	color: #999;
 	margin-left: 3px;

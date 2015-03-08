@@ -8,6 +8,7 @@
     angular.module('application')
 
         .service('chat', function ($websocket, token, $rootScope, backend, $q) {
+            var _lastReadMessages_loadedFromLocalStorage = false;
 
             //todo these will be refactored
             var magic_ids = {
@@ -63,7 +64,7 @@
 
                 function handleTextMessage(d) {
                     if (d.type == "message") {
-                        var fromNormalUser = true;
+                        var fromNormalUser = d.channel > 0;
                         if (!messages[d.channel]) {
                             messages[d.channel] = []
                         }
@@ -71,11 +72,22 @@
 
                         //increase unread message count for this channel
                         //workaround reset current channel we received our message in the current channel
-                        if (_countNewMessagesNumber[d.msg] && activeChannelId != d.channel) {
-                            _newMessageCounter_inc(d.channel);
-                        } else if (d.uid == magic_ids._replyingChannelHistory_FINISHED) {
-                            _countNewMessagesNumber[d.msg] = true;
-                            fromNormalUser = false;
+                        if (d.uid == magic_ids._replyingChannelHistory_FINISHED) {
+
+
+                            if (_lastReadMessages_loadedFromLocalStorage) {
+
+                                _lastReadMessagesUpdate(d.channel, messages[d.channel])
+                            } else {
+
+
+                            }
+
+                            if (activeChannelId == d.channel) {
+                                //todo we are marking all messages in the active channel as read
+                                _lastReadMessagesMarkNow(d.channel, d.ts)
+                            }
+                            _countNewMessagesNumber[Number(d.msg)] = true;
                         }
 
                         //condition is need until workarounds removed (i.e. messages with special user ids)
@@ -93,6 +105,16 @@
                             if (!historyChanged) {
                                 //this is new message add to history
                                 messages[d.channel].push(d);
+
+                                if (_countNewMessagesNumber[d.channel]) {
+                                    if (activeChannelId == d.channel) {
+                                        //todo we are marking all messages in the active channel as read
+                                        _lastReadMessagesMarkNow(d.channel, d.ts)
+                                    } else {
+                                        _lastReadMessagesUpdate(d.channel, messages[d.channel])
+                                    }
+
+                                }
                             }
 
                             d.msg = replaceSmiley(d.msg);
@@ -155,13 +177,14 @@
                     if (d.type == "ping") {
                         return true;
                     } else if (d.type == "pong") {
-                        console.debug(d);
+
                         return true;
                     }
                 }
+
                 function handleErrorMessages(d) {
                     if (d.type == "error") {
-                        console.error(d);
+
                         return true;
                     }
                 }
@@ -269,35 +292,13 @@
                 });
 
                 //reset unread message number
-                _newMessageCounter_reset(activeChannelId);
+                _lastReadMessagesMarkNow(activeChannelId);
 
                 //reset typing users active channel changed!
                 //todo this is a partial solution only fixme ~ilgaz
                 $rootScope.usersTypingNow = {}
             };
 
-            var _newMessageCounter = {};
-
-            function _newMessageCounter_inc(channelid) {
-
-                var x = _newMessageCounter[channelid] || 0;
-
-                _newMessageCounter[channelid] = x + 1
-            }
-
-            function _newMessageCounter_reset(channelid) {
-                _newMessageCounter[channelid] = 0
-            }
-
-            this.numberOfunreadMessages = function (channelid) {
-
-                var x = _newMessageCounter[channelid] || 0;
-
-                if (!x) {
-                    _newMessageCounter[channelid] = 0;
-                }
-                return x;
-            };
 
             function socketError(event) {
                 ws = ws.reconnect();
@@ -323,6 +324,96 @@
 
 
             }
+
+
+            //UNREAD MESSAGES
+
+            var _lastReadMessages = _lastReadMessagesLoadData();
+
+            function _lastReadMessagesGet(channelid) {
+                channelid = channelid || activeChannelId;
+                _lastReadMessages[channelid] = _lastReadMessages[channelid] || {ts: -1, count: 0, lastMessagesTS: -1};
+                return _lastReadMessages[channelid]
+            }
+
+
+            function _lastReadMessagesMarkNow(channelid, now) {
+
+                channelid = channelid || activeChannelId;
+
+
+                var lrm = _lastReadMessagesGet(channelid);
+
+
+                var ts = _.max([now, lrm.ts, lrm.lastMessagesTS]);
+
+                lrm.ts = ts;
+                lrm.count = 0;
+                lrm.lastMessagesTS = ts;
+
+
+                if (lrm.ts != now) {
+
+
+                    _lastReadMessagesStoreData()
+                }
+
+            }
+
+            function _lastReadMessagesUpdate(channelid, messages) {
+                var lrm = _lastReadMessagesGet(channelid);
+
+                var ts = lrm.ts;
+                lrm.count = _.filter(messages, function (m) {
+                    var newMessage = m.ts > ts;
+
+                    lrm.lastMessagesTS = _.max([lrm.lastMessagesTS, m.ts]);
+
+                    if (newMessage) {
+
+                    }
+
+                    return newMessage
+                }).length;
+
+
+                return lrm
+            }
+
+            function _lastReadMessagesStoreData() {
+
+                localStorage.setItem("_lastReadMessages", JSON.stringify(_lastReadMessages))
+            }
+
+            function _lastReadMessagesLoadData() {
+                var value = localStorage.getItem("_lastReadMessages");
+
+                _lastReadMessages_loadedFromLocalStorage = true;
+                if (value) {
+                    try {
+                        _lastReadMessages_loadedFromLocalStorage = true;
+
+                        return JSON.parse(value)
+                    } catch (err) {
+
+                        _lastReadMessages_loadedFromLocalStorage = false;
+
+                        localStorage.removeItem("_lastReadMessages");
+                        return {}
+                    }
+
+                } else {
+
+                    _lastReadMessages_loadedFromLocalStorage = false;
+                    return {}
+                }
+
+
+            }
+
+            //this.lastReadMessagesMarkNow = _lastReadMessagesMarkNow;
+            this.lastReadMessagesGet = _lastReadMessagesGet;
+
 
         });
 })();

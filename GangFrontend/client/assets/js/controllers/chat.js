@@ -115,6 +115,7 @@
             };
 
             $scope.editInlineKeyPressed = function (event,msg) {
+
                 var enter = (event.keyCode === 13);
                 var shift = event.shiftKey;
                 var message_txt = msg;

@@ -52,19 +52,20 @@ var foundationJS = [
     'bower_components/angular-websocket/angular-websocket.js',
     'bower_components/angular-emoji-filter-hd/lib/emoji.js',
     'bower_components/lodash/lodash.min.js',
-		'bower_components/jquery/dist/jquery.js',
-		'bower_components/jquery.scrollbar/jquery.scrollbar.js',
-		'bower_components/ng-device-detector/ng-device-detector.js',
+    'bower_components/jquery/dist/jquery.js',
+    'bower_components/jquery.scrollbar/jquery.scrollbar.js',
+    'bower_components/ng-device-detector/ng-device-detector.js',
+    'bower_components/angular-elastic/elastic.js'
 ];
 
 // These files are for your app's JavaScript
 var appJS = [
-	'client/assets/js/config.js',
-  'client/assets/js/app.js',
-	'client/assets/js/services/**/*.js',
-	'client/assets/js/controllers/**/*.js',
-	'client/assets/js/factories/**/*.js',
-	'client/assets/js/directives/**/*.js',
+    'client/assets/js/config.js',
+    'client/assets/js/app.js',
+    'client/assets/js/services/**/*.js',
+    'client/assets/js/controllers/**/*.js',
+    'client/assets/js/factories/**/*.js',
+    'client/assets/js/directives/**/*.js',
 ];
 
 // 3. TASKS

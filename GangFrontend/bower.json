@@ -28,6 +28,7 @@
     "angular-scroll-glue": "~2.0.3",
     "angular-websocket": "~1.0.9",
     "angulartics": "~0.17.2",
+    "angular-elastic":"*",
     "angular-sanitize": "~1.3.14",
     "angular-emoji-filter-hd": "*",
     "lodash": "*",

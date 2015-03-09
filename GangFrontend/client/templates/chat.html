@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="message editing" ng-if="message.self && (messageOnEdit() == message)">
-                                <textarea msd-elastic="\n" ng-keypress='editInlineKeyPressed($event,inlineEdit_msg)' ng-model="inlineEdit_msg"></textarea>
+                                <textarea msd-elastic="\n" ng-keydown='editInlineKeyPressed($event,inlineEdit_msg)' ng-model="inlineEdit_msg"></textarea>
                                 <div class="edit-info">esc to <a href="" ng-click="editInlineCancel()">cancel</a></div>
                             </div>
 
@@ -63,7 +63,7 @@
                     </span>
 
                     <textarea msd-elastic="\n" id="message_input" ng-model='message' placeholder="Type Your Message"
-                              ng-keypress='keyPressed($event)'></textarea>
+                              ng-keydown='keyPressed($event)'></textarea>
 
                 </div>
             </div>

@@ -7,7 +7,7 @@
 
     angular.module('application')
 
-        .service('chat', function ($websocket, token, $rootScope, backend, $q) {
+        .service('chat', function ($websocket, token, $rootScope, backend, notification, $q) {
             var _lastReadMessages_loadedFromLocalStorage = false;
 
             //todo these will be refactored
@@ -68,6 +68,9 @@
                         if (!messages[d.channel]) {
                             messages[d.channel] = []
                         }
+
+
+                        notification.post(d.uid + "says:", d.msg);
 
 
                         //increase unread message count for this channel

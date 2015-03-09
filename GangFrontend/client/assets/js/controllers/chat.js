@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, $rootScope) {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, notification, $rootScope) {
             /**
              * this should be false for mobile
              * @type {boolean}
@@ -24,7 +24,6 @@
                 } else {
                     chat.sendMessage($scope.message);
                 }
-
                 clearFocus();
             }
 
@@ -80,6 +79,8 @@
                     clearFocus()
                 }
                 initTypingStatus();
+
+                notification.init();
             }
 
             $scope.getProfile = function (userId) {

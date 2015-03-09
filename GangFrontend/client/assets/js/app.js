@@ -67,12 +67,17 @@
                 controller: 'AccountCtrl',
                 resolve: {
 
-                    user: function (backend, $state) {
+                    user: function (backend, $state, $location) {
                         return backend.me().then(function (user) {
                             return user;
                         }, function () {
+
+                            var path = $location.path();
+
+                            if (path && path != "/") {
+                                localStorage.setItem('afterLoginRedirectTo', path);
+                            }
                             localStorage.removeItem('token');
-                            localStorage.removeItem('lastChannel');
                             $state.go('guest');
                         });
                     },
@@ -92,30 +97,14 @@
 
             .state('account.index', {
                 url: '',
-                templateUrl: 'templates/account.index.html',
-                onEnter: function ($state) {
-
-                    var last = localStorage.getItem('lastChannel');
-
-                    if (last) {
-
-                        $state.go('chat', {
-                            channel: last
-                        });
-
-                    }
-                }
+                templateUrl: 'templates/account.index.html'
             })
 
             .state('chat', {
                 url: ':channel',
                 parent: 'account',
                 templateUrl: 'templates/chat.html',
-                controller: 'ChatCtrl',
-                onEnter: function ($stateParams) {
-
-                    localStorage.setItem('lastChannel', $stateParams.channel);
-                }
+                controller: 'ChatCtrl'
             })
 
             .state('about', {

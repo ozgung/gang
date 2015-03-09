@@ -46,6 +46,10 @@
                 });
             }
 
+            $scope.$on("CHANNEL_READY", function (event, cid) {
+                   //console.log("____", cid);
+            });
+
             function init() {
 
                 $scope.messages = chat.messages;

@@ -9,7 +9,6 @@
 
         .service('chat', function ($websocket, token, $rootScope, backend, notification, $q) {
             var _lastReadMessages_loadedFromLocalStorage = false;
-
             //todo these will be refactored
             var magic_ids = {
                 _PERSISTED: -15
@@ -77,6 +76,8 @@
                         //workaround reset current channel we received our message in the current channel
                         if (d.uid == magic_ids._replyingChannelHistory_FINISHED) {
 
+                            //broadcast channel id after all messages fetched
+                            $rootScope.$broadcast("CHANNEL_READY",Number(d.msg));
 
                             if (_lastReadMessages_loadedFromLocalStorage) {
 

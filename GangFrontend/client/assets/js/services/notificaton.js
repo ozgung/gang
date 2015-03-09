@@ -4,7 +4,7 @@
 
 	angular.module('application')
 	.service('notification', function(){
-		
+
 		/*source: http://www.binpress.com/tutorial/building-useful-notifications-with-html5-apis/163 */
 
 		var notificationAPI;
@@ -14,9 +14,9 @@
 		// Event handler: log change to browser console
 		function visibleChangeHandler() {
 		    if (document[hidden]) {
-		        console.log('Page is not visible\n');
+		        //console.log('Page is not visible\n');
 		    } else {
-		        console.log('Page is visible\n');
+		        //console.log('Page is visible\n');
 		        changeFavicon("/assets/img/g-bg.png");
 		    }
 		}
@@ -50,7 +50,7 @@
 			//Register event handler
 			if (typeof document.addEventListener === 'undefined' ||
 			             typeof document[hidden] === 'undefined'   ) {
-			    console.log("Page Visibility API isn't supported, sorry!");
+			    //console.log("Page Visibility API isn't supported, sorry!");
 			} else {
 			    document.addEventListener(visibilityChangeEvent, visibleChangeHandler, false);
 			}
@@ -62,10 +62,10 @@
 		// A function handler
 		function Notify(titleText, bodyText)
 		{
-		    console.log("notify called")
-		    console.log(titleText, bodyText);
+		    //console.log("notify called")
+		    //console.log(titleText, bodyText);
 		    if ('undefined' === typeof notificationAPI)
-		        console.log("undefined");
+		        //console.log("undefined");
 		        return false;       //Not supported....
 		    var noty = new notificationAPI(
 		        titleText, {
@@ -77,16 +77,16 @@
 		        }
 		    );
 		    noty.onclick = function () {
-		        console.log('notification.Click');
+		        //console.log('notification.Click');
 		    };
 		    noty.onerror = function () {
-		        console.log('notification.Error');
+		        //console.log('notification.Error');
 		    };
 		    noty.onshow = function () {
-		        console.log('notification.Show');
+		        //console.log('notification.Show');
 		    };
 		    noty.onclose = function () {
-		        console.log('notification.Close');
+		        //console.log('notification.Close');
 		    };
 		    return true;
 		}
@@ -114,9 +114,9 @@
 
 		/* Function post notification */
 		this.post = function (title, body){
-		    console.log("post called")
+		    //console.log("post called")
 		    if (document['hidden']) {
-		        console.log('page not visible, use notification and vibrate');
+		        //console.log('page not visible, use notification and vibrate');
 		        //Vibrate and try to send notification
 		        window.navigator.vibrate(500);
 		        if (false == Notify(title, body)) {
@@ -131,7 +131,7 @@
 		        }
 		    }
 		    else {
-		        console.log('page visible, push to normal notification queue');        
+		        //console.log('page visible, push to normal notification queue');
 		        //doYourOwnSignaling(data);
 
 		        //Reset fallback handling

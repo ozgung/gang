@@ -123,10 +123,13 @@
 
                 var enter = (event.keyCode === 13);
                 var shift = event.shiftKey;
+                var escape = (event.keyCode === 27);
                 var message_txt = msg;
 
 
-                if (enter && !shift) {
+                if(escape){
+                      $scope.editInlineCancel();
+                }else if (enter && !shift) {
                     //todo send to server
                     messageOnEdit.msg = message_txt;
 
@@ -147,8 +150,13 @@
 
                 var enter = (event.keyCode === 13);
                 var shift = event.shiftKey;
+                var escape = (event.keyCode === 27);
 
-                if (enter && !shift) {
+
+
+                if(escape){
+                    clearFocus();
+                }else if (enter && !shift) {
                     send();
                     event.preventDefault();
                 }

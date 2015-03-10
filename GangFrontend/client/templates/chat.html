@@ -43,7 +43,7 @@
                                         class="fa fa-pencil"></i> Edit</a> - <a ng-click="deleteMessageInline(message)"><i
                                         class="fa fa-times"></i> Delete</a></span>
 
-                                <div class="message-text" ng-bind-html="message.msg | emoji | linky"></div>
+                                <div class="message-text" ng-bind-html="message.msg | emoji"></div>
                             </div>
 
                             <div class="message editing" ng-if="message.self && (messageOnEdit() == message)">

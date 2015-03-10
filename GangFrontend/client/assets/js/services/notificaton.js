@@ -76,14 +76,15 @@
 		            icon: 'http://ganghq.com/assets/img/g-bg.png' //The URL of an image to be used as an icon
 		        }
 		    );
-		    noty.onclick = function () {
-		        //console.log('notification.Click');
-		    };
 		    noty.onerror = function () {
 		        //console.log('notification.Error');
 		    };
 		    noty.onshow = function () {
-		        //console.log('notification.Show');
+		        console.log('notification.Show');
+                var this_notification = noty;
+                setTimeout(function(){
+                    this_notification.close()
+                },2000)
 		    };
 		    noty.onclose = function () {
 		        //console.log('notification.Close');

@@ -52,7 +52,7 @@
             $scope.getTeamColor = function (team) {
                 var id = 0;
                 if (team) {
-                    id = team.id
+                    id = team.id * 43
                 }
 
                 return palette[id % 16];

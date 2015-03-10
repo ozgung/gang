@@ -8,6 +8,9 @@
     angular.module('application')
 
         .service('chat', function ($websocket, token, $rootScope, backend, notification, $q) {
+            var notificationsEnabled = true;
+
+
             var _lastReadMessages_loadedFromLocalStorage = false;
             //todo these will be refactored
             var magic_ids = {
@@ -69,15 +72,12 @@
                         }
 
 
-                        notification.post(d.uid + "says:", d.msg);
-
-
                         //increase unread message count for this channel
                         //workaround reset current channel we received our message in the current channel
                         if (d.uid == magic_ids._replyingChannelHistory_FINISHED) {
 
                             //broadcast channel id after all messages fetched
-                            $rootScope.$broadcast("CHANNEL_READY",Number(d.msg));
+                            $rootScope.$broadcast("CHANNEL_READY", Number(d.msg));
 
                             if (_lastReadMessages_loadedFromLocalStorage) {
 
@@ -110,7 +110,13 @@
                                 //this is new message add to history
                                 messages[d.channel].push(d);
 
+
+
+
                                 if (_countNewMessagesNumber[d.channel]) {
+                                    SendNotification(d);
+
+
                                     if (activeChannelId == d.channel) {
                                         //todo we are marking all messages in the active channel as read
                                         _lastReadMessagesMarkNow(d.channel, d.ts)
@@ -418,6 +424,22 @@
             //this.lastReadMessagesMarkNow = _lastReadMessagesMarkNow;
             this.lastReadMessagesGet = _lastReadMessagesGet;
 
+
+            // notifications
+
+
+            function SendNotification(d) {
+                if (notificationsEnabled && !d.self) {
+
+                    //todo fix notifications
+                    var team = backend.getTeam(d.channel).then(function (t) {
+                        var user = backend.getUserProfile(d.uid, d.channel);
+                        console.log("____team", d.msg);
+
+                        notification.post(user.displayName + " @ " + t.name , d.msg);
+                    });
+                }
+            }
 
         });
 })();

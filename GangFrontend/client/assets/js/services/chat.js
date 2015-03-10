@@ -454,7 +454,6 @@
                     //todo fix notifications
                     var team = backend.getTeam(d.channel).then(function (t) {
                         var user = backend.getUserProfile(d.uid);
-                        console.log("____team", d.msg);
                         if(!user){
                             user =""
                         }

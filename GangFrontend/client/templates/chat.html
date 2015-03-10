@@ -4,7 +4,7 @@
         <div class="main-title">
 
             <div class="colorbox">
-                <div style="background-color:{{getTeamColor(activeChannel)}};">{{getTeamShortName(activeChannel)}}</div>
+                <div style="background-color:{{ getTeamColor(activeChannel) }};">{{ getTeamShortName(activeChannel) }}</div>
             </div>
 
             {{ activeChannel.name }}
@@ -15,6 +15,8 @@
 				<i class="fa fa-users"></i> {{ numberOfTeamUsers }}
 			</span>
             </a>
+
+
         </div>
     </div>
 
@@ -33,16 +35,21 @@
                             <div class="profile"><img
                                     ng-src="data:image/png;base64,{{ getProfile(message.uid).profileImage }}"/></div>
 
-                            <div class="message"  ng-if="!message.self || (messageOnEdit() != message)">
+                            <div class="message" ng-if="!message.self || (messageOnEdit() != message)">
 
                                 <div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b>
                                     {{ message.ts| date:'HH:mm'}} </div>
-                                <span class="message-options" ng-if="message.self" ><a ng-click="editInline(message)"><i class="fa fa-pencil"></i> Edit</a> - <a ng-click="deleteMessageInline(message)"><i class="fa fa-times"></i> Delete</a></span>
+                                <span class="message-options" ng-if="message.self"><a ng-click="editInline(message)"><i
+                                        class="fa fa-pencil"></i> Edit</a> - <a ng-click="deleteMessageInline(message)"><i
+                                        class="fa fa-times"></i> Delete</a></span>
+
                                 <div class="message-text" ng-bind-html="message.msg | emoji | linky"></div>
                             </div>
 
                             <div class="message editing" ng-if="message.self && (messageOnEdit() == message)">
-                                <textarea msd-elastic="\n" ng-keydown='editInlineKeyPressed($event,inlineEdit_msg)' ng-model="inlineEdit_msg"></textarea>
+                                <textarea msd-elastic="\n" ng-keydown='editInlineKeyPressed($event,inlineEdit_msg)'
+                                          ng-model="inlineEdit_msg"></textarea>
+
                                 <div class="edit-info">esc to <a href="" ng-click="editInlineCancel()">cancel</a></div>
                             </div>
 
@@ -65,6 +72,13 @@
                     <textarea msd-elastic="\n" id="message_input" ng-model='message' placeholder="Type Your Message"
                               ng-keydown='keyPressed($event)'></textarea>
 
+                    <div class="notification-wrapper">
+                        Notifications
+                        <a href="" ng-click="toggleNotifications()">
+                            <span ng-if="!notifications.enabled">off</span>
+                            <span ng-if="notifications.enabled">on&nbsp; </span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -74,33 +88,34 @@
 
             <div class="grid-content collapse expand right-panel" ng-hide="hideOnlineUsers">
 
-								<div class="right-title">Users</div>
-								
-								<div class='block-list user-list'>
-								
-									<ul>
-	
-										<li class='grid-block' ng-repeat='member in members()'>
+                <div class="right-title">Users</div>
 
-												<div class='grid-content shrink collapse'>
-												
-													<img ng-src="data:image/png;base64,{{ member.profileImage }}">
-													
-												</div>
-												<div class='grid-content collapse'>
-													<p>
-														{{ member.firstName }} {{ member.lastName }}
-													</p>
-												</div>
-												<div class='grid-content shrink collapse'>
+                <div class='block-list user-list'>
+
+                    <ul>
+
+                        <li class='grid-block' ng-repeat='member in members()'>
+
+                            <div class='grid-content shrink collapse'>
+
+                                <img ng-src="data:image/png;base64,{{ member.profileImage }}">
+
+                            </div>
+                            <div class='grid-content collapse'>
+                                <p>
+                                    {{ member.firstName }} {{ member.lastName }}
+                                </p>
+                            </div>
+                            <div class='grid-content shrink collapse'>
 													<span>
-														<i class="fa fa-circle" ng-class="{online: isUserOnline(member.id)}"></i>
+														<i class="fa fa-circle"
+                                                           ng-class="{online: isUserOnline(member.id)}"></i>
 														<i class="fa fa-check" ng-class="{read: false}"></i>
 													</span>
-												</div>
-										</li>
-									</ul>
-								</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <!--<ul class="userlist">
 
                     <li ng-repeat='member in members()'>

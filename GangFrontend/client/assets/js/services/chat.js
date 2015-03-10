@@ -8,8 +8,8 @@
     angular.module('application')
 
         .service('chat', function ($websocket, token, $rootScope, backend, notification, $q) {
-            var notificationsEnabled = true;
 
+            notification.init();
 
             var _lastReadMessages_loadedFromLocalStorage = false;
             //todo these will be refactored
@@ -109,8 +109,6 @@
                             if (!historyChanged) {
                                 //this is new message add to history
                                 messages[d.channel].push(d);
-
-
 
 
                                 if (_countNewMessagesNumber[d.channel]) {
@@ -428,15 +426,40 @@
             // notifications
 
 
+            function _loadNotificationSettings() {
+                var value = localStorage.getItem("settings_notifications");
+
+                if (value) {
+                    try {
+                        return JSON.parse(value)
+                    } catch (err) {
+                        localStorage.removeItem("settings_notifications");
+                        return {enabled:true}
+                    }
+                } else {
+                    return {enabled:true}
+                }
+
+            }
+
+            $rootScope.notifications = _loadNotificationSettings();
+            $rootScope.toggleNotifications = function(){
+                $rootScope.notifications.enabled = !$rootScope.notifications.enabled;
+                localStorage.setItem("settings_notifications", JSON.stringify($rootScope.notifications));
+            };
             function SendNotification(d) {
-                if (notificationsEnabled && !d.self) {
+
+                if (!d.self && $rootScope.notifications.enabled) {
 
                     //todo fix notifications
                     var team = backend.getTeam(d.channel).then(function (t) {
-                        var user = backend.getUserProfile(d.uid, d.channel);
+                        var user = backend.getUserProfile(d.uid);
                         console.log("____team", d.msg);
+                        if(!user){
+                            user =""
+                        }
 
-                        notification.post(user.displayName + " @ " + t.name , d.msg);
+                        notification.post(user.displayName + " @ " + t.name, d.msg);
                     });
                 }
             }

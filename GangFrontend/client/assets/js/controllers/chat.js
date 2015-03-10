@@ -84,7 +84,6 @@
                 }
                 initTypingStatus();
 
-                notification.init();
             }
 
             $scope.getProfile = function (userId) {

@@ -89,6 +89,10 @@
 		    noty.onclose = function () {
 		        //console.log('notification.Close');
 		    };
+		    noty.onclick = function () {
+		    	window.focus();
+		    	this.cancel();
+		    };
 		    return true;
 		}
 

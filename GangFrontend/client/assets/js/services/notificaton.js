@@ -84,7 +84,7 @@
                 var this_notification = noty;
                 setTimeout(function(){
                     this_notification.close()
-                },2000)
+                },4000)
 		    };
 		    noty.onclose = function () {
 		        //console.log('notification.Close');

@@ -70,6 +70,10 @@
                         if (!messages[d.channel]) {
                             messages[d.channel] = []
                         }
+                        var oldSize = messages[d.channel].length;
+                        if (oldSize > 70) {
+                            messages[d.channel].splice(0, oldSize - 50)
+                        }
 
 
                         //increase unread message count for this channel
@@ -434,16 +438,16 @@
                         return JSON.parse(value)
                     } catch (err) {
                         localStorage.removeItem("settings_notifications");
-                        return {enabled:true}
+                        return {enabled: true}
                     }
                 } else {
-                    return {enabled:true}
+                    return {enabled: true}
                 }
 
             }
 
             $rootScope.notifications = _loadNotificationSettings();
-            $rootScope.toggleNotifications = function(){
+            $rootScope.toggleNotifications = function () {
                 $rootScope.notifications.enabled = !$rootScope.notifications.enabled;
                 localStorage.setItem("settings_notifications", JSON.stringify($rootScope.notifications));
             };
@@ -454,8 +458,8 @@
                     //todo fix notifications
                     var team = backend.getTeam(d.channel).then(function (t) {
                         var user = backend.getUserProfile(d.uid);
-                        if(!user){
-                            user =""
+                        if (!user) {
+                            user = ""
                         }
 
                         notification.post(user.displayName + " @ " + t.name, d.msg);

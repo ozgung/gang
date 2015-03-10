@@ -46,6 +46,43 @@
                 });
             }
 
+            /**
+             * color palette
+             * source: http://flatuicolors.co/
+             */
+            var palette = [
+                "#1ABC9C",//0
+                "#16A085",//1
+                "#F1C40F",//2
+                "#F39C12",//3
+                "#2ECC71",//4
+                "#27AE60",//5
+                "#E67E22",//6
+                "#D35400",//7
+                "#3498DB",//8
+                "#2980B9",//9
+                "#E74C3C",//10
+                "#C0392B",//11
+                "#9B59B6",//12
+                "#8E44AD",//13
+                "#34495E",//14
+                "#2C3E50"];//15
+
+            /**
+             *todo
+             * @param Long
+             * @returns {string}
+             */
+            $scope.getRandomColor = function (id) {
+                id = id || 0;
+                id = id * 43;
+
+                return palette[id % 16];
+            };
+
+
+
+
             $scope.$on("CHANNEL_READY", function (event, cid) {
                    //console.log("____", cid);
             });

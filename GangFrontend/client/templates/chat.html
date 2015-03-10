@@ -43,10 +43,10 @@
                                         class="fa fa-pencil"></i> Edit</a> - <a ng-click="deleteMessageInline(message)"><i
                                         class="fa fa-times"></i> Delete</a></span>
 
-                                <div class="message-text" ng-bind-html="message.msg | emoji"></div>
+                                <div class="message-text" ng-bind-html="message.msg |linky :'_blank' | emoji"></div>
                             </div>
 
-                            <div class="message editing" ng-if="message.self && (messageOnEdit() == message)">
+                            <div class="message editing" ng-if="message.self && (messageOnEdit() == message)" style="padding-top: 2px;">
                                 <textarea msd-elastic="\n" ng-keydown='editInlineKeyPressed($event,inlineEdit_msg)'
                                           ng-model="inlineEdit_msg"></textarea>
 
@@ -62,15 +62,17 @@
             <div class='grid-content collapse shrink'>
 
                 <div class="input-area">
-                    <span class="is-typing">
-                        <span ng-repeat="(uid, user) in usersTypingNow">{{ getProfile(uid).displayName }}
-                            <span ng-if="!$last">, </span>
-                            <span ng-if="$last"> is typing... </span>
-                        </span>
-                    </span>
+
 
                     <textarea msd-elastic="\n" id="message_input" ng-model='message' placeholder="Type Your Message"
                               ng-keydown='keyPressed($event)'></textarea>
+
+                     <span class="is-typing-bottom">
+                        <span style="color:{{getRandomColor(uid)}};" ng-repeat="(uid, user) in usersTypingNow">{{ getProfile(uid).displayName }}
+                            <span style="color:grey" ng-if="!$last">, </span>
+                            <span style="color:grey" ng-if="$last"> is typing... </span>
+                        </span>
+                    </span>
 
                     <div class="notification-wrapper">
                         Notifications
@@ -78,6 +80,10 @@
                             <span ng-if="!notifications.enabled">off</span>
                             <span ng-if="notifications.enabled">on&nbsp; </span>
                         </a>
+                    </div>
+
+                    <div class="notification-wrapper" style="margin-right: 10px;">
+                        <a href="http://www.emoji-cheat-sheet.com/">Emoji cheat sheet</a>  |
                     </div>
                 </div>
             </div>

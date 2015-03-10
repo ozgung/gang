@@ -1,86 +1,97 @@
- <div class="row">
-	<div class='grid-content'></div>
-	<div class='grid-content' >
-		<br />
-		<center><h1 style="color: #243641">About gang</h1></center>
-	</div>
-	<div class='grid-content'></div>
+<div class="row">
+    <div class='grid-content'></div>
+    <div class='grid-content'>
+        <br/>
+        <center><h1 style="color: #243641">About gang</h1></center>
+    </div>
+    <div class='grid-content'></div>
 
 </div>
 <div class="grid-block" style="background-color: #2C3E50; color:white;">
-	<div class='grid-content'></div>
-	<div class='grid-content'>
-		<br />We are a gang of hackers and entrepreneurs from Istanbul, gathered around Startup Istanbul and Istanbul Startups communities.<br/>
-		Gang is our first hackathon project.
-		<center><h4 style="color:white;"><a href="mailto:info@ganghq.com" style="color:white;">info@ganghq.com</a></h4><center>
-		<div class="row"><center><h3 style="text-align=center; color:white">Our Stack</h3></center></div>
-	</div>
-	<div class='grid-content'></div>
+    <div class='grid-content'></div>
+    <div class='grid-content'>
+        <br/>We are a gang of hackers and entrepreneurs from Istanbul, gathered around Startup Istanbul and Istanbul
+        Startups communities.<br/>
+        Gang is our first hackathon project.
+        <center><h4 style="color:white;"><a href="mailto:info@ganghq.com" style="color:white;">info@ganghq.com</a></h4>
+        </center>
+        <div class="row">
+            <center><h3 style="text-align=center; color:white">Our Stack</h3></center>
+        </div>
+    </div>
+    <div class='grid-content'></div>
 </div>
 
 
- <div class="row">
-	<div class='grid-content'></div>
-	<div class='grid-content' >
-		<br />
-		<center><h1 style="color: #243641">Our gang</h1></center>
-	</div>
-	<div class='grid-content'></div>
+<div class="row">
+    <div class='grid-content'></div>
+    <div class='grid-content'>
+        <br/>
+        <center><h1 style="color: #243641">Our gang</h1></center>
+    </div>
+    <div class='grid-content'></div>
 </div>
 <div class="grid-block">
-	<div class='grid-content' style="background-color: #1ABC9C"><center><h3 style="color: white;">NAME SURNAME</h3></center>
-		<div ></div>
-		<ul class="vcard">
-		  <li class="fn">Gaius Baltar</li>
-		  <li class="street-address">123 Colonial Ave.</li>
-		  <li class="locality">Caprica City</li>
-		  <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
-		  <li class="email">name@ganghq.com</li>
-		</ul>
+    <div ng-repeat="it in order">
+        <div ng-switch="it">
+            <div ng-switch-when="1" class='grid-content' style="background-color: #1ABC9C">
+                <center><h3 style="color: white;">Ilgaz Şumnulu</h3></center>
+                <div></div>
+                <ul class="vcard">
+                    <li class="fn"><a href="https://github.com/sumnulu">https://github.com/sumnulu</a></li>
+                    <li class="street-address"><a href="https://twitter.com/ilgazsumnulu">@ilgazsumnulu</a></li>
 
-	</div>
-	<div class='grid-content' style="background-color: #2980B9"><center><h3 style="color: white;">NAME SURNAME</h3></center>
-		<div ></div>
-		<ul class="vcard">
-		  <li class="fn">Gaius Baltar</li>
-		  <li class="street-address">123 Colonial Ave.</li>
-		  <li class="locality">Caprica City</li>
-		  <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
-		  <li class="email">name@ganghq.com</li>
-		</ul>
+                    <li class="email">ilgaz [at] <a href="fikrimuhal.com">fikrimuhal.com</a></li>
+                </ul>
 
-	</div>
-	<div class='grid-content' style="background-color: #34495E"><center><h3 style="color: white;">NAME SURNAME</h3></center>
-		<div ></div>
-		<ul class="vcard">
-		  <li class="fn">Gaius Baltar</li>
-		  <li class="street-address">123 Colonial Ave.</li>
-		  <li class="locality">Caprica City</li>
-		  <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
-		  <li class="email">name@ganghq.com</li>
-		</ul>
+            </div>
+            <div ng-switch-when="2" class='grid-content' style="background-color: #2980B9">
+                <center><h3 style="color: white;">Özgün</h3></center>
+                <div></div>
+                <ul class="vcard">
+                    <li class="fn">Gaius Baltar</li>
+                    <li class="street-address">123 Colonial Ave.</li>
+                    <li class="locality">Caprica City</li>
+                    <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
+                    <li class="email">name@ganghq.com</li>
+                </ul>
 
-	</div>
-	<div class='grid-content' style="background-color: #8E44AD"><center><h3 style="color: white;">NAME SURNAME</h3></center>
-		<div ></div>
-		<ul class="vcard">
-		  <li class="fn">Gaius Baltar</li>
-		  <li class="street-address">123 Colonial Ave.</li>
-		  <li class="locality">Caprica City</li>
-		  <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
-		  <li class="email">name@ganghq.com</li>
-		</ul>
+            </div>
+            <div ng-switch-when="3" class='grid-content' style="background-color: #34495E">
+                <center><h3 style="color: white;">Fatih</h3></center>
+                <div></div>
+                <ul class="vcard">
+                    <li class="fn">Gaius Baltar</li>
+                    <li class="street-address">123 Colonial Ave.</li>
+                    <li class="locality">Caprica City</li>
+                    <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
+                    <li class="email">name@ganghq.com</li>
+                </ul>
 
-	</div>
-	<div class='grid-content' style="background-color: #27AE60"><center><h3 style="color: white;">NAME SURNAME</h3></center>
-		<div ></div>
-		<ul class="vcard">
-		  <li class="fn">Gaius Baltar</li>
-		  <li class="street-address">123 Colonial Ave.</li>
-		  <li class="locality">Caprica City</li>
-		  <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
-		  <li class="email">name@ganghq.com</li>
-		</ul>
+            </div>
+            <div ng-switch-when="4" class='grid-content' style="background-color: #8E44AD">
+                <center><h3 style="color: white;">Cağtay</h3></center>
+                <div></div>
+                <ul class="vcard">
+                    <li class="fn">Gaius Baltar</li>
+                    <li class="street-address">123 Colonial Ave.</li>
+                    <li class="locality">Caprica City</li>
+                    <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
+                    <li class="email">name@ganghq.com</li>
+                </ul>
 
-	</div>
+            </div>
+            <div ng-switch-when="5" class='grid-content' style="background-color: #27AE60">
+                <center><h3 style="color: white;">Eren</h3></center>
+                <div></div>
+                <ul class="vcard">
+                    <li class="fn">Gaius Baltar</li>
+                    <li class="street-address">123 Colonial Ave.</li>
+                    <li class="locality">Caprica City</li>
+                    <li><span class="state">Caprica</span>, <span class="zip">12345</span></li>
+                    <li class="email">name@ganghq.com</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

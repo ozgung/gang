@@ -110,6 +110,9 @@
             .state('about', {
                 url: 'about',
                 parent: 'account',
+                controller: function ($scope) {
+                    $scope.order = _.shuffle([1, 2, 3, 4, 5]);
+                },
                 templateUrl: 'templates/about.html'
             })
 

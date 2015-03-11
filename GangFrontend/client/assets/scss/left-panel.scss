@@ -124,13 +124,13 @@
 	font-size: 13px;
 	cursor: pointer;
 	opacity: 0.7;
-	display: none;
+	visibility: hidden;
 }
 .group-list li i:hover {
 	opacity: 1;
 }
 .group-list li:hover i {
-	display: block;
+	visibility: visible;
 }
 .group-list span {
 	display: table-cell;

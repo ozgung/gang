@@ -116,9 +116,8 @@
                 templateUrl: 'templates/about.html'
             })
 
-            .state('newTeam', {
+            .state('account.newTeam', {
                 url: 'newTeam',
-                parent: 'account',
                 controller: "NewTeamCtrl",
                 templateUrl: 'templates/createGroup.html'
             })

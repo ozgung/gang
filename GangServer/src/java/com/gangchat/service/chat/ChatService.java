@@ -140,7 +140,7 @@ public class ChatService {
         Set joins = new HashSet();
         Criteria criteria = new Criteria();
         criteria.eq("TeamUser.teamId", teamId).eq("TeamUser.userId", userId).and();
-        TeamUser teamUser = (TeamUser)ven.list(Team.class, joins, criteria).get(0);
+        TeamUser teamUser = (TeamUser)ven.list(TeamUser.class, joins, criteria).get(0);
         ven.delete(teamUser.getId(), TeamUser.class);
     }
 

@@ -227,9 +227,9 @@ public class ApiController {
          Map result = new HashMap();
          
         //don't allow special chars 
-        if (!name.trim().matches("[A-Za-z0-9\\-./]{0,120}")){
+        if (!name.matches(".{3,120}")){
             result.put("status", JSON_STATUS_FAIL);
-            result.put("message", "Bad team name, no special chars max 120 letters please");
+            result.put("message", "Bad team name, min 3 max 120 letters please");
             return result;
         }
 

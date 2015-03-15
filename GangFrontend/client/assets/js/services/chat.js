@@ -300,7 +300,12 @@
                 activeChannelDeferred = $q.defer();
 
                 backend.getTeam(activeChannelId).then(function (t) {
-                    activeChannelDeferred.resolve(t);
+                    if (t) {
+                        activeChannelDeferred.resolve(t);
+                    }else{
+
+                        activeChannelDeferred.reject("team not subscribed or non exists");
+                    }
                 });
 
                 //reset unread message number
@@ -308,7 +313,9 @@
 
                 //reset typing users active channel changed!
                 //todo this is a partial solution only fixme ~ilgaz
-                $rootScope.usersTypingNow = {}
+                $rootScope.usersTypingNow = {};
+
+                return activeChannelDeferred.promise
             };
 
 

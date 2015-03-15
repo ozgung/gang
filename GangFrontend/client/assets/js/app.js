@@ -116,6 +116,12 @@
                 templateUrl: 'templates/about.html'
             })
 
+            .state('newTeam', {
+                url: 'newTeam',
+                parent: 'account',
+                controller: "NewTeamCtrl",
+                templateUrl: 'templates/createGroup.html'
+            })
             .state('users', {
                 url: 'users',
                 parent: 'account',

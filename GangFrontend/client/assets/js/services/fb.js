@@ -45,7 +45,7 @@
 						resolve(authResponse);
 						
 					},{
-						scope:'email,user_groups'
+						scope:'email'
 					});
 				});
 			};

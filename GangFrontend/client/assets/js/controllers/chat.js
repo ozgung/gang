@@ -3,7 +3,7 @@
 
     angular.module('application')
 
-        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, notification, $rootScope) {
+        .controller('ChatCtrl', function ($scope, chat, $stateParams, backend, notification, $rootScope, $location, $state,$window) {
             /**
              * this should be false for mobile
              * @type {boolean}
@@ -13,7 +13,26 @@
 
             var channelId = $stateParams.channel;
 
-            chat.setActiveChannel(channelId);
+            chat.setActiveChannel(channelId).then(
+                function () {
+                    console.log("team/channel found...")
+                },
+                function (reason) {
+                    console.warn("channel not found or not subscribed!", reason)
+
+                    backend.subscribeTeam(channelId).then(
+                        function (teamId) {
+                            console.warn("reloading");
+                            //$state.go($state.current, {channel: teamId}, {reload: true});
+                            $window.location.reload();
+                            //$location.path(teamId);
+                        },
+                        function (reason) {
+                            console.warn("subscribeTeam: ", reason)
+                            $state.go("account.index", {reload: true});
+                        })
+                }
+            );
 
             var MESSAGE_INPUT_ID = "message_input";
 
@@ -81,10 +100,8 @@
             };
 
 
-
-
             $scope.$on("CHANNEL_READY", function (event, cid) {
-                   //console.log("____", cid);
+                //console.log("____", cid);
             });
 
             function init() {
@@ -154,7 +171,7 @@
 
             };
 
-            $scope.editInlineKeyPressed = function (event,msg) {
+            $scope.editInlineKeyPressed = function (event, msg) {
 
                 var enter = (event.keyCode === 13);
                 var shift = event.shiftKey;
@@ -162,9 +179,9 @@
                 var message_txt = msg;
 
 
-                if(escape){
-                      $scope.editInlineCancel();
-                }else if (enter && !shift) {
+                if (escape) {
+                    $scope.editInlineCancel();
+                } else if (enter && !shift) {
                     //todo send to server
                     messageOnEdit.msg = message_txt;
 
@@ -188,10 +205,9 @@
                 var escape = (event.keyCode === 27);
 
 
-
-                if(escape){
+                if (escape) {
                     clearFocus();
-                }else if (enter && !shift) {
+                } else if (enter && !shift) {
                     send();
                     event.preventDefault();
                 }

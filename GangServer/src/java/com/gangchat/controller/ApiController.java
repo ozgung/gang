@@ -157,45 +157,6 @@ public class ApiController {
 
             chatService.saveUser(user);
 
-            //Check user's FB groups and subscribe to new groups, archive nonexisting groups
-            for (GroupMembership fbGroup : facebook.groupOperations().getMemberships()) {
-
-                String fbGroupId = fbGroup.getId();
-                String fbGroupName = fbGroup.getName();
-
-                //System.out.println(fbGroupId);
-                //System.out.println(fbGroupName);
-
-                //check the team and create if not exists
-                Team team = chatService.getTeam(fbGroupId);
-                if (team == null) {
-                    team = new Team();
-                    team.setUniqueId(fbGroupId);
-                    team.setName(fbGroupName);
-                    //team.setDomains("something.ganghq.com"); //come up with a short domain name for this group
-                    chatService.saveTeam(team);
-
-                    //add a default channel
-                    Channel channel = new Channel();
-                    channel.setName("General");
-                    channel.setDescription("Default channel");
-                    channel.setTeam(team);
-                    chatService.saveChannel(channel);
-                }
-
-                //check the user exists in the team subscribe if not exists
-                if (!chatService.checkTeamContainsUser(fbGroupId, user.getId())) {
-                    //add the user as the team user
-                    TeamUser teamUser = new TeamUser();
-                    teamUser.setTeam(team);
-                    teamUser.setUser(user);
-                    chatService.saveTeamUser(teamUser);
-                }
-
-
-                //TODO: detect and unsubscribe from the groups user has left 
-            }
-
             //JWT SIGN
             JWTSigner signer = new JWTSigner("my secret");
             HashMap<String, Object> claims = new HashMap<String, Object>();
@@ -257,6 +218,71 @@ public class ApiController {
         result.put("status", JSON_STATUS_SUCCESS);
         result.put("message", "OK");
         result.put("team", team);
+        return result;
+    }
+    
+    //ajax - create a new team
+    @RequestMapping
+    public Map createTeam(AppUser user, @RequestParam String name, @RequestParam String uniqueId){
+         Map result = new HashMap();
+
+
+        //check the team and create if not exists
+        Team team = chatService.getTeam(uniqueId);
+        if (team != null){
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "This team already exists. Unique ID: " + uniqueId);
+            return result;
+        }
+        
+        team = new Team();
+        team.setUniqueId(uniqueId);
+        team.setName(name);
+        //team.setDomains("something.ganghq.com"); //come up with a short domain name for this group
+        chatService.saveTeam(team);
+
+        //add a default channel
+        Channel channel = new Channel();
+        channel.setName("General");
+        channel.setDescription("Default channel");
+        channel.setTeam(team);
+        chatService.saveChannel(channel);
+
+         //add the user as the team user
+        TeamUser teamUser = new TeamUser();
+        teamUser.setTeam(team);
+        teamUser.setUser(user);
+        chatService.saveTeamUser(teamUser);
+        
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK: ");
+        result.put("team", team);
+        return result;
+    }
+    
+    //ajax - subscribe to a team
+    @RequestMapping
+    public Map subscribeTeam(AppUser user, @RequestParam Integer teamId){
+         Map result = new HashMap();
+
+
+        //check the team and create if not exists
+        Team team = chatService.getTeam(teamId);
+        if (team == null  || chatService.checkTeamContainsUser(team.getUniqueId(), user.getId())){
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "No such team or you are already subscribed" );
+            return result;
+        }
+       
+        
+        //add the user as the team user
+        TeamUser teamUser = new TeamUser();
+        teamUser.setTeam(team);
+        teamUser.setUser(user);
+        chatService.saveTeamUser(teamUser);
+        
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK: ");
         return result;
     }
 

@@ -186,13 +186,15 @@
             this.subscribeTeam = function subscribeTeam(teamId) {
                 var deferred = $q.defer();
 
-                console.warn("todo: call subscribe team");
+                console.warn("1: call subscribe team");
 
 
                 doRequest("subscribeTeam", {teamId: teamId}).then(function (t) {
-                    if (t.status = "0") {
+                    if (t.status == "0") {
+                        console.warn("2: call subscribe team","success");
                         deferred.resolve(teamId);
                     } else {
+                        console.warn("3: call subscribe team","fail");
                         deferred.reject(t.message);
 
                     }

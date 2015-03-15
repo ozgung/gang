@@ -28,7 +28,7 @@
                             //$location.path(teamId);
                         },
                         function (reason) {
-                            console.warn("subscribeTeam: ", reason)
+                            console.warn("subscribeTeam rejected msg: ", reason)
                             $state.go("account.index", {reload: true});
                         })
                 }

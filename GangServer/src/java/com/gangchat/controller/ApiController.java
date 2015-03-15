@@ -225,13 +225,20 @@ public class ApiController {
     @RequestMapping
     public Map createTeam(AppUser user, @RequestParam String name, @RequestParam String uniqueId){
          Map result = new HashMap();
-
+         
+        //don't allow special chars 
+        if (!name.trim().matches("[A-Za-z0-9\\-./]{0,120}")){
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "Bad team name, no special chars max 120 letters please");
+            return result;
+        }
 
         //check the team and create if not exists
         Team team = chatService.getTeam(uniqueId);
         if (team != null){
             result.put("status", JSON_STATUS_FAIL);
             result.put("message", "This team already exists. Unique ID: " + uniqueId);
+            result.put("team", team);
             return result;
         }
         
@@ -266,11 +273,18 @@ public class ApiController {
          Map result = new HashMap();
 
 
-        //check the team and create if not exists
+        //check the team 
         Team team = chatService.getTeam(teamId);
-        if (team == null  || chatService.checkTeamContainsUser(team.getUniqueId(), user.getId())){
+        if (team == null){
             result.put("status", JSON_STATUS_FAIL);
-            result.put("message", "No such team or you are already subscribed" );
+            result.put("message", "No such team" );
+            return result;
+        }
+        
+        //check already subscribed
+        if (chatService.checkTeamContainsUser(team.getUniqueId(), user.getId())){
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "You are already subscribed to this team" );
             return result;
         }
        

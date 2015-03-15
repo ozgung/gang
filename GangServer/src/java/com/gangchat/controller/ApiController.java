@@ -220,14 +220,14 @@ public class ApiController {
         result.put("team", team);
         return result;
     }
-    
+
     //ajax - create a new team
     @RequestMapping
-    public Map createTeam(AppUser user, @RequestParam String name, @RequestParam String uniqueId){
-         Map result = new HashMap();
-         
+    public Map createTeam(AppUser user, @RequestParam String name, @RequestParam String uniqueId) {
+        Map result = new HashMap();
+
         //don't allow special chars 
-        if (!name.matches(".{3,120}")){
+        if (!name.matches(".{3,120}")) {
             result.put("status", JSON_STATUS_FAIL);
             result.put("message", "Bad team name, min 3 max 120 letters please");
             return result;
@@ -235,13 +235,13 @@ public class ApiController {
 
         //check the team and create if not exists
         Team team = chatService.getTeam(uniqueId);
-        if (team != null){
+        if (team != null) {
             result.put("status", JSON_STATUS_FAIL);
             result.put("message", "This team already exists. Unique ID: " + uniqueId);
             result.put("team", team);
             return result;
         }
-        
+
         team = new Team();
         team.setUniqueId(uniqueId);
         team.setName(name);
@@ -255,46 +255,95 @@ public class ApiController {
         channel.setTeam(team);
         chatService.saveChannel(channel);
 
-         //add the user as the team user
-        TeamUser teamUser = new TeamUser();
-        teamUser.setTeam(team);
-        teamUser.setUser(user);
-        chatService.saveTeamUser(teamUser);
-        
-        result.put("status", JSON_STATUS_SUCCESS);
-        result.put("message", "OK: ");
-        result.put("team", team);
-        return result;
-    }
-    
-    //ajax - subscribe to a team
-    @RequestMapping
-    public Map subscribeTeam(AppUser user, @RequestParam Integer teamId){
-         Map result = new HashMap();
-
-
-        //check the team 
-        Team team = chatService.getTeam(teamId);
-        if (team == null){
-            result.put("status", JSON_STATUS_FAIL);
-            result.put("message", "No such team" );
-            return result;
-        }
-        
-        //check already subscribed
-        if (chatService.checkTeamContainsUser(team.getUniqueId(), user.getId())){
-            result.put("status", JSON_STATUS_FAIL);
-            result.put("message", "You are already subscribed to this team" );
-            return result;
-        }
-       
-        
         //add the user as the team user
         TeamUser teamUser = new TeamUser();
         teamUser.setTeam(team);
         teamUser.setUser(user);
         chatService.saveTeamUser(teamUser);
-        
+
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK: ");
+        result.put("team", team);
+        return result;
+    }
+
+    //ajax - rename a team
+    @RequestMapping
+    public Map renameTeam(AppUser user, @RequestParam Integer teamId, @RequestParam String newName) {
+        Map result = new HashMap();
+
+        //check the team 
+        Team team = chatService.getTeam(teamId);
+        if (team == null) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "No such team");
+            return result;
+        }
+
+        //update the team
+        team.setName(newName);
+        chatService.saveTeam(team);
+
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK");
+        return result;
+    }
+
+    //ajax - subscribe to a team
+    @RequestMapping
+    public Map subscribeTeam(AppUser user, @RequestParam Integer teamId) {
+        Map result = new HashMap();
+
+        //check the team 
+        Team team = chatService.getTeam(teamId);
+        if (team == null) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "No such team");
+            return result;
+        }
+
+        //check already subscribed
+        if (chatService.checkTeamContainsUser(team.getUniqueId(), user.getId())) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "You are already subscribed to this team");
+            return result;
+        }
+
+
+        //add the user as the team user
+        TeamUser teamUser = new TeamUser();
+        teamUser.setTeam(team);
+        teamUser.setUser(user);
+        chatService.saveTeamUser(teamUser);
+
+        result.put("status", JSON_STATUS_SUCCESS);
+        result.put("message", "OK");
+        return result;
+    }
+
+    //ajax - unsubscribe from a team
+    @RequestMapping
+    public Map unsubscribeTeam(AppUser user, @RequestParam Integer teamId) {
+        Map result = new HashMap();
+
+        //check the team 
+        Team team = chatService.getTeam(teamId);
+        if (team == null) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "No such team");
+            return result;
+        }
+
+        //check already subscribed
+        if (!chatService.checkTeamContainsUser(team.getUniqueId(), user.getId())) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "You are not subscribed to this team");
+            return result;
+        }
+
+        //unsubscribe
+        chatService.removeTeamUser(teamId, user.getId());
+
         result.put("status", JSON_STATUS_SUCCESS);
         result.put("message", "OK: ");
         return result;
@@ -380,7 +429,7 @@ public class ApiController {
     }
 
     @RequestMapping()
-    public void teamimage(@RequestParam Integer id, HttpServletResponse response) throws IOException{
+    public void teamimage(@RequestParam Integer id, HttpServletResponse response) throws IOException {
         Team team = chatService.getTeam(id);
         if (team == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -388,7 +437,7 @@ public class ApiController {
         }
 
         byte[] theImage = metaImageService.generateMetaImage(team.getName(), team.getDescription());
-        
+
         response.setContentType("image/png");
         response.setContentLength(theImage.length);
         response.getOutputStream().write(theImage);

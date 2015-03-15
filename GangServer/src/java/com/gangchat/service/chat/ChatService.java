@@ -132,6 +132,17 @@ public class ChatService {
     public void saveTeamUser(TeamUser teamUser) {
         ven.save(teamUser);
     }
+    
+    /**
+     * Remove the team user
+     */
+    public void removeTeamUser(int teamId, int userId) {
+        Set joins = new HashSet();
+        Criteria criteria = new Criteria();
+        criteria.eq("TeamUser.teamId", teamId).eq("TeamUser.userId", userId).and();
+        TeamUser teamUser = (TeamUser)ven.list(Team.class, joins, criteria).get(0);
+        ven.delete(teamUser.getId(), TeamUser.class);
+    }
 
     /**
      * Remove the team

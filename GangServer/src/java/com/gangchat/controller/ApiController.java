@@ -309,6 +309,12 @@ public class ApiController {
             return result;
         }
 
+        //poor man's private team
+        if (teamId.equals(3)) {
+            result.put("status", JSON_STATUS_FAIL);
+            result.put("message", "Sorry, this is a private team");
+            return result;
+        }
 
         //add the user as the team user
         TeamUser teamUser = new TeamUser();

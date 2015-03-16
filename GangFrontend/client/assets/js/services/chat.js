@@ -102,11 +102,20 @@
                         if (fromNormalUser) {
                             var historyChanged = false;
 
+
                             messages[d.channel].forEach(function (m) {
                                 if (m.ts == d.ts) {
                                     //old message update history
                                     angular.extend(m, d);
                                     historyChanged = true
+
+
+
+                                }
+
+                                    //add avatar for repeating messages
+                                if(historyChanged && m.uid == d.uid){
+                                    d._repeating = false
                                 }
                             });
 

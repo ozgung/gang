@@ -71,13 +71,14 @@ public class SearchService {
 
     /**
      * Load 50 messages before a certain date in a certain channel
+     *
      * @param channelId the channel
      * @param date the timestamp
      * @return list of messages
      */
-    public List<Message> loadMessages(int channelId, long date) {
+    public List<Message> loadMessages(int channelId, long startDate, long endDate) {
         List<Message> result = new LinkedList();
-        
+
         String query = "{\n"
                 + "  \"query\": {\n"
                 + "    \"filtered\": {\n"
@@ -86,8 +87,10 @@ public class SearchService {
                 + "        \"and\": [\n"
                 + "            {\n"
                 + "                \"range\": {\n"
-                + "                    \"date\": {\"lt\": " + date + "}\n"
-                + "                }\n"
+                + "                    \"date\": {\n"
+                + "                        \"lt\": " + endDate + ",\n"
+                + "                        \"gte\": " + startDate + "\n"
+                + "                    }\n"
                 + "            },\n"
                 + "            {\n"
                 + "               \"term\" : { \"channel.id\" : " + channelId + "}\n"
@@ -97,16 +100,16 @@ public class SearchService {
                 + "    }\n"
                 + "  },\n"
                 + "  \"sort\" : \"date\",\n"
-                + "  \"size\": 50\n"
+                + "  \"size\": 10000\n"
                 + "}";
 
         ServerResult serverResult = restTemplate.postForObject(url + "/message/_search", query, ServerResult.class);
-        for (ServerResult r : serverResult.hits.hits){
+        for (ServerResult r : serverResult.hits.hits) {
             r._source.getSender().setTeams(null);
             r._source.getChannel().setMessages(null);
             result.add(r._source);
         }
-        
+
         return result;
     }
 }

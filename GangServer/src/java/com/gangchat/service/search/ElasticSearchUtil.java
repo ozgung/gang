@@ -35,11 +35,11 @@ public class ElasticSearchUtil {
 
         String url = "http://localhost:9200/gang";
         ServerResult result = null;
-        
+
         /*
-        System.out.println(new Date().getTime());
-        if (true) return;
-        /*/
+         System.out.println(new Date().getTime());
+         if (true) return;
+         /*/
 
         /*
          result = restTemplate.getForObject(url + "/message/{id}", ServerResult.class, "1");
@@ -112,7 +112,10 @@ public class ElasticSearchUtil {
 
         //load
 
-        long ts = 1425415959775L;
+        long endDate = 1425415959775L;
+        long startDate = 1425415959775L - 1000;
+        int channelId = 3;
+
         String query = "{\n"
                 + "  \"query\": {\n"
                 + "    \"filtered\": {\n"
@@ -121,25 +124,30 @@ public class ElasticSearchUtil {
                 + "        \"and\": [\n"
                 + "            {\n"
                 + "                \"range\": {\n"
-                + "                    \"date\": {\"lt\": " + ts + "}\n"
-                + "                }\n"
+                + "                    \"date\": {\n"
+                + "                        \"lt\": " + endDate + ",\n"
+                + "                        \"gte\": " + startDate + "\n"
+                + "                    }\n"
+                + "                 }\n"
                 + "            },\n"
                 + "            {\n"
-                + "               \"term\" : { \"channel.id\" : " + 3 + "}\n"
+                + "               \"term\" : { \"channel.id\" : " + channelId + "}\n"
                 + "            } \n"
                 + "        ]          \n"
                 + "      }\n"
                 + "    }\n"
                 + "  },\n"
                 + "  \"sort\" : \"date\",\n"
-                + "  \"size\": 50\n"
+                + "  \"size\": 10000\n"
                 + "}";
-        
-        result = restTemplate.postForObject(url+"/message/_search", query, ServerResult.class);
-        for (ServerResult h : result.hits.hits){
+
+        System.out.println(query);
+
+        result = restTemplate.postForObject(url + "/message/_search", query, ServerResult.class);
+        for (ServerResult h : result.hits.hits) {
             System.out.println(new com.google.gson.Gson().toJson(h._source));
         }
-                
+
     }
 
 }

@@ -112,7 +112,7 @@ public class ElasticSearchUtil {
 
         //load
 
-        long endDate = 1425415959775L;
+        long date = 1425415959775L;
         long startDate = 1425415959775L - 1000;
         int channelId = 3;
 
@@ -124,11 +124,8 @@ public class ElasticSearchUtil {
                 + "        \"and\": [\n"
                 + "            {\n"
                 + "                \"range\": {\n"
-                + "                    \"date\": {\n"
-                + "                        \"lt\": " + endDate + ",\n"
-                + "                        \"gte\": " + startDate + "\n"
-                + "                    }\n"
-                + "                 }\n"
+                + "                    \"date\": {\"lt\": " + date + "}\n"
+                + "                }\n"
                 + "            },\n"
                 + "            {\n"
                 + "               \"term\" : { \"channel.id\" : " + channelId + "}\n"
@@ -137,8 +134,8 @@ public class ElasticSearchUtil {
                 + "      }\n"
                 + "    }\n"
                 + "  },\n"
-                + "  \"sort\" : \"date\",\n"
-                + "  \"size\": 10000\n"
+                + "\"sort\": { \"date\": { \"order\": \"desc\" }},"
+                + "  \"size\": 50\n"
                 + "}";
 
         System.out.println(query);

@@ -430,8 +430,8 @@ public class ApiController {
 
     //ajax - get messages - private API
     @RequestMapping()
-    public List<Message> getMessages(@RequestParam Integer channelId, @RequestParam Long startDate, @RequestParam Long endDate) {
-        return searchService.loadMessages(channelId, startDate, endDate);
+    public List<Message> getMessages(@RequestParam Integer channelId, @RequestParam Long date) {
+        return searchService.loadMessages(channelId, date);
     }
 
     @RequestMapping()

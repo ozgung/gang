@@ -76,7 +76,7 @@ public class SearchService {
      * @param date the timestamp
      * @return list of messages
      */
-    public List<Message> loadMessages(int channelId, long startDate, long endDate) {
+    public List<Message> loadMessages(int channelId, long date) {
         List<Message> result = new LinkedList();
 
         String query = "{\n"
@@ -87,11 +87,8 @@ public class SearchService {
                 + "        \"and\": [\n"
                 + "            {\n"
                 + "                \"range\": {\n"
-                + "                    \"date\": {\n"
-                + "                        \"lt\": " + endDate + ",\n"
-                + "                        \"gte\": " + startDate + "\n"
-                + "                     }\n"
-                + "                  }\n"
+                + "                    \"date\": {\"lt\": " + date + "}\n"
+                + "                }\n"
                 + "            },\n"
                 + "            {\n"
                 + "               \"term\" : { \"channel.id\" : " + channelId + "}\n"
@@ -100,8 +97,8 @@ public class SearchService {
                 + "      }\n"
                 + "    }\n"
                 + "  },\n"
-                + "  \"sort\" : \"date\",\n"
-                + "  \"size\": 10000\n"
+                + "\"sort\": { \"date\": { \"order\": \"desc\" }},"
+                + "\"size\": 50\n"
                 + "}";
 
         ServerResult serverResult = restTemplate.postForObject(url + "/message/_search", query, ServerResult.class);

@@ -11,7 +11,7 @@
 }
 
 .messages .profile img {
-  margin-top: 2px;
+  margin-top: 7px;
   width: 36px;
   height: 36px;
   border-radius: 5px;
@@ -38,7 +38,11 @@
 .message .message-options {
   float: right;
   display: none;
+  color:grey;
 
+}
+.muted{
+  color:grey;
 }
 
 .message textarea {
@@ -82,4 +86,8 @@
   padding-left: 70px;
   padding-right: 20px;
   margin-top: 15px;
+}
+
+.repeating {
+  margin-top: 0px !important;
 }

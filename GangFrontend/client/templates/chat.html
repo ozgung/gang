@@ -32,15 +32,15 @@
 
                         <li ng-repeat="message in thisChannelMessages">
 
-                            <div class="profile"><img
+                            <div class="profile" ng-if="!message._repeating"><img
                                     ng-src="data:image/png;base64,{{ getProfile(message.uid).profileImage }}"/></div>
 
-                            <div class="message" ng-if="!message.self || (messageOnEdit() != message)">
+                            <div class="message"  ng-class="{'repeating' : message._repeating}" ng-if="!message.self || (messageOnEdit() != message)">
 
-                                <div class="message-info"><b>{{ getProfile(message.uid).displayName }}</b>
-                                    {{ message.ts| date:'HH:mm'}} </div>
-                                <span class="message-options" ng-if="message.self"><a ng-click="editInline(message)"><i
-                                        class="fa fa-pencil"></i> Edit</a> - <a ng-click="deleteMessageInline(message)"><i
+                                <div ng-if="!message._repeating" class="message-info"><b>{{ getProfile(message.uid).displayName }}</b>
+                                    <small>{{ message.ts| date:'HH:mm dd/MM/yyyy'}}</small></div>
+                                <span class="message-options" ng-if="message.self || message.canedit"><a class="muted" ng-click="editInline(message)"><i
+                                        class="fa fa-pencil"></i> Edit</a> - <a class="muted" ng-click="deleteMessageInline(message)"><i
                                         class="fa fa-times"></i> Delete</a></span>
 
                                 <div class="message-text" ng-bind-html="message.msg |linky :'_blank' | emoji"></div>

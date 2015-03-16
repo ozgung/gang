@@ -114,6 +114,14 @@
                                 //this is new message add to history
                                 messages[d.channel].push(d);
 
+                                //remove avatar for repeating messages
+                                var previousMessage = messages[d.channel][messages[d.channel].length-2]
+                                if(previousMessage && previousMessage.uid == d.uid){
+                                    d._repeating = true
+                                }
+
+
+
 
                                 if (_countNewMessagesNumber[d.channel]) {
                                     SendNotification(d);

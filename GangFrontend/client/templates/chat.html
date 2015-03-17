@@ -46,7 +46,7 @@
                                 <div class="message-text" ng-bind-html="message.msg |linky :'_blank' | emoji"></div>
                             </div>
 
-                            <div class="message editing" ng-if="message.self && (messageOnEdit() == message)" style="padding-top: 2px;">
+                            <div class="message editing" ng-if="message.canedit && (messageOnEdit() == message)" style="padding-top: 2px;">
                                 <textarea msd-elastic="\n" ng-keydown='editInlineKeyPressed($event,inlineEdit_msg)'
                                           ng-model="inlineEdit_msg"></textarea>
 

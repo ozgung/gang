@@ -10,6 +10,22 @@
             $scope.user = user;
             $scope.teams = teams;
 
+            _.forEach(teams, function (t) {
+                t.slag = t.name.replace(/ /g, "-")
+                    .replace(/ı/g, "i")
+                    .replace(/ö/g, "o")
+                    .replace(/ü/g, "u")
+                    .replace(/ş/g, "s")
+                    .replace(/ğ/g, "g")
+                    .replace(/ç/g, "c")
+                    .replace(/Ü/g, "U")
+                    .replace(/İ/g, "I")
+                    .replace(/Ö/g, "O")
+                    .replace(/Ü/g, "U")
+                    .replace(/Ş/g, "S")
+                    .replace(/Ğ/g, "G")
+                    .replace(/Ç/g, "C")
+            });
 
             function shortName(str, maxlen) {
                 var words = str.split(" ");

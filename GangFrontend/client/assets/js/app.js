@@ -101,7 +101,7 @@
             })
 
             .state('chat', {
-                url: ':channel',
+                url: ':channel/:slag',
                 parent: 'account',
                 templateUrl: 'templates/chat.html',
                 controller: 'ChatCtrl'

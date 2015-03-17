@@ -101,7 +101,7 @@
                         //condition is need until workarounds removed (i.e. messages with special user ids)
                         if (fromNormalUser) {
                             var historyChanged = false;
-
+                            $rootScope.$broadcast("CHANNEL_MSG_RECEIVED", d.channel);
 
                             messages[d.channel].forEach(function (m) {
                                 if (m.ts == d.ts) {

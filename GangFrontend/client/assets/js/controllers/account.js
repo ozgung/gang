@@ -9,8 +9,8 @@
 
             $scope.user = user;
             $scope.teams = teams;
-
             _.forEach(teams, function (t) {
+                t.order = 0;
                 t.slag = t.name.replace(/ /g, "-")
                     .replace(/ı/g, "i")
                     .replace(/ö/g, "o")
@@ -24,8 +24,14 @@
                     .replace(/Ü/g, "U")
                     .replace(/Ş/g, "S")
                     .replace(/Ğ/g, "G")
-                    .replace(/Ç/g, "C")
+                    .replace(/Ç/g, "C");
             });
+
+            $scope.$on("CHANNEL_MSG_RECEIVED", function (event, cid) {
+                var idx = _.findIndex(teams,{id:cid});
+                teams[idx].order =1 + teams[idx].order;
+            });
+
 
             function shortName(str, maxlen) {
                 var words = str.split(" ");

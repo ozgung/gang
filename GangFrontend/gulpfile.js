@@ -3,6 +3,9 @@
 // This file processes all of the assets in the "client" folder, combines them with the Foundation
 // for Apps assets, and outputs the finished files in the "build" folder as a finished app.
 
+var debug = false; 
+
+
 // 1. LIBRARIES
 // - - - - - - - - - - - - - - -
 
@@ -17,8 +20,9 @@ var gulp           = require('gulp'),
     connect        = require('gulp-connect'),
     path           = require('path'),
     modRewrite     = require('connect-modrewrite'),
-		ngConfig       = require('gulp-ng-config'),
-    dynamicRouting = require('./bower_components/foundation-apps/bin/gulp-dynamic-routing');
+	ngConfig       = require('gulp-ng-config'),
+    dynamicRouting = require('./bower_components/foundation-apps/bin/gulp-dynamic-routing'),
+    gutil           = require('gulp-util'); // debug
 
 // 2. SETTINGS VARIABLES
 // - - - - - - - - - - - - - - -
@@ -71,6 +75,13 @@ var appJS = [
 // 3. TASKS
 // - - - - - - - - - - - - - - -
 
+// debug
+gulp.task('debug', function() {  
+  debug = true;
+  gutil.log( gutil.colors.green('RUNNING IN DEBUG MODE') );
+  gulp.start('default');
+});
+
 // Cleans the build directory
 gulp.task('clean', function (cb) {
     rimraf('./build', cb);
@@ -120,11 +131,15 @@ gulp.task('sass', function () {
 
 // Compiles and copies the Foundation for Apps JavaScript, as well as your app's custom JS
 gulp.task('uglify', function () {
+    var uglyLevel = debug ? true : false; //debug
+
     // Foundation JavaScript
     gulp.src(foundationJS)
         .pipe(uglify({
-            beautify: true,
-            mangle: false
+            output:{
+                beautify: uglyLevel
+            },
+            mangle: false,
         }).on('error', function (e) {
             console.log(e);
         }))
@@ -135,7 +150,9 @@ gulp.task('uglify', function () {
     // App JavaScript
     return gulp.src(appJS)
         .pipe(uglify({
-            beautify: true,
+            output:{
+                beautify: uglyLevel
+            },
             mangle: false
         }).on('error', function (e) {
             console.log(e);
@@ -198,6 +215,9 @@ gulp.task('build', function () {
 
 // Default task: builds your app, starts a server, and recompiles assets when they change
 gulp.task('default', ['build', 'server:start'], function () {
+    // debug
+    debug = debug || false;
+
     // Watch Sass
     gulp.watch(['./client/assets/scss/**/*', './scss/**/*'], ['sass']);
 
